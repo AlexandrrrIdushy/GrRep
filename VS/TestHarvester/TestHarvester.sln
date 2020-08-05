@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 15 for Windows Desktop
+VisualStudioVersion = 15.0.28307.1022
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarvester", "TestHarvester\TestHarvester.csproj", "{E6E39A00-7440-47C0-9EE6-E4997152FBFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7EA69828-7004-406E-B975-2DAE97D72221}"
+	ProjectSection(SolutionItems) = preProject
+		info.odt = info.odt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6E39A00-7440-47C0-9EE6-E4997152FBFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6E39A00-7440-47C0-9EE6-E4997152FBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6E39A00-7440-47C0-9EE6-E4997152FBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6E39A00-7440-47C0-9EE6-E4997152FBFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B617C7F-719E-404C-8341-9C6F87820576}
+	EndGlobalSection
+EndGlobal

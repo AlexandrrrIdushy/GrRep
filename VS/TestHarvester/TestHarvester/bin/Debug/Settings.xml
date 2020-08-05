@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <SETTINGS>
+    <SETTINGiD>0</SETTINGiD>
+    <NAMEsETTING>formTopSETT</NAMEsETTING>
+    <VALUEsETTING>-9</VALUEsETTING>
+  </SETTINGS>
+  <SETTINGS>
+    <SETTINGiD>1</SETTINGiD>
+    <NAMEsETTING>pathOfScriptFilesSETT</NAMEsETTING>
+    <VALUEsETTING>C:\Adb\</VALUEsETTING>
+  </SETTINGS>
+  <SETTINGS>
+    <SETTINGiD>2</SETTINGiD>
+    <NAMEsETTING>tabControl1SelTabSETT</NAMEsETTING>
+    <VALUEsETTING>1</VALUEsETTING>
+  </SETTINGS>
+</NewDataSet>
