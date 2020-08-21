@@ -22,8 +22,8 @@ namespace TestHarvester
         }
         COM _com;
         List<byte> _list;
-        SimpleComm _simpleBytes;
-        Scripting _scripting;
+        SimpleComm _simpleBytes;//
+        Scripting _scripting;//
         List<string> _errorsAndWarinigs;
         string _pathOfScriptFiles;
         //Scripting _scripting;
@@ -132,12 +132,16 @@ namespace TestHarvester
             tbxErrorInfo.Text = _scripting.GetResultCompile();
         }
 
+        //запустить скрипт на выполение
         private void btnStartScript_Click(object sender, EventArgs e)
         {
-            string[] tmp = tbxTextOfCurrScript.Lines;
-            _scripting.SetTextOfScript(ref tmp);
-            _scripting.DoCompile(true);
-            tbxErrorInfo.Text = _scripting.GetResultCompile();
+            string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
+            _scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
+            _scripting.DoCompile(true);//запускаем выполнения скрипта
+            tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
+
+
+            //tbxTextOfCurrScript.Text = File.ReadAllText(pathSelectedScript, Encoding.Default);
         }
 
         // устанавливаем метод обратного вызова

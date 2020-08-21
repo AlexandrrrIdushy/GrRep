@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestHarvester
 {
+    //пользовательские основные команды применяемые для тестирования обмена
     public class SimpleComm
     {
         COM _com;
