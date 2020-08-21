@@ -7,7 +7,7 @@ using System.IO;
 
 namespace TestHarvester
 {
-    class Logging
+    public class Logging
     {
         DateTime _date;
         string _path4LogFile;

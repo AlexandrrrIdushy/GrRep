@@ -24,6 +24,7 @@ namespace TestHarvester
         List<byte> _list;
         SimpleComm _simpleBytes;//
         Scripting _scripting;//
+        Logging _logging;
         List<string> _errorsAndWarinigs;
         string _pathOfScriptFiles;
         //Scripting _scripting;
@@ -69,7 +70,8 @@ namespace TestHarvester
             //запускаем простой обмен
             _simpleBytes = new SimpleComm();
             _scripting = new Scripting();
-            _simpleBytes.SetCOM(ref _com);
+            _logging = new Logging();
+            _simpleBytes.SimpleCommInit(ref _com, ref _logging);
             
             _list = new List<byte>();
             UpdateErrTbx();
