@@ -25,6 +25,7 @@ namespace TestHarvester
         static public SimpleComm ObjSimpleComm;//
         Scripting _scripting;//
         Logging _logging;
+        MainForm _pMainForm;
         List<string> _errorsAndWarinigs;
         string _pathOfScriptFiles;
         //Scripting _scripting;
@@ -71,7 +72,8 @@ namespace TestHarvester
             ObjSimpleComm = new SimpleComm();
             _scripting = new Scripting();
             _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
-            ObjSimpleComm.SimpleCommInit(ref _com, ref _logging);
+            _pMainForm = this;
+            ObjSimpleComm.SimpleCommInit(ref _com, ref _pMainForm);
             
             UpdateErrTbx();
 
@@ -81,7 +83,6 @@ namespace TestHarvester
             btnRunLogResult.Text = "РЕЗУЛЬТАТ ЗАПУСКА СКРИПТА";
             btnRunLogResult.Enabled = false;
 
-            MainForm.ObjSimpleComm.Тест_просто_вывести_сообщение("fdsf");
         }
 
         void FillListFilesScript()
@@ -223,6 +224,13 @@ namespace TestHarvester
             }
 
             FillListFilesScript();
+        }
+
+        public void WriteLogMessage(string message)
+        {
+            tbxRunLog.Text += (message + "\r\n");
+            //_logging.WriteLogMessage(tbxRunLog.Text);
+            this.Refresh();
         }
 
         private void lbxFilesWhisScripts_SelectedIndexChanged(object sender, EventArgs e)

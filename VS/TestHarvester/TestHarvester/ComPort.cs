@@ -186,7 +186,7 @@ namespace TestHarvester
             return ResRcvNBytes.Succes;
         }
 
-
+        //отправить последовательность байт в порт
         public void SendBytes(string bytes)
         {
             Write(bytes);

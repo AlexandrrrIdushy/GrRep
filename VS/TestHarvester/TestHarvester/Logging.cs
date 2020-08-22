@@ -20,10 +20,11 @@ namespace TestHarvester
         }
 
         //записать сообщение содержащее информацию, время
-        public void WriteMessage(string message)
+        public void WriteLogMessage(string message)
         {
             string strDate = _date.TimeOfDay.ToString();
             string resStr = message + strDate + "\r\n";
+
             using (FileStream stream = new FileStream(_path4LogFile, FileMode.OpenOrCreate))
             {
                 byte[] arrayBytes = Encoding.Default.GetBytes(resStr);

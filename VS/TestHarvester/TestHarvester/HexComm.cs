@@ -35,20 +35,19 @@ namespace TestHarvester
     public class SimpleComm
     {
         COM _com;
-        Logging _logging;
-        public void SimpleCommInit(ref COM com, ref Logging logging)
+        MainForm _oMainForm;
+        public void SimpleCommInit(ref COM com, ref MainForm oMainForm)
         {
             _com = com;
-            _logging = logging;
+            _oMainForm = oMainForm;
         }
-
 
 
 
 
         public ResWaitBytesFoo Ждать_приема_таких_байт(string needBytes, float sec)
         {
-            _logging.WriteMessage("запускается Ждать_приема_таких_байт()");
+            _oMainForm.WriteLogMessage("запускается Ждать_приема_таких_байт()");
             List<byte> bytesOfPort = new List<byte>();
             List<byte> bytesOfPattern = new List<byte>();
             ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
@@ -85,8 +84,8 @@ namespace TestHarvester
 
             }
 
-            _logging.WriteMessage("завершилась Ждать_приема_таких_байт()");
-            _logging.WriteMessage("результат функции" + detailedResult.ToString());
+            _oMainForm.WriteLogMessage("завершилась Ждать_приема_таких_байт()");
+            _oMainForm.WriteLogMessage("результат функции " + detailedResult.ToString());
 
             ResWaitBytesFoo res = new ResWaitBytesFoo();
             res.Simple = simplResult;
@@ -96,6 +95,7 @@ namespace TestHarvester
 
         public void Отправить_такие_байты(string bytes)
         {
+            _oMainForm.WriteLogMessage("отработала Отправить_такие_байты()");
             _com.SendBytes(bytes);
         }
 
