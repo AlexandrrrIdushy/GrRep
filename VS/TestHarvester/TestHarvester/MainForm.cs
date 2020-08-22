@@ -22,7 +22,7 @@ namespace TestHarvester
         }
         COM _com;
         List<byte> _list;
-        SimpleComm _simpleBytes;//
+        static public SimpleComm ObjSimpleComm;//
         Scripting _scripting;//
         Logging _logging;
         List<string> _errorsAndWarinigs;
@@ -67,15 +67,21 @@ namespace TestHarvester
             FillListFilesScript();//наполняем окно со списком файлов скриптов
 
 
-            //запускаем простой обмен
-            _simpleBytes = new SimpleComm();
+            //выделяем место основным объектам
+            ObjSimpleComm = new SimpleComm();
             _scripting = new Scripting();
-            _logging = new Logging();
-            _simpleBytes.SimpleCommInit(ref _com, ref _logging);
+            _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
+            ObjSimpleComm.SimpleCommInit(ref _com, ref _logging);
             
-            _list = new List<byte>();
             UpdateErrTbx();
 
+            //инициализация лигирование
+            
+            _logging.PointPath(_pathOfScriptFiles, "log.txt");
+            btnRunLogResult.Text = "РЕЗУЛЬТАТ ЗАПУСКА СКРИПТА";
+            btnRunLogResult.Enabled = false;
+
+            MainForm.ObjSimpleComm.Тест_просто_вывести_сообщение("fdsf");
         }
 
         void FillListFilesScript()
@@ -226,7 +232,7 @@ namespace TestHarvester
             //tbxTextOfCurrScript = 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnRunLogResult_Click(object sender, EventArgs e)
         {
 
         }
