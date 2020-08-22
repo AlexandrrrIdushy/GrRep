@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using GrLib;
+using System.IO.Ports;
 
 namespace TestHarvester
 {
@@ -20,7 +21,8 @@ namespace TestHarvester
         {
             InitializeComponent();
         }
-        COM _com;
+        COM _com1;
+        COM _com2;
         List<byte> _list;
         static public SimpleComm ObjSimpleComm;//
         Scripting _scripting;//
@@ -55,8 +57,10 @@ namespace TestHarvester
             //открываем com порт
             try
             {
-                _com = new COM();
-                _com.Open("COM8");
+                _com1 = new COM();
+                _com1.Open("COM8");
+                _com2 = new COM();
+                _com2.Open("COM8");
             }
             catch (Exception)
             {
@@ -73,16 +77,19 @@ namespace TestHarvester
             _scripting = new Scripting();
             _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
             _pMainForm = this;
-            ObjSimpleComm.SimpleCommInit(ref _com, ref _pMainForm);
+            ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
             
             UpdateErrTbx();
 
             //инициализация лигирование
-            
             _logging.PointPath(_pathOfScriptFiles, "log.txt");
             btnRunLogResult.Text = "РЕЗУЛЬТАТ ЗАПУСКА СКРИПТА";
             btnRunLogResult.Enabled = false;
 
+            //ком порты
+            string [] comPorts =  SerialPort.GetPortNames();
+            cbxComPort1.Items.AddRange(comPorts);
+            cbxComPort2.Items.AddRange(comPorts);
         }
 
         void FillListFilesScript()
@@ -171,7 +178,7 @@ namespace TestHarvester
 
         public void TicksWaitReceive(object obj)
         {
-            _com.OneTickWaitReceive();
+            _com1.OneTickWaitReceive();
         }
 
 
@@ -245,21 +252,6 @@ namespace TestHarvester
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 

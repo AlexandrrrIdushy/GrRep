@@ -129,14 +129,6 @@ namespace TestHarvester
         }
 
 
-
-
-
-
-
-
-
-
         //ВЕРХНИЙ СЛОЙ
         public enum ResRcvNBytes
         {
@@ -191,9 +183,6 @@ namespace TestHarvester
         {
             Write(bytes);
         }
-
-
-
 
         //тикаем в ожидании завершения приема
         UInt16 _cntTickWaitReceive;
