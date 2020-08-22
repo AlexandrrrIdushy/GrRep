@@ -46,9 +46,15 @@
             this.tbxRunLog = new System.Windows.Forms.TextBox();
             this.btnRunLogResult = new System.Windows.Forms.Button();
             this.tbpgSettings = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpSettingsMain = new System.Windows.Forms.TableLayoutPanel();
             this.lblPath = new System.Windows.Forms.Label();
             this.btnSenPath2Script = new System.Windows.Forms.Button();
+            this.tlpSettings1ScriptPath = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpSettings2ComPort = new System.Windows.Forms.TableLayoutPanel();
+            this.cbxComPort1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.lblCom1Info = new System.Windows.Forms.Label();
+            this.lblCom2Info = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tbpgMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -56,7 +62,9 @@
             this.tlpTextScriptButton.SuspendLayout();
             this.tlpRunLogMain.SuspendLayout();
             this.tbpgSettings.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.tlpSettingsMain.SuspendLayout();
+            this.tlpSettings1ScriptPath.SuspendLayout();
+            this.tlpSettings2ComPort.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -210,7 +218,7 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 156F));
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
             this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 1, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 2, 0);
             this.tlpTextScriptButton.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -225,7 +233,7 @@
             // 
             // btnCompileScript
             // 
-            this.btnCompileScript.Location = new System.Drawing.Point(241, 2);
+            this.btnCompileScript.Location = new System.Drawing.Point(240, 2);
             this.btnCompileScript.Margin = new System.Windows.Forms.Padding(2);
             this.btnCompileScript.Name = "btnCompileScript";
             this.btnCompileScript.Size = new System.Drawing.Size(147, 23);
@@ -237,7 +245,7 @@
             // btnStartScript
             // 
             this.btnStartScript.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnStartScript.Location = new System.Drawing.Point(511, 2);
+            this.btnStartScript.Location = new System.Drawing.Point(510, 2);
             this.btnStartScript.Margin = new System.Windows.Forms.Padding(2);
             this.btnStartScript.Name = "btnStartScript";
             this.btnStartScript.Size = new System.Drawing.Size(148, 23);
@@ -285,35 +293,35 @@
             // 
             // tbpgSettings
             // 
-            this.tbpgSettings.Controls.Add(this.tableLayoutPanel2);
+            this.tbpgSettings.Controls.Add(this.tlpSettingsMain);
             this.tbpgSettings.Location = new System.Drawing.Point(4, 22);
             this.tbpgSettings.Margin = new System.Windows.Forms.Padding(2);
             this.tbpgSettings.Name = "tbpgSettings";
             this.tbpgSettings.Padding = new System.Windows.Forms.Padding(2);
-            this.tbpgSettings.Size = new System.Drawing.Size(900, 436);
+            this.tbpgSettings.Size = new System.Drawing.Size(1352, 541);
             this.tbpgSettings.TabIndex = 1;
             this.tbpgSettings.Text = "Настройки";
             this.tbpgSettings.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel2
+            // tlpSettingsMain
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.69925F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.30075F));
-            this.tableLayoutPanel2.Controls.Add(this.lblPath, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnSenPath2Script, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(2, 2);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 5;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 91F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(896, 432);
-            this.tableLayoutPanel2.TabIndex = 0;
+            this.tlpSettingsMain.ColumnCount = 1;
+            this.tlpSettingsMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.69925F));
+            this.tlpSettingsMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.30075F));
+            this.tlpSettingsMain.Controls.Add(this.tlpSettings1ScriptPath, 0, 0);
+            this.tlpSettingsMain.Controls.Add(this.tlpSettings2ComPort, 0, 1);
+            this.tlpSettingsMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpSettingsMain.Location = new System.Drawing.Point(2, 2);
+            this.tlpSettingsMain.Margin = new System.Windows.Forms.Padding(2);
+            this.tlpSettingsMain.Name = "tlpSettingsMain";
+            this.tlpSettingsMain.RowCount = 5;
+            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
+            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 91F));
+            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
+            this.tlpSettingsMain.Size = new System.Drawing.Size(1348, 537);
+            this.tlpSettingsMain.TabIndex = 0;
             // 
             // lblPath
             // 
@@ -327,14 +335,82 @@
             // 
             // btnSenPath2Script
             // 
-            this.btnSenPath2Script.Location = new System.Drawing.Point(716, 2);
+            this.btnSenPath2Script.Location = new System.Drawing.Point(673, 2);
             this.btnSenPath2Script.Margin = new System.Windows.Forms.Padding(2);
             this.btnSenPath2Script.Name = "btnSenPath2Script";
-            this.btnSenPath2Script.Size = new System.Drawing.Size(164, 19);
+            this.btnSenPath2Script.Size = new System.Drawing.Size(206, 32);
             this.btnSenPath2Script.TabIndex = 1;
             this.btnSenPath2Script.Text = "ЗАДАТЬ ПУТЬ К СКРИПТАМ";
             this.btnSenPath2Script.UseVisualStyleBackColor = true;
             this.btnSenPath2Script.Click += new System.EventHandler(this.btnSenPath2Script_Click);
+            // 
+            // tlpSettings1ScriptPath
+            // 
+            this.tlpSettings1ScriptPath.ColumnCount = 2;
+            this.tlpSettings1ScriptPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings1ScriptPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings1ScriptPath.Controls.Add(this.lblPath, 0, 0);
+            this.tlpSettings1ScriptPath.Controls.Add(this.btnSenPath2Script, 1, 0);
+            this.tlpSettings1ScriptPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpSettings1ScriptPath.Location = new System.Drawing.Point(3, 3);
+            this.tlpSettings1ScriptPath.Name = "tlpSettings1ScriptPath";
+            this.tlpSettings1ScriptPath.RowCount = 1;
+            this.tlpSettings1ScriptPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings1ScriptPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings1ScriptPath.Size = new System.Drawing.Size(1342, 129);
+            this.tlpSettings1ScriptPath.TabIndex = 2;
+            // 
+            // tlpSettings2ComPort
+            // 
+            this.tlpSettings2ComPort.ColumnCount = 2;
+            this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.7079F));
+            this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.2921F));
+            this.tlpSettings2ComPort.Controls.Add(this.cbxComPort1, 0, 0);
+            this.tlpSettings2ComPort.Controls.Add(this.comboBox2, 0, 1);
+            this.tlpSettings2ComPort.Controls.Add(this.lblCom1Info, 1, 0);
+            this.tlpSettings2ComPort.Controls.Add(this.lblCom2Info, 1, 1);
+            this.tlpSettings2ComPort.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpSettings2ComPort.Location = new System.Drawing.Point(3, 138);
+            this.tlpSettings2ComPort.Name = "tlpSettings2ComPort";
+            this.tlpSettings2ComPort.RowCount = 2;
+            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings2ComPort.Size = new System.Drawing.Size(1342, 129);
+            this.tlpSettings2ComPort.TabIndex = 3;
+            // 
+            // cbxComPort1
+            // 
+            this.cbxComPort1.FormattingEnabled = true;
+            this.cbxComPort1.Location = new System.Drawing.Point(3, 3);
+            this.cbxComPort1.Name = "cbxComPort1";
+            this.cbxComPort1.Size = new System.Drawing.Size(121, 21);
+            this.cbxComPort1.TabIndex = 0;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(3, 67);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(121, 21);
+            this.comboBox2.TabIndex = 1;
+            // 
+            // lblCom1Info
+            // 
+            this.lblCom1Info.AutoSize = true;
+            this.lblCom1Info.Location = new System.Drawing.Point(348, 0);
+            this.lblCom1Info.Name = "lblCom1Info";
+            this.lblCom1Info.Size = new System.Drawing.Size(41, 15);
+            this.lblCom1Info.TabIndex = 2;
+            this.lblCom1Info.Text = "label1";
+            // 
+            // lblCom2Info
+            // 
+            this.lblCom2Info.AutoSize = true;
+            this.lblCom2Info.Location = new System.Drawing.Point(348, 64);
+            this.lblCom2Info.Name = "lblCom2Info";
+            this.lblCom2Info.Size = new System.Drawing.Size(41, 15);
+            this.lblCom2Info.TabIndex = 3;
+            this.lblCom2Info.Text = "label1";
             // 
             // MainForm
             // 
@@ -356,8 +432,11 @@
             this.tlpRunLogMain.ResumeLayout(false);
             this.tlpRunLogMain.PerformLayout();
             this.tbpgSettings.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
+            this.tlpSettingsMain.ResumeLayout(false);
+            this.tlpSettings1ScriptPath.ResumeLayout(false);
+            this.tlpSettings1ScriptPath.PerformLayout();
+            this.tlpSettings2ComPort.ResumeLayout(false);
+            this.tlpSettings2ComPort.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -366,7 +445,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tbpgMain;
         private System.Windows.Forms.TabPage tbpgSettings;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tlpSettingsMain;
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.Button btnSenPath2Script;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
@@ -384,6 +463,12 @@
         private System.Windows.Forms.TableLayoutPanel tlpRunLogMain;
         private System.Windows.Forms.TextBox tbxRunLog;
         private System.Windows.Forms.Button btnRunLogResult;
+        private System.Windows.Forms.TableLayoutPanel tlpSettings1ScriptPath;
+        private System.Windows.Forms.TableLayoutPanel tlpSettings2ComPort;
+        private System.Windows.Forms.ComboBox cbxComPort1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label lblCom1Info;
+        private System.Windows.Forms.Label lblCom2Info;
     }
 }
 
