@@ -22,7 +22,6 @@ namespace TestHarvester
             InitializeComponent();
         }
         COM _com1;
-        COM _com2;
         List<byte> _list;
         static public SimpleComm ObjSimpleComm;//
         Scripting _scripting;//
@@ -38,6 +37,7 @@ namespace TestHarvester
         private void Form1_Load(object sender, EventArgs e)
         {
             _version = 1;
+            _pMainForm = this;//ссылка на эту форму. для всевозможных обращений
             this.Text = "Test Harvester. Ver: " + _version.ToString();
             _pathOfScriptFiles = "";
 
@@ -52,21 +52,17 @@ namespace TestHarvester
             
             Init();
 
-
+            //com порт
             
-            //открываем com порт
-            try
-            {
-                _com1 = new COM();
-                _com1.Open("COM8");
-                _com2 = new COM();
-                _com2.Open("COM8");
-            }
-            catch (Exception)
-            {
-                _errorsAndWarinigs.Add("не получилось открыть Com порт");
-                throw;
-            }
+            _com1 = new COM();
+            _com1.SetObjForm(ref _pMainForm);
+            _com1.SetComPort(cbxComPort1.SelectedText);
+            _com1.OpenPort();
+            lblCom1Info.Text = "Порт не выбран";
+
+
+
+
 
 
             FillListFilesScript();//наполняем окно со списком файлов скриптов
@@ -76,7 +72,7 @@ namespace TestHarvester
             ObjSimpleComm = new SimpleComm();
             _scripting = new Scripting();
             _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
-            _pMainForm = this;
+            
             ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
             
             UpdateErrTbx();
@@ -89,7 +85,12 @@ namespace TestHarvester
             //ком порты
             string [] comPorts =  SerialPort.GetPortNames();
             cbxComPort1.Items.AddRange(comPorts);
-            cbxComPort2.Items.AddRange(comPorts);
+        }
+
+
+        public void AddErrorsAndWarinigs(string nextErrMessage)
+        {
+            _errorsAndWarinigs.Add(nextErrMessage);
         }
 
         void FillListFilesScript()
@@ -178,6 +179,7 @@ namespace TestHarvester
 
         public void TicksWaitReceive(object obj)
         {
+            if(_com1 != null)
             _com1.OneTickWaitReceive();
         }
 
@@ -250,6 +252,24 @@ namespace TestHarvester
         private void btnRunLogResult_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lblCom1Info_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbxComPort1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selStr = cbxComPort1.SelectedItem.ToString();
+            _com1.SetComPort(selStr);
+            _com1.OpenPort();
+            lblCom1Info.Text = _com1.GetCurrComPortName();
+        }
+
+        private void cbxComPort1_TextUpdate(object sender, EventArgs e)
+        {
+            string selStr = cbxComPort1.SelectedText;
         }
     }
 

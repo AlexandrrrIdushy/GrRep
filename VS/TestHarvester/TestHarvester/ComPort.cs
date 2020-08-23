@@ -21,8 +21,11 @@ namespace TestHarvester
         ///public string COM = "";
         public string errtxt = "";
 
-
-
+        MainForm _mainForm;
+        public void SetObjForm(ref MainForm mainForm)
+        {
+            _mainForm = mainForm;
+        }
 
 
 
@@ -67,11 +70,43 @@ namespace TestHarvester
             Tmp = _rxidx;
         }
 
-        public bool Open(string COM)
+
+        public void SetComPort(string namePort)
+        {
+            try
+            {
+                _serialPort.PortName = namePort;
+            }
+            catch (Exception)
+            {
+                _mainForm.AddErrorsAndWarinigs("ошибка при выборе Com порта");
+            }
+            
+        }
+
+        public string GetCurrComPortName()
+        {
+            return _serialPort.PortName;
+        }
+
+        public void OpenPort()
+        {
+            //открываем com порт
+            try
+            {
+                _serialPort.Open();
+            }
+            catch (Exception)
+            {
+                _mainForm.AddErrorsAndWarinigs("не получилось открыть Com порт");
+            }
+        }
+
+        public bool Open()
         {
             bool opened = false;
 
-            _serialPort.PortName = COM;
+            
             _serialPort.BaudRate = 115200;
             _serialPort.Parity = Parity.None;
             _serialPort.DataBits = 8;
