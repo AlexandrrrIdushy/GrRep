@@ -29,6 +29,7 @@ namespace TestHarvester
         MainForm _pMainForm;
         List<string> _errorsAndWarinigs;
         string _pathOfScriptFiles;
+        string _selectedComPortName;
         //Scripting _scripting;
 
         static public AccessDBSettings AdbSett;
@@ -56,9 +57,10 @@ namespace TestHarvester
             
             _com1 = new COM();
             _com1.SetObjForm(ref _pMainForm);
-            _com1.SetComPort(cbxComPort1.SelectedText);
+            _com1.SetComPort(_selectedComPortName);
             _com1.OpenPort();
-            lblCom1Info.Text = "Порт не выбран";
+            cbxComPort1.SelectedText = _selectedComPortName;
+            //lblCom1Info.Text = "Порт не выбран";
 
 
 
@@ -192,7 +194,10 @@ namespace TestHarvester
             AdbSett.WriteOneValueSetting("formTopSETT", this.Top.ToString());
             AdbSett.WriteOneValueSetting("pathOfScriptFilesSETT", _pathOfScriptFiles);
             AdbSett.WriteOneValueSetting("tabControl1SelTabSETT", tabControl1.SelectedIndex.ToString());
+            AdbSett.WriteOneValueSetting("cbxComPort1NameSETT", _selectedComPortName);
             
+                
+
             //..еще настройки
             AdbSett.DSSettingsWriteToFile();//пишем из дата сета в файл
 
@@ -205,6 +210,7 @@ namespace TestHarvester
             this.Top = Convert.ToInt16(AdbSett.ReadOneValueSetting("formTopSETT"));
             _pathOfScriptFiles = AdbSett.ReadOneValueSetting("pathOfScriptFilesSETT");
             tabControl1.SelectedIndex = Convert.ToInt16(AdbSett.ReadOneValueSetting("tabControl1SelTabSETT"));
+            _selectedComPortName = AdbSett.ReadOneValueSetting("cbxComPort1NameSETT");
             //..еще настройки
         }
 
@@ -261,16 +267,13 @@ namespace TestHarvester
 
         private void cbxComPort1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selStr = cbxComPort1.SelectedItem.ToString();
-            _com1.SetComPort(selStr);
+            _selectedComPortName = cbxComPort1.SelectedItem.ToString();
+            _com1.SetComPort(_selectedComPortName);
             _com1.OpenPort();
-            lblCom1Info.Text = _com1.GetCurrComPortName();
+            //lblCom1Info.Text = _com1.GetCurrComPortName();
         }
 
-        private void cbxComPort1_TextUpdate(object sender, EventArgs e)
-        {
-            string selStr = cbxComPort1.SelectedText;
-        }
+
     }
 
 }

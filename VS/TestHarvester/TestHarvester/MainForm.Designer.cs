@@ -52,7 +52,6 @@
             this.btnSenPath2Script = new System.Windows.Forms.Button();
             this.tlpSettings2ComPort = new System.Windows.Forms.TableLayoutPanel();
             this.cbxComPort1 = new System.Windows.Forms.ComboBox();
-            this.lblCom1Info = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tbpgMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -364,7 +363,6 @@
             this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.7079F));
             this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.2921F));
             this.tlpSettings2ComPort.Controls.Add(this.cbxComPort1, 0, 0);
-            this.tlpSettings2ComPort.Controls.Add(this.lblCom1Info, 1, 0);
             this.tlpSettings2ComPort.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings2ComPort.Location = new System.Drawing.Point(4, 172);
             this.tlpSettings2ComPort.Margin = new System.Windows.Forms.Padding(4);
@@ -384,17 +382,6 @@
             this.cbxComPort1.Size = new System.Drawing.Size(160, 24);
             this.cbxComPort1.TabIndex = 0;
             this.cbxComPort1.SelectedIndexChanged += new System.EventHandler(this.cbxComPort1_SelectedIndexChanged);
-            // 
-            // lblCom1Info
-            // 
-            this.lblCom1Info.AutoSize = true;
-            this.lblCom1Info.Location = new System.Drawing.Point(464, 0);
-            this.lblCom1Info.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCom1Info.Name = "lblCom1Info";
-            this.lblCom1Info.Size = new System.Drawing.Size(46, 17);
-            this.lblCom1Info.TabIndex = 2;
-            this.lblCom1Info.Text = "label1";
-            this.lblCom1Info.Click += new System.EventHandler(this.lblCom1Info_Click);
             // 
             // MainForm
             // 
@@ -420,7 +407,6 @@
             this.tlpSettings1ScriptPath.ResumeLayout(false);
             this.tlpSettings1ScriptPath.PerformLayout();
             this.tlpSettings2ComPort.ResumeLayout(false);
-            this.tlpSettings2ComPort.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -450,7 +436,6 @@
         private System.Windows.Forms.TableLayoutPanel tlpSettings1ScriptPath;
         private System.Windows.Forms.TableLayoutPanel tlpSettings2ComPort;
         private System.Windows.Forms.ComboBox cbxComPort1;
-        private System.Windows.Forms.Label lblCom1Info;
     }
 }
 
