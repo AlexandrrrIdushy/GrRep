@@ -102,7 +102,7 @@ namespace TestHarvester
             }
         }
 
-        public bool Open()
+        public bool TunePort()
         {
             bool opened = false;
 

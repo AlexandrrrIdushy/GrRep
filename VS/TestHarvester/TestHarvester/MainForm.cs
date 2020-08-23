@@ -58,7 +58,9 @@ namespace TestHarvester
             _com1 = new COM();
             _com1.SetObjForm(ref _pMainForm);
             _com1.SetComPort(_selectedComPortName);
+            _com1.TunePort();
             _com1.OpenPort();
+            
             cbxComPort1.SelectedText = _selectedComPortName;
             //lblCom1Info.Text = "Порт не выбран";
 
