@@ -30,6 +30,8 @@ namespace TestHarvester
         List<string> _errorsAndWarinigs;
         string _pathOfScriptFiles;
         string _selectedComPortName;
+        string _selectedComPortSpeed;
+        string _selectedComPortParity;
         //Scripting _scripting;
 
         static public AccessDBSettings AdbSett;
@@ -61,7 +63,7 @@ namespace TestHarvester
             _com1.TunePort();
             _com1.OpenPort();
             
-            cbxComPort1.SelectedText = _selectedComPortName;
+            cbxComPortNumber.SelectedText = _selectedComPortName;
             //lblCom1Info.Text = "Порт не выбран";
 
 
@@ -88,7 +90,7 @@ namespace TestHarvester
 
             //ком порты
             string [] comPorts =  SerialPort.GetPortNames();
-            cbxComPort1.Items.AddRange(comPorts);
+            cbxComPortNumber.Items.AddRange(comPorts);
         }
 
 
@@ -197,8 +199,12 @@ namespace TestHarvester
             AdbSett.WriteOneValueSetting("pathOfScriptFilesSETT", _pathOfScriptFiles);
             AdbSett.WriteOneValueSetting("tabControl1SelTabSETT", tabControl1.SelectedIndex.ToString());
             AdbSett.WriteOneValueSetting("cbxComPort1NameSETT", _selectedComPortName);
+            AdbSett.WriteOneValueSetting("cbxComPortSpeedSETT", _selectedComPortSpeed);
+            AdbSett.WriteOneValueSetting("cbxComPortParitySETT", _selectedComPortParity);
             
-                
+            
+
+
 
             //..еще настройки
             AdbSett.DSSettingsWriteToFile();//пишем из дата сета в файл
@@ -213,6 +219,10 @@ namespace TestHarvester
             _pathOfScriptFiles = AdbSett.ReadOneValueSetting("pathOfScriptFilesSETT");
             tabControl1.SelectedIndex = Convert.ToInt16(AdbSett.ReadOneValueSetting("tabControl1SelTabSETT"));
             _selectedComPortName = AdbSett.ReadOneValueSetting("cbxComPort1NameSETT");
+            _selectedComPortSpeed = AdbSett.ReadOneValueSetting("cbxComPortSpeedSETT");
+            _selectedComPortParity = AdbSett.ReadOneValueSetting("cbxComPortParitySETT");
+            
+            
             //..еще настройки
         }
 
@@ -269,13 +279,21 @@ namespace TestHarvester
 
         private void cbxComPort1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _selectedComPortName = cbxComPort1.SelectedItem.ToString();
-            _com1.SetComPort(_selectedComPortName);
+            _selectedComPortName = cbxComPortNumber.SelectedItem.ToString();
+            _com1.SetComPort( _selectedComPortName);
             _com1.OpenPort();
             //lblCom1Info.Text = _com1.GetCurrComPortName();
         }
 
+        private void cbxComPortSpeed_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedComPortSpeed = cbxComPortSpeed.SelectedItem.ToString();
+        }
 
+        private void cbxComPortParity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedComPortParity = cbxComPortParity.SelectedIndex.ToString();
+        }
     }
 
 }

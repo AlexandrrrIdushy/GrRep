@@ -51,7 +51,12 @@
             this.lblPath = new System.Windows.Forms.Label();
             this.btnSenPath2Script = new System.Windows.Forms.Button();
             this.tlpSettings2ComPort = new System.Windows.Forms.TableLayoutPanel();
-            this.cbxComPort1 = new System.Windows.Forms.ComboBox();
+            this.cbxComPortNumber = new System.Windows.Forms.ComboBox();
+            this.cbxComPortSpeed = new System.Windows.Forms.ComboBox();
+            this.lblComPortNumber = new System.Windows.Forms.Label();
+            this.lblComPortSpeed = new System.Windows.Forms.Label();
+            this.cbxComPortParity = new System.Windows.Forms.ComboBox();
+            this.lblComPortParity = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tbpgMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -212,7 +217,7 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 213F));
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 215F));
             this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 1, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 2, 0);
             this.tlpTextScriptButton.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -227,7 +232,7 @@
             // 
             // btnCompileScript
             // 
-            this.btnCompileScript.Location = new System.Drawing.Point(319, 2);
+            this.btnCompileScript.Location = new System.Drawing.Point(318, 2);
             this.btnCompileScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCompileScript.Name = "btnCompileScript";
             this.btnCompileScript.Size = new System.Drawing.Size(196, 28);
@@ -239,7 +244,7 @@
             // btnStartScript
             // 
             this.btnStartScript.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnStartScript.Location = new System.Drawing.Point(676, 2);
+            this.btnStartScript.Location = new System.Drawing.Point(674, 2);
             this.btnStartScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnStartScript.Name = "btnStartScript";
             this.btnStartScript.Size = new System.Drawing.Size(197, 28);
@@ -359,29 +364,80 @@
             // 
             // tlpSettings2ComPort
             // 
-            this.tlpSettings2ComPort.ColumnCount = 2;
-            this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.7079F));
-            this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.2921F));
-            this.tlpSettings2ComPort.Controls.Add(this.cbxComPort1, 0, 0);
+            this.tlpSettings2ComPort.ColumnCount = 3;
+            this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpSettings2ComPort.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpSettings2ComPort.Controls.Add(this.cbxComPortNumber, 0, 1);
+            this.tlpSettings2ComPort.Controls.Add(this.cbxComPortSpeed, 1, 1);
+            this.tlpSettings2ComPort.Controls.Add(this.lblComPortNumber, 0, 0);
+            this.tlpSettings2ComPort.Controls.Add(this.lblComPortSpeed, 1, 0);
+            this.tlpSettings2ComPort.Controls.Add(this.cbxComPortParity, 2, 1);
+            this.tlpSettings2ComPort.Controls.Add(this.lblComPortParity, 2, 0);
             this.tlpSettings2ComPort.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings2ComPort.Location = new System.Drawing.Point(4, 172);
             this.tlpSettings2ComPort.Margin = new System.Windows.Forms.Padding(4);
             this.tlpSettings2ComPort.Name = "tlpSettings2ComPort";
-            this.tlpSettings2ComPort.RowCount = 1;
-            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings2ComPort.RowCount = 2;
+            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
             this.tlpSettings2ComPort.Size = new System.Drawing.Size(1791, 160);
             this.tlpSettings2ComPort.TabIndex = 3;
             // 
-            // cbxComPort1
+            // cbxComPortNumber
             // 
-            this.cbxComPort1.FormattingEnabled = true;
-            this.cbxComPort1.Location = new System.Drawing.Point(4, 4);
-            this.cbxComPort1.Margin = new System.Windows.Forms.Padding(4);
-            this.cbxComPort1.Name = "cbxComPort1";
-            this.cbxComPort1.Size = new System.Drawing.Size(160, 24);
-            this.cbxComPort1.TabIndex = 0;
-            this.cbxComPort1.SelectedIndexChanged += new System.EventHandler(this.cbxComPort1_SelectedIndexChanged);
+            this.cbxComPortNumber.FormattingEnabled = true;
+            this.cbxComPortNumber.Location = new System.Drawing.Point(4, 80);
+            this.cbxComPortNumber.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxComPortNumber.Name = "cbxComPortNumber";
+            this.cbxComPortNumber.Size = new System.Drawing.Size(160, 24);
+            this.cbxComPortNumber.TabIndex = 0;
+            this.cbxComPortNumber.SelectedIndexChanged += new System.EventHandler(this.cbxComPort1_SelectedIndexChanged);
+            // 
+            // cbxComPortSpeed
+            // 
+            this.cbxComPortSpeed.FormattingEnabled = true;
+            this.cbxComPortSpeed.Location = new System.Drawing.Point(600, 79);
+            this.cbxComPortSpeed.Name = "cbxComPortSpeed";
+            this.cbxComPortSpeed.Size = new System.Drawing.Size(165, 24);
+            this.cbxComPortSpeed.TabIndex = 1;
+            this.cbxComPortSpeed.SelectedIndexChanged += new System.EventHandler(this.cbxComPortSpeed_SelectedIndexChanged);
+            // 
+            // lblComPortNumber
+            // 
+            this.lblComPortNumber.AutoSize = true;
+            this.lblComPortNumber.Location = new System.Drawing.Point(3, 0);
+            this.lblComPortNumber.Name = "lblComPortNumber";
+            this.lblComPortNumber.Size = new System.Drawing.Size(74, 17);
+            this.lblComPortNumber.TabIndex = 2;
+            this.lblComPortNumber.Text = "COM порт";
+            // 
+            // lblComPortSpeed
+            // 
+            this.lblComPortSpeed.AutoSize = true;
+            this.lblComPortSpeed.Location = new System.Drawing.Point(600, 0);
+            this.lblComPortSpeed.Name = "lblComPortSpeed";
+            this.lblComPortSpeed.Size = new System.Drawing.Size(69, 17);
+            this.lblComPortSpeed.TabIndex = 3;
+            this.lblComPortSpeed.Text = "Скорость";
+            // 
+            // cbxComPortParity
+            // 
+            this.cbxComPortParity.FormattingEnabled = true;
+            this.cbxComPortParity.Location = new System.Drawing.Point(1197, 79);
+            this.cbxComPortParity.Name = "cbxComPortParity";
+            this.cbxComPortParity.Size = new System.Drawing.Size(153, 24);
+            this.cbxComPortParity.TabIndex = 4;
+            this.cbxComPortParity.SelectedIndexChanged += new System.EventHandler(this.cbxComPortParity_SelectedIndexChanged);
+            // 
+            // lblComPortParity
+            // 
+            this.lblComPortParity.AutoSize = true;
+            this.lblComPortParity.Location = new System.Drawing.Point(1197, 0);
+            this.lblComPortParity.Name = "lblComPortParity";
+            this.lblComPortParity.Size = new System.Drawing.Size(70, 17);
+            this.lblComPortParity.TabIndex = 5;
+            this.lblComPortParity.Text = "Четность";
             // 
             // MainForm
             // 
@@ -407,6 +463,7 @@
             this.tlpSettings1ScriptPath.ResumeLayout(false);
             this.tlpSettings1ScriptPath.PerformLayout();
             this.tlpSettings2ComPort.ResumeLayout(false);
+            this.tlpSettings2ComPort.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -435,7 +492,12 @@
         private System.Windows.Forms.Button btnRunLogResult;
         private System.Windows.Forms.TableLayoutPanel tlpSettings1ScriptPath;
         private System.Windows.Forms.TableLayoutPanel tlpSettings2ComPort;
-        private System.Windows.Forms.ComboBox cbxComPort1;
+        private System.Windows.Forms.ComboBox cbxComPortNumber;
+        private System.Windows.Forms.ComboBox cbxComPortSpeed;
+        private System.Windows.Forms.Label lblComPortNumber;
+        private System.Windows.Forms.Label lblComPortSpeed;
+        private System.Windows.Forms.ComboBox cbxComPortParity;
+        private System.Windows.Forms.Label lblComPortParity;
     }
 }
 

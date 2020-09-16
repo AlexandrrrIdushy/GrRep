@@ -81,7 +81,30 @@ namespace TestHarvester
             {
                 _mainForm.AddErrorsAndWarinigs("ошибка при выборе Com порта");
             }
-            
+        }
+        
+        public void SetPortSpeed(string сomPortSpeed)
+        {
+            try
+            {
+                _serialPort.BaudRate = Convert.ToUInt32(сomPortSpeed);
+            }
+            catch (Exception)
+            {
+                _mainForm.AddErrorsAndWarinigs("ошибка при выборе Com порта");
+            }
+        }
+
+        public void SetPortParity(string comPortParity)
+        {
+            try
+            {
+                _serialPort. = comPortParity;
+            }
+            catch (Exception)
+            {
+                _mainForm.AddErrorsAndWarinigs("ошибка при выборе Com порта");
+            }
         }
 
         public string GetCurrComPortName()
