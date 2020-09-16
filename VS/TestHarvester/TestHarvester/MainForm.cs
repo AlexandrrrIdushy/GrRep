@@ -31,7 +31,7 @@ namespace TestHarvester
         string _pathOfScriptFiles;
         string _selectedComPortName;
         string _selectedComPortSpeed;
-        string _selectedComPortParity;
+        byte _selectedParityIndex;
         //Scripting _scripting;
 
         static public AccessDBSettings AdbSett;
@@ -67,6 +67,12 @@ namespace TestHarvester
             //lblCom1Info.Text = "Порт не выбран";
 
 
+            //выпадающие списки запоняем
+            foreach (string item in Enum.GetNames(typeof( Parity)))
+            {
+                this.cbxComPortParity.Items.Add(item.ToString());
+            }
+            this.cbxComPortParity.SelectedIndex = _selectedParityIndex;
 
 
 
@@ -200,7 +206,7 @@ namespace TestHarvester
             AdbSett.WriteOneValueSetting("tabControl1SelTabSETT", tabControl1.SelectedIndex.ToString());
             AdbSett.WriteOneValueSetting("cbxComPort1NameSETT", _selectedComPortName);
             AdbSett.WriteOneValueSetting("cbxComPortSpeedSETT", _selectedComPortSpeed);
-            AdbSett.WriteOneValueSetting("cbxComPortParitySETT", _selectedComPortParity);
+            AdbSett.WriteOneValueSetting("cbxComPortParitySETT", _selectedParityIndex.ToString());
             
             
 
@@ -220,7 +226,7 @@ namespace TestHarvester
             tabControl1.SelectedIndex = Convert.ToInt16(AdbSett.ReadOneValueSetting("tabControl1SelTabSETT"));
             _selectedComPortName = AdbSett.ReadOneValueSetting("cbxComPort1NameSETT");
             _selectedComPortSpeed = AdbSett.ReadOneValueSetting("cbxComPortSpeedSETT");
-            _selectedComPortParity = AdbSett.ReadOneValueSetting("cbxComPortParitySETT");
+            _selectedParityIndex = Convert.ToByte(AdbSett.ReadOneValueSetting("cbxComPortParitySETT"));
             
             
             //..еще настройки
@@ -288,11 +294,13 @@ namespace TestHarvester
         private void cbxComPortSpeed_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedComPortSpeed = cbxComPortSpeed.SelectedItem.ToString();
+            _com1.SetPortSpeed(_selectedComPortSpeed);
         }
 
         private void cbxComPortParity_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _selectedComPortParity = cbxComPortParity.SelectedIndex.ToString();
+            _selectedParityIndex = (byte)cbxComPortParity.SelectedIndex;
+            _com1.SetPortParity(_selectedParityIndex);
         }
     }
 

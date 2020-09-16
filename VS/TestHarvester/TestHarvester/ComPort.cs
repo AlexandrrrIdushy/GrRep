@@ -87,7 +87,7 @@ namespace TestHarvester
         {
             try
             {
-                _serialPort.BaudRate = Convert.ToUInt32(сomPortSpeed);
+                _serialPort.BaudRate = Convert.ToInt32(сomPortSpeed);
             }
             catch (Exception)
             {
@@ -95,11 +95,11 @@ namespace TestHarvester
             }
         }
 
-        public void SetPortParity(string comPortParity)
+        public void SetPortParity(byte comPortParity)
         {
             try
             {
-                _serialPort. = comPortParity;
+                _serialPort.Parity = (Parity)comPortParity;
             }
             catch (Exception)
             {
