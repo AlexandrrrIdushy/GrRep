@@ -68,13 +68,36 @@ namespace TestHarvester
 
 
             //выпадающие списки запоняем
+
+
+            //четность
             foreach (string item in Enum.GetNames(typeof( Parity)))
             {
                 this.cbxComPortParity.Items.Add(item.ToString());
             }
             this.cbxComPortParity.SelectedIndex = _selectedParityIndex;
 
-
+            //скорость
+            this.cbxComPortSpeed.Items.Add("1200");
+            this.cbxComPortSpeed.Items.Add("2400");
+            this.cbxComPortSpeed.Items.Add("4800");
+            this.cbxComPortSpeed.Items.Add("9600");
+            this.cbxComPortSpeed.Items.Add("14400");
+            this.cbxComPortSpeed.Items.Add("19200");
+            this.cbxComPortSpeed.Items.Add("38400");
+            this.cbxComPortSpeed.Items.Add("56000");
+            this.cbxComPortSpeed.Items.Add("57600");
+            this.cbxComPortSpeed.Items.Add("115200");
+            this.cbxComPortSpeed.Items.Add("128000");
+            this.cbxComPortSpeed.Items.Add("230400");
+            this.cbxComPortSpeed.Items.Add("256000");
+            int iItemSpeed = 0;
+            foreach (string item in this.cbxComPortSpeed.Items)
+            {
+                if (item == _selectedComPortSpeed)
+                    this.cbxComPortSpeed.SelectedIndex = iItemSpeed;
+                iItemSpeed++;
+            }
 
 
             FillListFilesScript();//наполняем окно со списком файлов скриптов
@@ -94,9 +117,7 @@ namespace TestHarvester
             btnRunLogResult.Text = "РЕЗУЛЬТАТ ЗАПУСКА СКРИПТА";
             btnRunLogResult.Enabled = false;
 
-            //ком порты
-            string [] comPorts =  SerialPort.GetPortNames();
-            cbxComPortNumber.Items.AddRange(comPorts);
+
         }
 
 
