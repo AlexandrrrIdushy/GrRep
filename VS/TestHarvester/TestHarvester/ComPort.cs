@@ -147,7 +147,7 @@ namespace TestHarvester
             return Encoding.GetEncoding(1251).GetString(_rxdata);
         }
 
-        private bool Write(string senddata)
+        private bool Write(ref List<byte> list)
         {
             bool result;
             int cnt = senddata.Length;
@@ -231,9 +231,9 @@ namespace TestHarvester
         }
 
         //отправить последовательность байт в порт
-        public void SendBytes(string bytes)
+        public void SendBytes(ref List<byte> list)
         {
-            Write(bytes);
+            Write(ref list);
         }
 
         //тикаем в ожидании завершения приема
