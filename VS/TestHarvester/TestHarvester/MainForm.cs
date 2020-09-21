@@ -60,14 +60,36 @@ namespace TestHarvester
             _com1 = new COM();
             _com1.SetObjForm(ref _pMainForm);
             _com1.SetComPort(_selectedComPortName);
-            _com1.TunePort();
+            _com1.InitCOMStartVals();
             _com1.OpenPort();
             
-            cbxComPortNumber.SelectedText = _selectedComPortName;
-            //lblCom1Info.Text = "Порт не выбран";
-
 
             //выпадающие списки запоняем
+            //ком порты
+            string[] comPorts = SerialPort.GetPortNames();
+            byte iComPort = 0;
+            if(comPorts.Length > 0)
+            {
+                //есть какието порты. проверяем тот что был выбран есть ли среди них. да - выбираем его, нет - сбрасываем
+                bool foundLastPort = false;
+                foreach (string item in comPorts)
+                {
+                    this.cbxComPortNumber.Items.Add(item);//добавляем элементы в любом случае
+                    if (item == _selectedComPortName)
+                    {
+                        this.cbxComPortNumber.SelectedIndex = iComPort;
+                        foundLastPort = true;
+                    }
+                    iComPort++;
+                }
+
+                //если выбраного в прошлый заход порта нет, сбрасываем значение
+                if(!foundLastPort)
+                    _selectedComPortName = "";
+            }
+            else
+                //нет портов - опустошить сохряняемое имя порта
+                _selectedComPortName = "";
 
 
             //четность

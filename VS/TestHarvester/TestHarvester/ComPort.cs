@@ -125,22 +125,16 @@ namespace TestHarvester
             }
         }
 
-        public bool TunePort()
+        public void InitCOMStartVals()
         {
-            bool opened = false;
-
-            
             _serialPort.BaudRate = 115200;
             _serialPort.Parity = Parity.None;
             _serialPort.DataBits = 8;
             _serialPort.StopBits = StopBits.One;
             _serialPort.Handshake = Handshake.None;
-            //_serialPort.Open();
             // Создание обработчика события для приема данных:
             _serialPort.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
             _serialPort.WriteTimeout = 50;
-            opened = true;
-            return opened;
         }
 
         private void Close()
