@@ -109,7 +109,7 @@ namespace TestHarvester
             {
                 throw;
             }
-            _com.SendBytes(bytes);
+            _com.SendBytes(ref bytesOfPattern);
         }
 
         public void Тест_просто_вывести_сообщение(string str)

@@ -345,6 +345,11 @@ namespace TestHarvester
             _selectedParityIndex = (byte)cbxComPortParity.SelectedIndex;
             _com1.SetPortParity(_selectedParityIndex);
         }
+
+        private void btnStopScript_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

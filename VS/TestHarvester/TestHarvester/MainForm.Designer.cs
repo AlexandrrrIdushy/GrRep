@@ -57,6 +57,7 @@
             this.lblComPortSpeed = new System.Windows.Forms.Label();
             this.cbxComPortParity = new System.Windows.Forms.ComboBox();
             this.lblComPortParity = new System.Windows.Forms.Label();
+            this.btnStopScript = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tbpgMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -217,9 +218,10 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 215F));
-            this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 1, 0);
-            this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 2, 0);
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 359F));
+            this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 0, 0);
+            this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 1, 0);
+            this.tlpTextScriptButton.Controls.Add(this.btnStopScript, 2, 0);
             this.tlpTextScriptButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpTextScriptButton.Location = new System.Drawing.Point(3, 372);
             this.tlpTextScriptButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -232,7 +234,7 @@
             // 
             // btnCompileScript
             // 
-            this.btnCompileScript.Location = new System.Drawing.Point(318, 2);
+            this.btnCompileScript.Location = new System.Drawing.Point(3, 2);
             this.btnCompileScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCompileScript.Name = "btnCompileScript";
             this.btnCompileScript.Size = new System.Drawing.Size(196, 28);
@@ -244,7 +246,7 @@
             // btnStartScript
             // 
             this.btnStartScript.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnStartScript.Location = new System.Drawing.Point(674, 2);
+            this.btnStartScript.Location = new System.Drawing.Point(250, 2);
             this.btnStartScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnStartScript.Name = "btnStartScript";
             this.btnStartScript.Size = new System.Drawing.Size(197, 28);
@@ -439,6 +441,16 @@
             this.lblComPortParity.TabIndex = 5;
             this.lblComPortParity.Text = "Четность";
             // 
+            // btnStopScript
+            // 
+            this.btnStopScript.Location = new System.Drawing.Point(530, 3);
+            this.btnStopScript.Name = "btnStopScript";
+            this.btnStopScript.Size = new System.Drawing.Size(220, 29);
+            this.btnStopScript.TabIndex = 19;
+            this.btnStopScript.Text = "ОСТАНОВИТЬ СКРИПТ";
+            this.btnStopScript.UseVisualStyleBackColor = true;
+            this.btnStopScript.Click += new System.EventHandler(this.btnStopScript_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -498,6 +510,7 @@
         private System.Windows.Forms.Label lblComPortSpeed;
         private System.Windows.Forms.ComboBox cbxComPortParity;
         private System.Windows.Forms.Label lblComPortParity;
+        private System.Windows.Forms.Button btnStopScript;
     }
 }
 

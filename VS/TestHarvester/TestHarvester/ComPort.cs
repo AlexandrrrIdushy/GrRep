@@ -149,34 +149,20 @@ namespace TestHarvester
 
         private bool Write(ref List<byte> list)
         {
-            bool result;
-            int cnt = senddata.Length;
-            int i = 0;
-            int tumeoutcnt = 0;
-
-            errtxt = "";
+            bool result = false;
+            byte[] bytes = list.ToArray();
+            char[] chars = Encoding.Unicode.GetChars(bytes);
             try
             {
                 RxReset();
-                for (i = 0; i < cnt; i++)
-                {
-                    char sym = senddata[i];
-                    _serialPort.Write(sym.ToString());
-                    tumeoutcnt = 50;
-                    while (!Received().Contains(senddata.Substring(0, i + 1))
-                           && (0 != tumeoutcnt))
-                    {
-                        //Thread.Sleep(10);
-                        tumeoutcnt--;
-                    }
-                }
+                _serialPort.Write(chars, 0, chars.Length);
+                result = true;
             }
             catch (Exception ex)
             {
                 //logfile.write(ex.Message);
                 errtxt = ex.Message;
             }
-            result = (i == cnt) && (0 != tumeoutcnt);
             return result;
         }
 
@@ -197,19 +183,14 @@ namespace TestHarvester
                                         Int16 nByte,            //количество байт которое требуется получить
                                     float timeoutS)             //таймаут на получение этого количества байт [s]
         {
-            //RxReset();
             UInt16 timeout100ms = (UInt16)(timeoutS * 10f);
             _cntTickWaitReceive = 0;
             UInt16 iGotByte = 0;
-            ResRcvNBytes result;
+            ResRcvNBytes result = ResRcvNBytes.Undef;
             while (true)
             {
                 if (iGotByte < _rxidx)
-                { 
-                    
                     iGotByte++;
-                    
-                }
                 if (iGotByte >= nByte)
                 {
                     result = ResRcvNBytes.Succes;
@@ -220,14 +201,12 @@ namespace TestHarvester
                     result = ResRcvNBytes.TimeOut;
                     break;
                 }
-
             }
             for (int i = 0; i < nByte; i++)
             {
                 list.Add(_rxdata[i]);
             }
-            
-            return ResRcvNBytes.Succes;
+            return result;
         }
 
         //отправить последовательность байт в порт
