@@ -54,8 +54,9 @@ namespace TestHarvester
                 {
                     if (_rxidx < _rxdata.Length - 2)// если есть что то не взятое из приемного буфера - забираем. -2 потому что 1 на то что индекс, 1 на то что хотябы на один больше чем в пользовательском буфере
                     {
-                        _rxdata[_rxidx++] = (byte)sp.ReadByte();//прочитать один байт из приемного буфера
-                        _rxdata[_rxidx] = 0;//в последнем всегда будет ноль
+                        _rxdata[_rxidx] = (byte)sp.ReadByte();//прочитать один байт из приемного буфера
+                        _rxidx++;
+                        //_rxdata[_rxidx] = 0xE4;//в последнем всегда будет ноль
                     }
                     else
                         sp.ReadByte();
@@ -198,7 +199,7 @@ namespace TestHarvester
             ResRcvNBytes result = ResRcvNBytes.Undef;
 
             //в норме если по какой то причине не было очищен приемный буфер нужно почистить в начале запуска приема
-            if (conf == ConfigReseiveNByte.Normal && _rxBufCleaned == true)
+            if (conf == ConfigReseiveNByte.Normal && _rxBufCleaned == false)
                 RxReset();
             _rxBufCleaned = false;
 
@@ -208,6 +209,11 @@ namespace TestHarvester
                     iGotByte++;
                 if (iGotByte >= nByte)
                 {
+                    for (int i = 0; i < 10000; i++)
+                    {
+                        
+                    }
+                    
                     result = ResRcvNBytes.Succes;
                     break;
                 }

@@ -72,7 +72,8 @@ namespace TestHarvester
 
             if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт) 
             {
-                COM.ResRcvNBytes resultRcv = _com.ReceiveNByte(ref bytesOfPort, (short)(bytesOfPattern.Count), sec, (COM.ConfigReseiveNByte) conf);
+                
+                COM.ResRcvNBytes resultRcv = _com.ReceiveNByte(ref bytesOfPort, (short)(bytesOfPattern.Count), sec);
                 if (resultRcv == COM.ResRcvNBytes.TimeOut)
                     detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
                 else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
