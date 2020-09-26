@@ -28,7 +28,7 @@ namespace TestHarvester
         }
 
 
-
+        // очистить приемных буфер
         private void RxReset()
         {
             _rxidx = 0;
@@ -177,16 +177,26 @@ namespace TestHarvester
             Succes
         }
 
+        public enum ConfigReseiveNByte
+        {
+            Normal = 0,         //ReceiveNByte() запусается стандартным образом - значение по умолчанию
+            CleanBuffFirst = 1  //сперва очистить буфер приема
+        }
 
         //ждать приема N байт из порта. true - нужное число байт получено. false - время истекло, а нужного числа байт нет
         public ResRcvNBytes ReceiveNByte(ref List<byte> list,   //полученые байты
                                         Int16 nByte,            //количество байт которое требуется получить
-                                    float timeoutS)             //таймаут на получение этого количества байт [s]
-        {
+                                    float timeoutS,             //таймаут на получение этого количества байт [s]
+                                    ConfigReseiveNByte conf = ConfigReseiveNByte.Normal)
+        {                           
             UInt16 timeout100ms = (UInt16)(timeoutS * 10f);
             _cntTickWaitReceive = 0;
             UInt16 iGotByte = 0;
             ResRcvNBytes result = ResRcvNBytes.Undef;
+
+            if (conf == ConfigReseiveNByte.CleanBuffFirst)
+                RxReset();
+
             while (true)
             {
                 if (iGotByte < _rxidx)

@@ -42,10 +42,14 @@ namespace TestHarvester
             _oMainForm = oMainForm;
         }
 
+        public enum РежимПриемаБайт
+        {
+            Стандарт = 0,         //ReceiveNByte() запусается стандартным образом - значение по умолчанию
+            ПредварительнаяОчисткаБуфера = 1  //сперва очистить буфер приема
+        }
 
 
-
-        public ResWaitBytesFoo Ждать_приема_таких_байт(string needBytes, float sec)
+        public ResWaitBytesFoo Ждать_приема_таких_байт(string needBytes, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
         {
             _oMainForm.WriteLogMessage("запускается Ждать_приема_таких_байт(" + needBytes + ")");
             List<byte> bytesOfPort = new List<byte>();
@@ -68,7 +72,7 @@ namespace TestHarvester
 
             if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт)
             {
-                COM.ResRcvNBytes resultRcv = _com.ReceiveNByte(ref bytesOfPort, (short)(bytesOfPattern.Count), sec);
+                COM.ResRcvNBytes resultRcv = _com.ReceiveNByte(ref bytesOfPort, (short)(bytesOfPattern.Count), sec, (COM.ConfigReseiveNByte) conf);
                 if (resultRcv == COM.ResRcvNBytes.TimeOut)
                     detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
                 else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
@@ -84,8 +88,7 @@ namespace TestHarvester
 
             }
 
-            _oMainForm.WriteLogMessage("запускается Ждать_приема_таких_байт(" + needBytes + ")");
-            _oMainForm.WriteLogMessage("результат функции " + detailedResult.ToString());
+            _oMainForm.WriteLogMessage("завершение. результат функции " + detailedResult.ToString());
 
             ResWaitBytesFoo res = new ResWaitBytesFoo();
             res.Simple = simplResult;
