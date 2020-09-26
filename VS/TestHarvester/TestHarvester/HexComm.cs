@@ -51,7 +51,7 @@ namespace TestHarvester
 
         public ResWaitBytesFoo Ждать_приема_таких_байт(string needBytes, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
         {
-            _oMainForm.WriteLogMessage("запускается Ждать_приема_таких_байт(" + needBytes + ")");
+            _oMainForm.WriteLogMessage("Ждать_приема_таких_байт(" + needBytes + ")");
             List<byte> bytesOfPort = new List<byte>();
             List<byte> bytesOfPattern = new List<byte>();
             ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
@@ -89,7 +89,7 @@ namespace TestHarvester
 
             }
 
-            _oMainForm.WriteLogMessage("завершение. результат функции " + detailedResult.ToString());
+            _oMainForm.WriteLogMessage("результат " + detailedResult.ToString());
 
             ResWaitBytesFoo res = new ResWaitBytesFoo();
             res.Simple = simplResult;
@@ -117,6 +117,11 @@ namespace TestHarvester
             {
                 throw;
             }
+        }
+
+        public void Записать_сообщение(string str)
+        {
+            _oMainForm.WriteLogMessage(str);
         }
 
         public void Тест_просто_вывести_сообщение(string str)
