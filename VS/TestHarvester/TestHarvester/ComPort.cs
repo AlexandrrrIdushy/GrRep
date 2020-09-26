@@ -147,11 +147,11 @@ namespace TestHarvester
             return Encoding.GetEncoding(1251).GetString(_rxdata);
         }
 
-        private bool Write(ref List<byte> list)
+        //пишет последовательность байт (char[]) в порт
+        public bool Write(ref char[] chars)
         {
             bool result = false;
-            byte[] bytes = list.ToArray();
-            char[] chars = Encoding.Unicode.GetChars(bytes);
+
             try
             {
                 RxReset();
@@ -209,11 +209,7 @@ namespace TestHarvester
             return result;
         }
 
-        //отправить последовательность байт в порт
-        public void SendBytes(ref List<byte> list)
-        {
-            Write(ref list);
-        }
+
 
         //тикаем в ожидании завершения приема
         UInt16 _cntTickWaitReceive;

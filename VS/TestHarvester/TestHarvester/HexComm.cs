@@ -97,19 +97,22 @@ namespace TestHarvester
         {
             _oMainForm.WriteLogMessage("отработала Отправить_такие_байты(" + stringBytes + ")");
             List<byte> bytesOfPattern = new List<byte>();
-            string[] bytes = stringBytes.Split(' ');
+            char[] resultChars;
             try
             {
-                foreach (string item in bytes)
+                string[] splitedBytesOfStr = stringBytes.Split(' ');
+                foreach (string item in splitedBytesOfStr)
                 {
                     bytesOfPattern.Add(Convert.ToByte(item, 16));
                 }
+                byte[] bytes = bytesOfPattern.ToArray();
+                resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
+                _com.Write(ref resultChars);
             }
             catch (Exception)
             {
                 throw;
             }
-            _com.SendBytes(ref bytesOfPattern);
         }
 
         public void Тест_просто_вывести_сообщение(string str)
