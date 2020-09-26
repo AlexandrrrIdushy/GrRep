@@ -70,7 +70,7 @@ namespace TestHarvester
                 throw;
             }
 
-            if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт)
+            if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт) 
             {
                 COM.ResRcvNBytes resultRcv = _com.ReceiveNByte(ref bytesOfPort, (short)(bytesOfPattern.Count), sec, (COM.ConfigReseiveNByte) conf);
                 if (resultRcv == COM.ResRcvNBytes.TimeOut)

@@ -151,10 +151,13 @@ namespace TestHarvester
         public bool Write(ref char[] chars)
         {
             bool result = false;
-
+            
             try
             {
+                //в норме чистится приемный буфер при каждой отправке
                 RxReset();
+                _rxBufCleaned = true;
+
                 _serialPort.Write(chars, 0, chars.Length);
                 result = true;
             }
@@ -182,7 +185,7 @@ namespace TestHarvester
             Normal = 0,         //ReceiveNByte() запусается стандартным образом - значение по умолчанию
             CleanBuffFirst = 1  //сперва очистить буфер приема
         }
-
+        bool _rxBufCleaned;//приемный буфер в норме чистится в начале приема, если не произошло очистки при предыдущей посылке
         //ждать приема N байт из порта. true - нужное число байт получено. false - время истекло, а нужного числа байт нет
         public ResRcvNBytes ReceiveNByte(ref List<byte> list,   //полученые байты
                                         Int16 nByte,            //количество байт которое требуется получить
@@ -194,8 +197,10 @@ namespace TestHarvester
             UInt16 iGotByte = 0;
             ResRcvNBytes result = ResRcvNBytes.Undef;
 
-            if (conf == ConfigReseiveNByte.CleanBuffFirst)
+            //в норме если по какой то причине не было очищен приемный буфер нужно почистить в начале запуска приема
+            if (conf == ConfigReseiveNByte.Normal && _rxBufCleaned == true)
                 RxReset();
+            _rxBufCleaned = false;
 
             while (true)
             {
