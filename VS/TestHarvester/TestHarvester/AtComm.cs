@@ -10,23 +10,25 @@ namespace TestHarvester
     {
         COM _com;
         MainForm _oMainForm;
-        public void SimpleCommInit(ref COM com, ref MainForm oMainForm)
+        public void AtCommInit(ref COM com, ref MainForm oMainForm)
         {
             _com = com;
             _oMainForm = oMainForm;
         }
 
-        public void Отправить_такие_байты(string stringBytes)
+        public void Отправить_SMS(string textSendSMS)
         {
-            _oMainForm.WriteLogMessage("отработала Отправить_такие_байты(" + stringBytes + ")");
+            _oMainForm.WriteLogMessage("Отправить_SMS(" + textSendSMS + ")");
+
+            //конвертим текст SMS в массив char
             List<byte> bytesOfPattern = new List<byte>();
             char[] resultChars;
             try
             {
-                string[] splitedBytesOfStr = stringBytes.Split(' ');
-                foreach (string item in splitedBytesOfStr)
+                char[] splitedBytesOfStr = textSendSMS.ToCharArray();
+                foreach (char item in splitedBytesOfStr)
                 {
-                    bytesOfPattern.Add(Convert.ToByte(item, 16));
+                    bytesOfPattern.Add(Convert.ToByte(item));
                 }
                 byte[] bytes = bytesOfPattern.ToArray();
                 resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
@@ -36,6 +38,9 @@ namespace TestHarvester
             {
                 throw;
             }
+
+
+
         }
     }
 }

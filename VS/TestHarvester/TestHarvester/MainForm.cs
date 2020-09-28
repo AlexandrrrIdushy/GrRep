@@ -24,6 +24,7 @@ namespace TestHarvester
         COM _com1;
         List<byte> _list;
         static public SimpleComm ObjSimpleComm;//
+        static public AtComm ObjAtComm;
         Scripting _scripting;//
         Logging _logging;
         MainForm _pMainForm;
@@ -127,12 +128,13 @@ namespace TestHarvester
 
             //выделяем место основным объектам
             ObjSimpleComm = new SimpleComm();
+            ObjAtComm = new AtComm();
 
             _scripting = new Scripting();
             _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
             
             ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
-            ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
+            ObjAtComm.AtCommInit(ref _com1, ref _pMainForm);
 
             UpdateErrTbx();
 
@@ -141,7 +143,7 @@ namespace TestHarvester
             btnRunLogResult.Text = "РЕЗУЛЬТАТ ЗАПУСКА СКРИПТА";
             btnRunLogResult.Enabled = false;
 
-
+            ObjAtComm.Отправить_SMS("1234Yahoo");
         }
 
 
