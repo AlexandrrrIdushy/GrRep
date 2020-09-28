@@ -127,11 +127,13 @@ namespace TestHarvester
 
             //выделяем место основным объектам
             ObjSimpleComm = new SimpleComm();
+
             _scripting = new Scripting();
             _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
             
             ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
-            
+            ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
+
             UpdateErrTbx();
 
             //инициализация лигирование

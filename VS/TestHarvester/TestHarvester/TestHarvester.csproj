@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtComm.cs" />
     <Compile Include="ComPort.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="MainForm.cs">
