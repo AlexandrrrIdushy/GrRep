@@ -240,7 +240,14 @@ namespace TestHarvester
             _cntTickWaitReceive++;
         }
 
-        public bool GetCharsFromString(string stringBytes, ref char[] resultChars)
+
+        public enum TypConversion
+        {
+            Hex2Hex = 0,         //
+            Str2ASCI = 1  //
+        }
+
+        public bool GetCharsFromString(string stringBytes, ref char[] resultChars, TypConversion typConversion)
         {
             List<byte> bytesOfPattern = new List<byte>();
             bool result = false;
@@ -252,7 +259,10 @@ namespace TestHarvester
                     bytesOfPattern.Add(Convert.ToByte(item, 16));
                 }
                 byte[] bytes = bytesOfPattern.ToArray();
-                resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
+                if(typConversion == TypConversion.Hex2Hex)
+                    resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
+                else if(typConversion == TypConversion.Str2ASCI)
+                    resultChars = Encoding.Unicode.GetChars(bytes);
                 result = true;
                 
             }

@@ -21,26 +21,9 @@ namespace TestHarvester
             _oMainForm.WriteLogMessage("Отправить_SMS(" + textSendSMS + ")");
 
             //конвертим текст SMS в массив char
-            List<byte> bytesOfPattern = new List<byte>();
-            char[] resultChars;
-            try
-            {
-                char[] splitedBytesOfStr = textSendSMS.ToCharArray();
-                foreach (char item in splitedBytesOfStr)
-                {
-                    bytesOfPattern.Add(Convert.ToByte(item));
-                }
-                byte[] bytes = bytesOfPattern.ToArray();
-                resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
-                _com.Write(ref resultChars);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-
-
+            char[] resultChars = new char[textSendSMS.Length];
+            _com.GetCharsFromString(textSendSMS, ref resultChars, COM.TypConversion.Hex2Hex);
+            _com.Write(ref resultChars);
         }
     }
 }
