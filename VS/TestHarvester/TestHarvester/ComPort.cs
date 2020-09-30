@@ -240,5 +240,28 @@ namespace TestHarvester
             _cntTickWaitReceive++;
         }
 
+        public bool GetCharsFromString(string stringBytes, ref char[] resultChars)
+        {
+            List<byte> bytesOfPattern = new List<byte>();
+            bool result = false;
+            try
+            {
+                string[] splitedBytesOfStr = stringBytes.Split(' ');
+                foreach (string item in splitedBytesOfStr)
+                {
+                    bytesOfPattern.Add(Convert.ToByte(item, 16));
+                }
+                byte[] bytes = bytesOfPattern.ToArray();
+                resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
+                result = true;
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return result;
+        }
+
     }
 }

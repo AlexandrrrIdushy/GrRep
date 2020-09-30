@@ -100,23 +100,9 @@ namespace TestHarvester
         public void Отправить_такие_байты(string stringBytes)
         {
             _oMainForm.WriteLogMessage("отработала Отправить_такие_байты(" + stringBytes + ")");
-            List<byte> bytesOfPattern = new List<byte>();
-            char[] resultChars;
-            try
-            {
-                string[] splitedBytesOfStr = stringBytes.Split(' ');
-                foreach (string item in splitedBytesOfStr)
-                {
-                    bytesOfPattern.Add(Convert.ToByte(item, 16));
-                }
-                byte[] bytes = bytesOfPattern.ToArray();
-                resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
-                _com.Write(ref resultChars);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            char[] resultChars = new char[stringBytes.Length];
+            _com.GetCharsFromString(stringBytes, ref resultChars);
+            _com.Write(ref resultChars);
         }
 
         public void Записать_сообщение(string str)
