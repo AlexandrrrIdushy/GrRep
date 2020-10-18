@@ -22,7 +22,7 @@ namespace TestHarvester
 
             //конвертим текст SMS в массив char
             char[] resultChars = new char[textSendSMS.Length];
-            _com.GetCharsFromString(textSendSMS, ref resultChars, COM.TypConversion.Hex2Hex);
+            _com.GetASCIBytesFromString(textSendSMS, ref resultChars);
             _com.Write(ref resultChars);
         }
     }

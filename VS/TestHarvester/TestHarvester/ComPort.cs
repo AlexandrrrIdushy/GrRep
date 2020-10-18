@@ -247,7 +247,8 @@ namespace TestHarvester
             Str2ASCI = 1  //
         }
 
-        public bool GetCharsFromString(string stringBytes, ref char[] resultChars, TypConversion typConversion)
+        //строку с hex числами конвертим в массив байт
+        public bool GetHexFromString(string stringBytes, ref char[] resultChars)
         {
             List<byte> bytesOfPattern = new List<byte>();
             bool result = false;
@@ -259,12 +260,28 @@ namespace TestHarvester
                     bytesOfPattern.Add(Convert.ToByte(item, 16));
                 }
                 byte[] bytes = bytesOfPattern.ToArray();
-                if(typConversion == TypConversion.Hex2Hex)
-                    resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
-                else if(typConversion == TypConversion.Str2ASCI)
-                    resultChars = Encoding.Unicode.GetChars(bytes);
+                resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
                 result = true;
-                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return result;
+        }
+
+
+        //строку с текстом конвертим в массив байт в кодировке ASCII
+        public bool GetASCIBytesFromString(string stringBytes, ref char[] resultChars)
+        {
+            List<byte> bytesOfPattern = new List<byte>();
+            bool result = false;
+            try
+            {
+                char[] splitedBytesOfStr = stringBytes.ToCharArray();
+                byte[] bytes = Encoding.ASCII.GetBytes(splitedBytesOfStr);
+                resultChars = Encoding.ASCII.GetChars(bytes);
+                result = true;
             }
             catch (Exception)
             {

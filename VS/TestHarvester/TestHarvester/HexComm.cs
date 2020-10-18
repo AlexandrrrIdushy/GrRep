@@ -101,7 +101,7 @@ namespace TestHarvester
         {
             _oMainForm.WriteLogMessage("отработала Отправить_такие_байты(" + stringBytes + ")");
             char[] resultChars = new char[stringBytes.Length];
-            _com.GetCharsFromString(stringBytes, ref resultChars, COM.TypConversion.Hex2Hex);
+            _com.GetHexFromString(stringBytes, ref resultChars);
             _com.Write(ref resultChars);
         }
 
