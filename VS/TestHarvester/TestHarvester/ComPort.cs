@@ -236,31 +236,22 @@ namespace TestHarvester
         }
 
 
-        public ResWaitBytesFoo WaitReceiveThisBytes(string needBytes, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
+        public ResWaitBytesFoo WaitReceiveThisBytes(ref char[] chars, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
         {
             
             List<byte> bytesOfPort = new List<byte>();
-            List<byte> bytesOfPattern = new List<byte>();
+            
             ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
             SimplResult simplResult = SimplResult.Wrong;
-            string[] bytesOfPatternArr = needBytes.Split(' ');
-            try
-            {
-                foreach (string item in bytesOfPatternArr)
-                {
-                    bytesOfPattern.Add(Convert.ToByte(item, 16));
-                }
-            }
-            catch (Exception)
-            {
-                detailedResult = ResWaitBytes.Неверный_формат_последовательнсти_байт;
-                throw;
-            }
+
+            
+            byte []bytes = Encoding.ASCII.GetBytes(chars);
+            List<byte> bytesOfPattern = bytes.ToList();
 
             if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт)
             {
 
-                COM.ResRcvNBytes resultRcv = ReceiveNByte(ref bytesOfPort, (short)(bytesOfPattern.Count), sec);
+                COM.ResRcvNBytes resultRcv = ReceiveNByte(ref bytesOfPort, (short)(chars.Length), sec);
                 if (resultRcv == COM.ResRcvNBytes.TimeOut)
                     detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
                 else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
