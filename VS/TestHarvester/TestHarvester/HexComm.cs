@@ -45,7 +45,9 @@ namespace TestHarvester
 
         public ResWaitBytesFoo Ждать_приема_таких_байт(string needBytes, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
         {
+            _oMainForm.WriteLogMessage("Ждать_приема_таких_байт(" + needBytes + ")");
             ResWaitBytesFoo result = _com.WaitReceiveThisBytes(needBytes, sec, РежимПриемаБайт.Стандарт);
+            _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
             return result;
         }
 

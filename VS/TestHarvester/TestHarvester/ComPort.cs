@@ -238,7 +238,7 @@ namespace TestHarvester
 
         public ResWaitBytesFoo WaitReceiveThisBytes(string needBytes, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
         {
-            _mainForm.WriteLogMessage("Ждать_приема_таких_байт(" + needBytes + ")");
+            
             List<byte> bytesOfPort = new List<byte>();
             List<byte> bytesOfPattern = new List<byte>();
             ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
@@ -276,7 +276,7 @@ namespace TestHarvester
 
             }
 
-            _mainForm.WriteLogMessage("результат " + detailedResult.ToString());
+            
 
             ResWaitBytesFoo res = new ResWaitBytesFoo();
             res.Simple = simplResult;
