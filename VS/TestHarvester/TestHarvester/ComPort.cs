@@ -236,7 +236,7 @@ namespace TestHarvester
         }
 
 
-        public ResWaitBytesFoo Ждать_приема_таких_байт(string needBytes, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
+        public ResWaitBytesFoo WaitReceiveThisBytes(string needBytes, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
         {
             _mainForm.WriteLogMessage("Ждать_приема_таких_байт(" + needBytes + ")");
             List<byte> bytesOfPort = new List<byte>();
