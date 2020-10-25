@@ -42,6 +42,7 @@
             this.tlpTextScriptButton = new System.Windows.Forms.TableLayoutPanel();
             this.btnCompileScript = new System.Windows.Forms.Button();
             this.btnStartScript = new System.Windows.Forms.Button();
+            this.btnStopScript = new System.Windows.Forms.Button();
             this.tlpRunLogMain = new System.Windows.Forms.TableLayoutPanel();
             this.tbxRunLog = new System.Windows.Forms.TextBox();
             this.btnRunLogResult = new System.Windows.Forms.Button();
@@ -57,7 +58,7 @@
             this.lblComPortSpeed = new System.Windows.Forms.Label();
             this.cbxComPortParity = new System.Windows.Forms.ComboBox();
             this.lblComPortParity = new System.Windows.Forms.Label();
-            this.btnStopScript = new System.Windows.Forms.Button();
+            this.tbpgComm = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tbpgMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -73,6 +74,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tbpgMain);
+            this.tabControl1.Controls.Add(this.tbpgComm);
             this.tabControl1.Controls.Add(this.tbpgSettings);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -91,7 +93,7 @@
             this.tbpgMain.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbpgMain.Size = new System.Drawing.Size(1805, 669);
             this.tbpgMain.TabIndex = 0;
-            this.tbpgMain.Text = "Главная";
+            this.tbpgMain.Text = "Скрипты";
             this.tbpgMain.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
@@ -218,7 +220,7 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 359F));
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 360F));
             this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 0, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 1, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStopScript, 2, 0);
@@ -254,6 +256,16 @@
             this.btnStartScript.Text = "ЗАПУСТИТЬ СКРИПТ";
             this.btnStartScript.UseVisualStyleBackColor = true;
             this.btnStartScript.Click += new System.EventHandler(this.btnStartScript_Click);
+            // 
+            // btnStopScript
+            // 
+            this.btnStopScript.Location = new System.Drawing.Point(529, 3);
+            this.btnStopScript.Name = "btnStopScript";
+            this.btnStopScript.Size = new System.Drawing.Size(220, 29);
+            this.btnStopScript.TabIndex = 19;
+            this.btnStopScript.Text = "ОСТАНОВИТЬ СКРИПТ";
+            this.btnStopScript.UseVisualStyleBackColor = true;
+            this.btnStopScript.Click += new System.EventHandler(this.btnStopScript_Click);
             // 
             // tlpRunLogMain
             // 
@@ -441,15 +453,14 @@
             this.lblComPortParity.TabIndex = 5;
             this.lblComPortParity.Text = "Четность";
             // 
-            // btnStopScript
+            // tbpgComm
             // 
-            this.btnStopScript.Location = new System.Drawing.Point(530, 3);
-            this.btnStopScript.Name = "btnStopScript";
-            this.btnStopScript.Size = new System.Drawing.Size(220, 29);
-            this.btnStopScript.TabIndex = 19;
-            this.btnStopScript.Text = "ОСТАНОВИТЬ СКРИПТ";
-            this.btnStopScript.UseVisualStyleBackColor = true;
-            this.btnStopScript.Click += new System.EventHandler(this.btnStopScript_Click);
+            this.tbpgComm.Location = new System.Drawing.Point(4, 25);
+            this.tbpgComm.Name = "tbpgComm";
+            this.tbpgComm.Size = new System.Drawing.Size(1805, 669);
+            this.tbpgComm.TabIndex = 2;
+            this.tbpgComm.Text = "Обмен";
+            this.tbpgComm.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -511,6 +522,7 @@
         private System.Windows.Forms.ComboBox cbxComPortParity;
         private System.Windows.Forms.Label lblComPortParity;
         private System.Windows.Forms.Button btnStopScript;
+        private System.Windows.Forms.TabPage tbpgComm;
     }
 }
 
