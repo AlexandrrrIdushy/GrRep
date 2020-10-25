@@ -59,7 +59,7 @@ namespace TestHarvester
             //com порт
             
             _com1 = new COM();
-            _com1.SetObjForm(ref _pMainForm);
+            _com1.COMInit(ref _pMainForm);
             _com1.SetComPort(_selectedComPortName);
             _com1.InitCOMStartVals();
             _com1.OpenPort();

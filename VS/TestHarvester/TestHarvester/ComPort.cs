@@ -9,6 +9,12 @@ using System.Diagnostics;
 
 namespace TestHarvester
 {
+    public enum РежимПриемаБайт
+    {
+        Стандарт = 0,         //ReceiveNByte() запусается стандартным образом - значение по умолчанию
+        ПредварительнаяОчисткаБуфера = 1  //сперва очистить буфер приема
+    }
+
     public class COM
     {
 
@@ -22,11 +28,10 @@ namespace TestHarvester
         public string errtxt = "";
 
         MainForm _mainForm;
-        public void SetObjForm(ref MainForm mainForm)
+        public void COMInit(ref MainForm mainForm)
         {
             _mainForm = mainForm;
         }
-
 
         // очистить приемных буфер
         private void RxReset()
@@ -229,6 +234,57 @@ namespace TestHarvester
             }
             return result;
         }
+
+
+        public ResWaitBytesFoo Ждать_приема_таких_байт(string needBytes, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
+        {
+            _mainForm.WriteLogMessage("Ждать_приема_таких_байт(" + needBytes + ")");
+            List<byte> bytesOfPort = new List<byte>();
+            List<byte> bytesOfPattern = new List<byte>();
+            ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
+            SimplResult simplResult = SimplResult.Wrong;
+            string[] bytesOfPatternArr = needBytes.Split(' ');
+            try
+            {
+                foreach (string item in bytesOfPatternArr)
+                {
+                    bytesOfPattern.Add(Convert.ToByte(item, 16));
+                }
+            }
+            catch (Exception)
+            {
+                detailedResult = ResWaitBytes.Неверный_формат_последовательнсти_байт;
+                throw;
+            }
+
+            if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт)
+            {
+
+                COM.ResRcvNBytes resultRcv = ReceiveNByte(ref bytesOfPort, (short)(bytesOfPattern.Count), sec);
+                if (resultRcv == COM.ResRcvNBytes.TimeOut)
+                    detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
+                else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
+                    detailedResult = ResWaitBytes.Байтов_слишком_мало;
+                else if (resultRcv == COM.ResRcvNBytes.Succes)
+                {
+                    if (bytesOfPort.SequenceEqual(bytesOfPattern))
+                    {
+                        detailedResult = ResWaitBytes.Успешный;
+                        simplResult = SimplResult.OK;
+                    }
+                }
+
+            }
+
+            _mainForm.WriteLogMessage("результат " + detailedResult.ToString());
+
+            ResWaitBytesFoo res = new ResWaitBytesFoo();
+            res.Simple = simplResult;
+            res.Detailed = detailedResult;
+            return res;
+        }
+
+
 
 
 

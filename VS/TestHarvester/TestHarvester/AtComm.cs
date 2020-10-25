@@ -28,14 +28,14 @@ namespace TestHarvester
             _com.GetASCIBytesFromString(comandSendSMSStart, ref resultChars);
             _com.Write(ref resultChars);
 
-            //ждем приглашение на ввод текста SMS
-            ResWaitBytesFoo result = _simpleComm.Ждать_приема_таких_байт(">", 10);
-            if (result.Detailed == ResWaitBytes.Успешный)
-            {
-                char[] resultChars2 = new char[textSendSMS.Length];
-                _com.GetASCIBytesFromString(textSendSMS, ref resultChars);
-                _com.Write(ref resultChars);
-            }
+            ////ждем приглашение на ввод текста SMS
+            //ResWaitBytesFoo result = _simpleComm.Ждать_приема_таких_байт(">", 10);
+            //if (result.Detailed == ResWaitBytes.Успешный)
+            //{
+            //    char[] resultChars2 = new char[textSendSMS.Length];
+            //    _com.GetASCIBytesFromString(textSendSMS, ref resultChars);
+            //    _com.Write(ref resultChars);
+            //}
 
             //
         }
