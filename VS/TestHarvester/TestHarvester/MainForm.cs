@@ -143,7 +143,7 @@ namespace TestHarvester
             btnRunLogResult.Text = "РЕЗУЛЬТАТ ЗАПУСКА СКРИПТА";
             btnRunLogResult.Enabled = false;
 
-            ObjAtComm.Отправить_SMS("TextSMS1");
+            //ObjAtComm.Отправить_SMS("First sms from scripter");
         }
 
 

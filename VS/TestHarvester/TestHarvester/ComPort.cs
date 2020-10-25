@@ -193,7 +193,7 @@ namespace TestHarvester
         }
         bool _rxBufCleaned;//приемный буфер в норме чистится в начале приема, если не произошло очистки при предыдущей посылке
         //ждать приема N байт из порта. true - нужное число байт получено. false - время истекло, а нужного числа байт нет
-        public ResRcvNBytes ReceiveNByte(ref List<byte> list,   //полученые байты
+        private ResRcvNBytes ReceiveNByte(ref List<byte> list,   //полученые байты
                                         Int16 nByte,            //количество байт которое требуется получить
                                     float timeoutS,             //таймаут на получение этого количества байт [s]
                                     ConfigReseiveNByte conf = ConfigReseiveNByte.Normal)
@@ -236,7 +236,7 @@ namespace TestHarvester
         }
 
 
-        public ResWaitBytesFoo WaitReceiveThisBytes(ref char[] chars, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт)
+        public ResWaitBytesFoo WaitReceiveThisBytes(ref char[] chars, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт, short nBytesWait = 0)
         {
             
             List<byte> bytesOfPort = new List<byte>();
@@ -244,24 +244,46 @@ namespace TestHarvester
             ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
             SimplResult simplResult = SimplResult.Wrong;
 
-            
+            //если не указиваем число ожидаемых байт авно, это число берем из длины массива
+            short nBytesWaitIn;
+            if (nBytesWait > 0)
+                nBytesWaitIn = nBytesWait;
+            else
+                nBytesWaitIn = (short)(chars.Length);
+
+
             byte []bytes = Encoding.ASCII.GetBytes(chars);
             List<byte> bytesOfPattern = bytes.ToList();
 
             if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт)
             {
 
-                COM.ResRcvNBytes resultRcv = ReceiveNByte(ref bytesOfPort, (short)(chars.Length), sec);
+                COM.ResRcvNBytes resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec);
                 if (resultRcv == COM.ResRcvNBytes.TimeOut)
                     detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
                 else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
                     detailedResult = ResWaitBytes.Байтов_слишком_мало;
+                    
                 else if (resultRcv == COM.ResRcvNBytes.Succes)
                 {
                     if (bytesOfPort.SequenceEqual(bytesOfPattern))
                     {
                         detailedResult = ResWaitBytes.Успешный;
                         simplResult = SimplResult.OK;
+                    }
+                }
+
+
+                //дополн
+                if(detailedResult == ResWaitBytes.Не_уложилась_в_заданное_время || detailedResult == ResWaitBytes.Байтов_слишком_мало)
+                {
+                    foreach (var item in bytesOfPort)
+                    {
+                        if (item == chars[0])
+                        {
+                            detailedResult = ResWaitBytes.Байтов_мало_но_один_совпал;
+                            break;
+                        }
                     }
                 }
 
