@@ -134,7 +134,7 @@ namespace TestHarvester
             _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
             
             ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
-            ObjAtComm.AtCommInit(ref _com1, ref _pMainForm);
+            ObjAtComm.AtCommInit(ref _com1, ref _pMainForm, ref ObjSimpleComm);
 
             UpdateErrTbx();
 
@@ -143,7 +143,7 @@ namespace TestHarvester
             btnRunLogResult.Text = "РЕЗУЛЬТАТ ЗАПУСКА СКРИПТА";
             btnRunLogResult.Enabled = false;
 
-            ObjAtComm.Отправить_SMS("1234Yahoo");
+            ObjAtComm.Отправить_SMS("TextSMS1");
         }
 
 

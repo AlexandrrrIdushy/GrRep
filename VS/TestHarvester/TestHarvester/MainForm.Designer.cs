@@ -59,6 +59,8 @@
             this.cbxComPortParity = new System.Windows.Forms.ComboBox();
             this.lblComPortParity = new System.Windows.Forms.Label();
             this.tbpgComm = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tbpgMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -69,6 +71,8 @@
             this.tlpSettingsMain.SuspendLayout();
             this.tlpSettings1ScriptPath.SuspendLayout();
             this.tlpSettings2ComPort.SuspendLayout();
+            this.tbpgComm.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -455,12 +459,38 @@
             // 
             // tbpgComm
             // 
+            this.tbpgComm.Controls.Add(this.tableLayoutPanel2);
             this.tbpgComm.Location = new System.Drawing.Point(4, 25);
             this.tbpgComm.Name = "tbpgComm";
             this.tbpgComm.Size = new System.Drawing.Size(1805, 669);
             this.tbpgComm.TabIndex = 2;
             this.tbpgComm.Text = "Обмен";
             this.tbpgComm.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.textBox1, 0, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1805, 669);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(3, 36);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(1799, 295);
+            this.textBox1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -487,6 +517,9 @@
             this.tlpSettings1ScriptPath.PerformLayout();
             this.tlpSettings2ComPort.ResumeLayout(false);
             this.tlpSettings2ComPort.PerformLayout();
+            this.tbpgComm.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -523,6 +556,8 @@
         private System.Windows.Forms.Label lblComPortParity;
         private System.Windows.Forms.Button btnStopScript;
         private System.Windows.Forms.TabPage tbpgComm;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
