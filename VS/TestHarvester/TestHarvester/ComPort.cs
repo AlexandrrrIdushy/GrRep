@@ -33,7 +33,7 @@ namespace TestHarvester
             _mainForm = mainForm;
         }
 
-        // очистить приемных буфер
+        // очистить приемный буфер
         private void RxReset()
         {
             _iReceiveByte = 0;
@@ -182,34 +182,45 @@ namespace TestHarvester
             Undef,
             NBytesIsSmall,
             TimeOut,
-            Byte,
             Succes
         }
 
-        public enum ConfigReseiveNByte
+        public enum ConfigReсeiveNByte
         {
-            Normal = 0,         //ReceiveNByte() запусается стандартным образом - значение по умолчанию
-            CleanBuffFirst = 1  //сперва очистить буфер приема
+            Normal = 0,         //ReceiveNByte() обычный запуск
+            WaitEquSimb = 1     //при работе искать в принятом хотябы одно свопадение указанного символа
         }
-        bool _rxBufCleaned;//приемный буфер в норме чистится в начале приема, если не произошло очистки при предыдущей посылке
+
+
         //ждать приема N байт из порта. true - нужное число байт получено. false - время истекло, а нужного числа байт нет
+        bool _rxBufCleaned;//приемный буфер в норме чистится в начале приема, если не произошло очистки при предыдущей посылке
         private ResRcvNBytes ReceiveNByte(ref List<byte> list,   //полученые байты
                                         Int16 nByte,            //количество байт которое требуется получить
                                     float timeoutS,             //таймаут на получение этого количества байт [s]
-                                    ConfigReseiveNByte conf = ConfigReseiveNByte.Normal)
+                                    byte[] compVals,           //значения для сравнений
+                                    bool clearOrNoBuf = false,  //1 - чистить в самом начале выхова данной функции пользовательский приемный буфер
+                                    ConfigReсeiveNByte confRcv = ConfigReсeiveNByte.Normal)
         {                           
             UInt16 timeout100ms = (UInt16)(timeoutS * 10f);
             _cntTickWaitReceive = 0;
-            UInt16 iGotByte = 0;
+            UInt16 iGotByte = 0;//? счетчик полученых байт с начала захода в  ReceiveNByte()
             ResRcvNBytes result = ResRcvNBytes.Undef;
 
             //в норме если по какой то причине не было очищен приемный буфер нужно почистить в начале запуска приема
-            if (conf == ConfigReseiveNByte.Normal && _rxBufCleaned == false)
+            if (clearOrNoBuf == true && _rxBufCleaned == false)
                 RxReset();
             _rxBufCleaned = false;
 
             while (true)
             {
+                //если нужно, проверяем постоянно на наличие определенного символа в принятом
+                if(confRcv == ConfigReсeiveNByte.WaitEquSimb && _receiveBuff.Contains(compVals[0]))
+                {
+                    result = ResRcvNBytes.Succes;
+                    break;
+                }
+
+                //мотаем свой счетчик и по нему выходим если он досчитался. iGotByte
                 if (iGotByte < _iReceiveByte)
                     iGotByte++;
                 if (iGotByte >= nByte)
@@ -240,11 +251,12 @@ namespace TestHarvester
         {
             
             List<byte> bytesOfPort = new List<byte>();
+            byte[] stub4ReceiveNByte = { 0 };
             
             ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
             SimplResult simplResult = SimplResult.Wrong;
 
-            //если не указиваем число ожидаемых байт авно, это число берем из длины массива
+            //если не указиваем число ожидаемых байт явно, это число берем из длины массива
             short nBytesWaitIn;
             if (nBytesWait > 0)
                 nBytesWaitIn = nBytesWait;
@@ -258,7 +270,7 @@ namespace TestHarvester
             if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт)
             {
 
-                COM.ResRcvNBytes resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec);
+                COM.ResRcvNBytes resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, stub4ReceiveNByte);
                 if (resultRcv == COM.ResRcvNBytes.TimeOut)
                     detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
                 else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)

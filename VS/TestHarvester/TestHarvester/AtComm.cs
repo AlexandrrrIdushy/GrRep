@@ -29,9 +29,7 @@ namespace TestHarvester
             _com.Write(ref resultChars);
 
             //ждем приглашение на ввод текста SMS
-            
             string waitSimb = ">";
-            _oMainForm.WriteLogMessage("Ждать_приема_таких_байт(" + waitSimb + ")");
             char[] waitChars = new char[1];
             _com.GetASCIBytesFromString(waitSimb, ref resultChars);
             ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref resultChars, 10, РежимПриемаБайт.Стандарт, 30);
