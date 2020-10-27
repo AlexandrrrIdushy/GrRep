@@ -19,8 +19,8 @@ namespace TestHarvester
     {
 
         //НИЖНИЙ СЛОЙ
-        private byte[] _rxdata;
-        int _rxidx;
+        private byte[] _receiveBuff;
+        int _iReceiveByte;
         private SerialPort _serialPort;
         private const int WAIT_ANSWER_TIMEOUT = 500;
         //private log logfile;
@@ -36,8 +36,8 @@ namespace TestHarvester
         // очистить приемных буфер
         private void RxReset()
         {
-            _rxidx = 0;
-            _rxdata[0] = 0;
+            _iReceiveByte = 0;
+            _receiveBuff[0] = 0;
         }
 
         //Конструктор
@@ -45,22 +45,25 @@ namespace TestHarvester
         {
             _serialPort = new SerialPort();
             //logfile = new log(this.GetType().ToString());
-            _rxdata = new byte[256];
+            _receiveBuff = new byte[256];
         }
-        public int Ctn = 0;
-        public int Tmp = 0;
+
+
+        //обработчик события приема байт в порт
         private void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             
             SerialPort sp = (SerialPort)sender;
             try
             {
+                //пока есть байты в приемном буфере, забираем их по одному в пользовательский буфер
                 while (0 != sp.BytesToRead)
                 {
-                    if (_rxidx < _rxdata.Length - 2)// если есть что то не взятое из приемного буфера - забираем. -2 потому что 1 на то что индекс, 1 на то что хотябы на один больше чем в пользовательском буфере
+                    //если пользовательский буфер не заполнен - забираем в него очередной байт. иначе, читаем буфер порта в пустоту для его очистки
+                    if (_iReceiveByte < _receiveBuff.Length - 2)// -2 потому что 1 на то что индекс, 1 на то что хотябы на один больше чем в пользовательском буфере
                     {
-                        _rxdata[_rxidx] = (byte)sp.ReadByte();//прочитать один байт из приемного буфера
-                        _rxidx++;
+                        _receiveBuff[_iReceiveByte] = (byte)sp.ReadByte();//прочитать один байт из приемного буфера
+                        _iReceiveByte++;
                         //_rxdata[_rxidx] = 0xE4;//в последнем всегда будет ноль
                     }
                     else
@@ -69,11 +72,8 @@ namespace TestHarvester
             }
             catch (Exception ex)
             {
-                //logfile.write(ex.Message);
                 errtxt = ex.Message;
             }
-            Ctn++;
-            Tmp = _rxidx;
         }
 
 
@@ -150,7 +150,7 @@ namespace TestHarvester
 
         private String Received()
         {
-            return Encoding.GetEncoding(1251).GetString(_rxdata);
+            return Encoding.GetEncoding(1251).GetString(_receiveBuff);
         }
 
         //пишет последовательность байт (char[]) в порт
@@ -210,7 +210,7 @@ namespace TestHarvester
 
             while (true)
             {
-                if (iGotByte < _rxidx)
+                if (iGotByte < _iReceiveByte)
                     iGotByte++;
                 if (iGotByte >= nByte)
                 {
@@ -230,7 +230,7 @@ namespace TestHarvester
             }
             for (int i = 0; i < nByte; i++)
             {
-                list.Add(_rxdata[i]);
+                list.Add(_receiveBuff[i]);
             }
             return result;
         }
