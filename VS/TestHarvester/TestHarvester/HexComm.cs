@@ -48,8 +48,9 @@ namespace TestHarvester
         {
             _oMainForm.WriteLogMessage("Ждать_приема_таких_байт(" + needBytes + ")");
             char[] resultChars = new char[needBytes.Length];
-            _com.GetHexFromString(needBytes, ref resultChars);
-            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref resultChars, sec, РежимПриемаБайт.Стандарт);
+            List<byte> resultByte = new List<byte>();
+            _com.GetHexFromString(needBytes, ref resultByte);
+            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref resultByte, sec, РежимПриемаБайт.Стандарт);
             _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
             return result;
         }
@@ -59,9 +60,9 @@ namespace TestHarvester
         public void Отправить_такие_байты(string stringBytes)
         {
             _oMainForm.WriteLogMessage("отработала Отправить_такие_байты(" + stringBytes + ")");
-            char[] resultChars = new char[stringBytes.Length];
-            _com.GetHexFromString(stringBytes, ref resultChars);
-            _com.Write(ref resultChars);
+            List<byte> bytes = new List<byte>();
+            _com.GetHexFromString(stringBytes, ref bytes);
+            _com.Write(ref bytes);
         }
 
         public void Записать_сообщение(string str)

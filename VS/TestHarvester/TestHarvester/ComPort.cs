@@ -12,7 +12,7 @@ namespace TestHarvester
     public enum РежимПриемаБайт
     {
         Стандарт = 0,         //ReceiveNByte() запусается стандартным образом - значение по умолчанию
-        ПредварительнаяОчисткаБуфера = 1  //сперва очистить буфер приема
+        ПредварительнаяОчисткаБуфера = 1,  //сперва очистить буфер приема
     }
 
     public class COM
@@ -154,17 +154,18 @@ namespace TestHarvester
         }
 
         //пишет последовательность байт (char[]) в порт
-        public bool Write(ref char[] chars)
+        public bool Write(ref List<byte> bytes)
         {
             bool result = false;
-            
+
+            char[] resultChars = Encoding.ASCII.GetChars(bytes.ToArray());
             try
             {
                 //в норме чистится приемный буфер при каждой отправке
                 RxReset();
                 _rxBufCleaned = true;
 
-                _serialPort.Write(chars, 0, chars.Length);
+                _serialPort.Write(resultChars, 0, resultChars.Length);
                 result = true;
             }
             catch (Exception ex)
@@ -197,7 +198,7 @@ namespace TestHarvester
         private ResRcvNBytes ReceiveNByte(ref List<byte> list,   //полученые байты
                                         Int16 nByte,            //количество байт которое требуется получить
                                     float timeoutS,             //таймаут на получение этого количества байт [s]
-                                    byte[] compVals,           //значения для сравнений
+                                    List<byte> compVals,           //значения для сравнений
                                     bool clearOrNoBuf = false,  //1 - чистить в самом начале выхова данной функции пользовательский приемный буфер
                                     ConfigReсeiveNByte confRcv = ConfigReсeiveNByte.Normal)
         {                           
@@ -247,11 +248,14 @@ namespace TestHarvester
         }
 
 
-        public ResWaitBytesFoo WaitReceiveThisBytes(ref char[] chars, float sec, РежимПриемаБайт conf = РежимПриемаБайт.Стандарт, short nBytesWait = 0)
+        public ResWaitBytesFoo WaitReceiveThisBytes(
+            ref List<byte> bytesOfPattern,                  //ждем таких байт
+            float sec,                                      //не менее такого времени
+            РежимПриемаБайт conf = РежимПриемаБайт.Стандарт,//
+            short nBytesWait = 0)
         {
             
             List<byte> bytesOfPort = new List<byte>();
-            byte[] stub4ReceiveNByte = { 0 };
             
             ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
             SimplResult simplResult = SimplResult.Wrong;
@@ -261,16 +265,19 @@ namespace TestHarvester
             if (nBytesWait > 0)
                 nBytesWaitIn = nBytesWait;
             else
-                nBytesWaitIn = (short)(chars.Length);
+                nBytesWaitIn = (short)(bytesOfPattern.Count);
 
 
-            byte []bytes = Encoding.ASCII.GetBytes(chars);
-            List<byte> bytesOfPattern = bytes.ToList();
+            //byte []bytes = Encoding.ASCII.GetBytes(chars);
+            //List<byte> bytesOfPattern = bytes.ToList();
 
             if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт)
             {
-
-                COM.ResRcvNBytes resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, stub4ReceiveNByte);
+                COM.ResRcvNBytes resultRcv;
+                if (bytesOfPattern.Count == 1)
+                    resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, bytesOfPattern);
+                else
+                    resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, bytesOfPattern);
                 if (resultRcv == COM.ResRcvNBytes.TimeOut)
                     detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
                 else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
@@ -286,18 +293,6 @@ namespace TestHarvester
                 }
 
 
-                //дополн
-                if(detailedResult == ResWaitBytes.Не_уложилась_в_заданное_время || detailedResult == ResWaitBytes.Байтов_слишком_мало)
-                {
-                    foreach (var item in bytesOfPort)
-                    {
-                        if (item == chars[0])
-                        {
-                            detailedResult = ResWaitBytes.Байтов_мало_но_один_совпал;
-                            break;
-                        }
-                    }
-                }
 
             }
 
@@ -329,19 +324,23 @@ namespace TestHarvester
         }
 
         //строку с hex числами конвертим в массив байт
-        public bool GetHexFromString(string stringBytes, ref char[] resultChars)
+        public bool GetHexFromString(string stringBytes, ref List<byte> resultBytes)
         {
-            List<byte> bytesOfPattern = new List<byte>();
+            //List<byte> bytesOfPattern = new List<byte>();
             bool result = false;
             try
             {
                 string[] splitedBytesOfStr = stringBytes.Split(' ');
-                foreach (string item in splitedBytesOfStr)
+                List<string> bytesStr = splitedBytesOfStr.ToList();
+                foreach (string item in bytesStr)
                 {
-                    bytesOfPattern.Add(Convert.ToByte(item, 16));
+                    resultBytes.Add(Convert.ToByte(item, 16));
                 }
-                byte[] bytes = bytesOfPattern.ToArray();
-                resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
+                //byte[] bytes = bytesOfPattern.ToArray();
+                //resultChars = Encoding.ASCII.GetChars(bytes);// Unicode.GetChars(bytes, 0 , 2);
+                //byte[] bytes = Encoding.ASCII.GetBytes(resultChars);
+                //List<byte> resultBytes = bytes.ToList();
+
                 result = true;
             }
             catch (Exception)
@@ -353,7 +352,7 @@ namespace TestHarvester
 
 
         //строку с текстом конвертим в массив байт в кодировке ASCII
-        public bool GetASCIBytesFromString(string stringBytes, ref char[] resultChars)
+        public bool GetASCIBytesFromString(string stringBytes, ref List<byte> lResult)
         {
             List<byte> bytesOfPattern = new List<byte>();
             bool result = false;
@@ -361,7 +360,7 @@ namespace TestHarvester
             {
                 char[] splitedBytesOfStr = stringBytes.ToCharArray();
                 byte[] bytes = Encoding.ASCII.GetBytes(splitedBytesOfStr);
-                resultChars = Encoding.ASCII.GetChars(bytes);
+                lResult = bytes.ToList();
                 result = true;
             }
             catch (Exception)
