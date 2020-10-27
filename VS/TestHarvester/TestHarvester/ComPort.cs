@@ -215,10 +215,13 @@ namespace TestHarvester
             while (true)
             {
                 //если нужно, проверяем постоянно на наличие определенного символа в принятом
-                if(confRcv == ConfigReсeiveNByte.WaitEquSimb && _receiveBuff.Contains(compVals[0]))
+                if(confRcv == ConfigReсeiveNByte.WaitEquSimb)
                 {
-                    result = ResRcvNBytes.Succes;
-                    break;
+                    if (_receiveBuff.Contains(compVals[0]))
+                    {
+                        result = ResRcvNBytes.Succes;
+                        break;
+                    }
                 }
 
                 //мотаем свой счетчик и по нему выходим если он досчитался. iGotByte
@@ -275,7 +278,7 @@ namespace TestHarvester
             {
                 COM.ResRcvNBytes resultRcv;
                 if (bytesOfPattern.Count == 1)
-                    resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, bytesOfPattern);
+                    resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, bytesOfPattern, false, ConfigReсeiveNByte.WaitEquSimb);
                 else
                     resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, bytesOfPattern);
                 if (resultRcv == COM.ResRcvNBytes.TimeOut)
