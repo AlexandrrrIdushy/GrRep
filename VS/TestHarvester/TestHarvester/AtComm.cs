@@ -39,7 +39,7 @@ namespace TestHarvester
             ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref waitByte, 10, РежимПриемаБайт.Стандарт, 30);
             _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
 
-            if (result.Detailed == ResWaitBytes.Байтов_мало_но_один_совпал)
+            if (result.Detailed == ResWaitBytes.Успешный)
             {
                 string simbEndSMSText = Convert.ToChar(26).ToString();
                 textSendSMS += simbEndSMSText;

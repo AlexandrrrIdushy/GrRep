@@ -255,7 +255,7 @@ namespace TestHarvester
             ref List<byte> bytesOfPattern,                  //ждем таких байт
             float sec,                                      //не менее такого времени
             РежимПриемаБайт conf = РежимПриемаБайт.Стандарт,//
-            short nBytesWait = 0)
+            short nBytesWait = 0)//произвольное минимальное количество байт которое нужно подождать. пока такое количество не примется не выходим
         {
             
             List<byte> bytesOfPort = new List<byte>();
@@ -288,7 +288,7 @@ namespace TestHarvester
                     
                 else if (resultRcv == COM.ResRcvNBytes.Succes)
                 {
-                    if (bytesOfPort.SequenceEqual(bytesOfPattern))
+                    if (bytesOfPort.SequenceEqual(bytesOfPattern) || confRcv == ConfigReсeiveNByte.WaitEquSimb)
                     {
                         detailedResult = ResWaitBytes.Успешный;
                         simplResult = SimplResult.OK;
