@@ -74,5 +74,20 @@ namespace TestHarvester
 
             //
         }
+
+
+        public void Ожидать_SMS(string textSendSMS, float second)
+        {
+            _oMainForm.WriteLogMessage("Ожидать_SMS(" + textSendSMS + ")");
+
+
+            List<byte> waitByte = new List<byte>();
+            _com.GetASCIBytesFromString(textSendSMS, ref waitByte);
+
+            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref waitByte, second, 30);
+            _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
+
+
+        }
     }
 }
