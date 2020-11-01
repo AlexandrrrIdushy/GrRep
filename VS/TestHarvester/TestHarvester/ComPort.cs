@@ -20,7 +20,9 @@ namespace TestHarvester
 
         //НИЖНИЙ СЛОЙ
         private byte[] _receiveBuff;
+        private byte[] _receiveBuff4Monitoring;
         int _iReceiveByte;
+        int _iReceiveBuff4Monitoring;
         private SerialPort _serialPort;
         private const int WAIT_ANSWER_TIMEOUT = 500;
         //private log logfile;
@@ -40,19 +42,26 @@ namespace TestHarvester
             _receiveBuff[0] = 0;
         }
 
+        private void RxBufMonitorReset()
+        {
+            _iReceiveBuff4Monitoring = 0;
+            _receiveBuff4Monitoring[0] = 0;
+        }
+
         //Конструктор
         public COM()
         {
             _serialPort = new SerialPort();
             //logfile = new log(this.GetType().ToString());
             _receiveBuff = new byte[256];
+            _receiveBuff4Monitoring = new byte[1000];
         }
 
 
         //обработчик события приема байт в порт
         private void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            
+            byte bRcv;
             SerialPort sp = (SerialPort)sender;
             try
             {
@@ -62,8 +71,11 @@ namespace TestHarvester
                     //если пользовательский буфер не заполнен - забираем в него очередной байт. иначе, читаем буфер порта в пустоту для его очистки
                     if (_iReceiveByte < _receiveBuff.Length - 2)// -2 потому что 1 на то что индекс, 1 на то что хотябы на один больше чем в пользовательском буфере
                     {
-                        _receiveBuff[_iReceiveByte] = (byte)sp.ReadByte();//прочитать один байт из приемного буфера
+                        bRcv = (byte)sp.ReadByte();//прочитать один байт из приемного буфера
+                        _receiveBuff[_iReceiveByte] = bRcv;
+                        _receiveBuff4Monitoring[_iReceiveBuff4Monitoring] = bRcv;
                         _iReceiveByte++;
+                        _iReceiveBuff4Monitoring++;
                         //_rxdata[_rxidx] = 0xE4;//в последнем всегда будет ноль
                     }
                     else

@@ -25,6 +25,19 @@ namespace TestHarvester
             List<byte> bytes4Write = new List<byte>();
             _com.GetASCIBytesFromString(comandSendSMSStart, ref bytes4Write);
             _com.Write(ref bytes4Write);
+
+
+            //ждем приглашение на ввод текста SMS
+            string waitSimb = "OK";
+            List<byte> waitByte = new List<byte>();
+            _com.GetASCIBytesFromString(waitSimb, ref waitByte);
+
+            //byte []bytes = Encoding.ASCII.GetBytes(resultChars);
+            //List<byte> bytesOfPattern = bytes.ToList();
+
+            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref waitByte, 10, 30);
+            _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
+
             return true;
         }
 
