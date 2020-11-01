@@ -11,8 +11,8 @@ namespace TestHarvester
 {
     public enum РежимПриемаБайт
     {
-        Стандарт = 0,         //ReceiveNByte() запусается стандартным образом - значение по умолчанию
-        ПредварительнаяОчисткаБуфера = 1,  //сперва очистить буфер приема
+        Стандарт = 0,                       //ReceiveNByte() запусается стандартным образом - значение по умолчанию, не ясно что это значит..
+        ПредварительнаяОчисткаБуфера = 1,   //сперва очистить буфер приема от того что могло насыпаться ранее
     }
 
     public class COM
@@ -189,7 +189,7 @@ namespace TestHarvester
         public enum ConfigReсeiveNByte
         {
             Normal = 0,         //ReceiveNByte() обычный запуск
-            WaitEquSimb = 1     //при работе искать в принятом хотябы одно свопадение указанного символа
+            DuringWorkEquSequence = 1     //при работе искать в принятом заданную последовательность
         }
 
 
@@ -214,13 +214,16 @@ namespace TestHarvester
 
             while (true)
             {
-                //если нужно, проверяем постоянно на наличие определенного символа в принятом
-                if(confRcv == ConfigReсeiveNByte.WaitEquSimb)
+                //если нужно, проверяем постоянно на наличие определенного символа в принятом, при совпадении считаем 
+                if(confRcv == ConfigReсeiveNByte.DuringWorkEquSequence)
                 {
-                    if (_receiveBuff.Contains(compVals[0]))
+                    if (compVals.Count == 1)
                     {
-                        result = ResRcvNBytes.Succes;
-                        break;
+                        if (_receiveBuff.Contains(compVals[0]))
+                        {
+                            result = ResRcvNBytes.Succes;
+                            break;
+                        }
                     }
                 }
 
@@ -250,23 +253,39 @@ namespace TestHarvester
             return result;
         }
 
+        enum ModeReceive
+        {
+            Undef = 0,              //когда не смогли определить режимработы
+            StrictEquality = 1,     //строгое соответствие. режим приема при котором успешный прием, это прием ровно такого количества и качества (содержимого) байт которое было обозначено в начале
+            OneByteEquIsSucces = 2  //прием считается успешным когда среди в принятой последовательности содержиться один байт bytesOfPattern и при этом просили тоже только один 
+        }
 
+
+        //принять байты из порта. обертка над ReceiveNByte() обеспечивающая проверку на совпадение принятого с заданной последовательностью
         public ResWaitBytesFoo WaitReceiveThisBytes(
             ref List<byte> bytesOfPattern,                  //ждем таких байт
-            float sec,                                      //не менее такого времени
-            РежимПриемаБайт conf = РежимПриемаБайт.Стандарт,//
-            short nBytesWait = 0)//произвольное минимальное количество байт которое нужно подождать. пока такое количество не примется не выходим
+            float timeOut,                                  //максимальное время ожидания приема байт
+            short nMaxBytesWait = 0)//не менее стольки байт ждем прежде чем завершить ожидание. если ранее досчитается таймаут выходим по нему
         {
             
             List<byte> bytesOfPort = new List<byte>();
-            
+            ModeReceive modeReceive = ModeReceive.Undef;//надеемся на авто определение режима приема
             ResWaitBytes detailedResult = ResWaitBytes.Непонятен_неизвестен;
             SimplResult simplResult = SimplResult.Wrong;
 
-            //если не указиваем число ожидаемых байт явно, это число берем из длины массива
+            //определяемся с режимом работы
+            if (bytesOfPattern.Count == 1)
+                modeReceive = ModeReceive.OneByteEquIsSucces;
+            else if (bytesOfPattern.Count > 1 && nMaxBytesWait == 0)
+                modeReceive = ModeReceive.StrictEquality;
+            //else if (bytesOfPattern.Count > 1 && nMaxBytesWait > bytesOfPattern.Count)//навырост нечеткое соответствие последовательности
+            //    modeReceive = ;
+
+
+            //если не указиваем число ожидаемых байт явно, это число берем из длины массива. тогда успешное завершение будет только в случае строго совпадения
             short nBytesWaitIn;
-            if (nBytesWait > 0)
-                nBytesWaitIn = nBytesWait;
+            if (nMaxBytesWait > 0)
+                nBytesWaitIn = nMaxBytesWait;
             else
                 nBytesWaitIn = (short)(bytesOfPattern.Count);
 
@@ -274,32 +293,26 @@ namespace TestHarvester
             //byte []bytes = Encoding.ASCII.GetBytes(chars);
             //List<byte> bytesOfPattern = bytes.ToList();
 
-            if (detailedResult != ResWaitBytes.Неверный_формат_последовательнсти_байт)
-            {
-                COM.ResRcvNBytes resultRcv;
-                if (bytesOfPattern.Count == 1)
-                    resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, bytesOfPattern, false, ConfigReсeiveNByte.WaitEquSimb);
-                else
-                    resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, sec, bytesOfPattern);
-                if (resultRcv == COM.ResRcvNBytes.TimeOut)
-                    detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
-                else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
-                    detailedResult = ResWaitBytes.Байтов_слишком_мало;
+
+            //подождем
+            COM.ResRcvNBytes resultRcv = ResRcvNBytes.Undef;
+            if (modeReceive == ModeReceive.OneByteEquIsSucces)
+                resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, timeOut, bytesOfPattern, false, ConfigReсeiveNByte.DuringWorkEquSequence);
+            else if(modeReceive == ModeReceive.StrictEquality)
+                resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, timeOut, bytesOfPattern);
+
+            //посмотрим результат после ожидания
+            if (resultRcv == COM.ResRcvNBytes.TimeOut)
+                detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
+            else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
+                detailedResult = ResWaitBytes.Байтов_слишком_мало;
                     
-                else if (resultRcv == COM.ResRcvNBytes.Succes)
-                {
-                    if (bytesOfPort.SequenceEqual(bytesOfPattern) || confRcv == ConfigReсeiveNByte.WaitEquSimb)
-                    {
-                        detailedResult = ResWaitBytes.Успешный;
-                        simplResult = SimplResult.OK;
-                    }
-                }
-
-
-
+            else if (resultRcv == COM.ResRcvNBytes.Succes)
+            {
+                    detailedResult = ResWaitBytes.Успешный;
+                    simplResult = SimplResult.OK;
             }
 
-            
 
             ResWaitBytesFoo res = new ResWaitBytesFoo();
             res.Simple = simplResult;

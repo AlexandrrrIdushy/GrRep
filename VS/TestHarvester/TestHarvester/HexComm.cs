@@ -50,7 +50,7 @@ namespace TestHarvester
             char[] resultChars = new char[needBytes.Length];
             List<byte> resultByte = new List<byte>();
             _com.GetHexFromString(needBytes, ref resultByte);
-            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref resultByte, sec, РежимПриемаБайт.Стандарт);
+            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref resultByte, sec);
             _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
             return result;
         }

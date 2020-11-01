@@ -36,7 +36,7 @@ namespace TestHarvester
             //byte []bytes = Encoding.ASCII.GetBytes(resultChars);
             //List<byte> bytesOfPattern = bytes.ToList();
 
-            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref waitByte, 10, РежимПриемаБайт.Стандарт, 30);
+            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref waitByte, 10, 30);
             _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
 
             if (result.Detailed == ResWaitBytes.Успешный)
