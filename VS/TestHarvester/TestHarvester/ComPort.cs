@@ -215,7 +215,7 @@ namespace TestHarvester
             while (true)
             {
                 //если нужно, проверяем постоянно на наличие определенного символа в принятом, при совпадении считаем 
-                if(confRcv == ConfigReсeiveNByte.DuringWorkEquSequence)
+                if (confRcv == ConfigReсeiveNByte.DuringWorkEquSequence)
                 {
                     if (compVals.Count == 1)
                     {
@@ -232,11 +232,12 @@ namespace TestHarvester
                     iGotByte++;
                 if (iGotByte >= nByte)
                 {
-                    for (int i = 0; i < 10000; i++)
-                    {
+                    //for (int i = 0; i < 10000; i++)
+                    //{
                         
-                    }
-                    
+                    //}
+                    Thread.Sleep(1000);
+
                     result = ResRcvNBytes.Succes;
                     break;
                 }

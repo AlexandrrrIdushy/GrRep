@@ -18,6 +18,16 @@ namespace TestHarvester
             _simpleComm = simpleComm;
         }
 
+        public bool Подготовить_модуль_SIM5300E_к_работе_c_SMS()
+        {
+            _oMainForm.WriteLogMessage("Подготовить_модуль_SIM5300E_к_работе_c_SMS()");
+            string comandSendSMSStart = "AT+CMGF=1\r\n";
+            List<byte> bytes4Write = new List<byte>();
+            _com.GetASCIBytesFromString(comandSendSMSStart, ref bytes4Write);
+            _com.Write(ref bytes4Write);
+            return true;
+        }
+
         public void Отправить_SMS(string textSendSMS)
         {
             _oMainForm.WriteLogMessage("Отправить_SMS(" + textSendSMS + ")");
