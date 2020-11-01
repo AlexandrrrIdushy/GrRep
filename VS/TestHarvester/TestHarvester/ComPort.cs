@@ -14,10 +14,10 @@ namespace TestHarvester
         Стандарт = 0,                       //ReceiveNByte() запусается стандартным образом - значение по умолчанию, не ясно что это значит..
         ПредварительнаяОчисткаБуфера = 1,   //сперва очистить буфер приема от того что могло насыпаться ранее
     }
-
+    
     public class COM
     {
-
+        const int SIZE_ARR_RCV = 256;
         //НИЖНИЙ СЛОЙ
         private byte[] _receiveBuff;
         private byte[] _receiveBuff4Monitoring;
@@ -42,6 +42,12 @@ namespace TestHarvester
             _receiveBuff[0] = 0;
         }
 
+        private void RxClearFull()
+        {
+            _iReceiveByte = 0;
+            Array.Clear(_receiveBuff, 0, SIZE_ARR_RCV);
+        }
+
         private void RxBufMonitorReset()
         {
             _iReceiveBuff4Monitoring = 0;
@@ -53,7 +59,7 @@ namespace TestHarvester
         {
             _serialPort = new SerialPort();
             //logfile = new log(this.GetType().ToString());
-            _receiveBuff = new byte[256];
+            _receiveBuff = new byte[SIZE_ARR_RCV];
             _receiveBuff4Monitoring = new byte[1000];
         }
 
@@ -194,6 +200,7 @@ namespace TestHarvester
         {
             Undef,
             NBytesIsSmall,
+            NBytesRcvAchieved,        //получено требуемое количество байт
             TimeOut,
             Succes
         }
@@ -211,7 +218,8 @@ namespace TestHarvester
                                         Int16 nByte,            //количество байт которое требуется получить
                                     float timeoutS,             //таймаут на получение этого количества байт [s]
                                     List<byte> compVals,           //значения для сравнений
-                                    bool clearOrNoBuf = false,  //1 - чистить в самом начале выхова данной функции пользовательский приемный буфер
+                                    bool clearOrNoBuf = true,  //в норме 1 - чистить в самом начале вызова данной функции пользовательский приемный буфер
+                                                                    //обратное может понадобиться если мы эмулируем слейва где реакция системы идет следом за входящими сообщениями
                                     ConfigReсeiveNByte confRcv = ConfigReсeiveNByte.Normal)
         {                           
             UInt16 timeout100ms = (UInt16)(timeoutS * 10f);
@@ -221,7 +229,7 @@ namespace TestHarvester
 
             //в норме если по какой то причине не было очищен приемный буфер нужно почистить в начале запуска приема
             if (clearOrNoBuf == true && _rxBufCleaned == false)
-                RxReset();
+                RxClearFull();
             _rxBufCleaned = false;
 
             while (true)
@@ -237,6 +245,26 @@ namespace TestHarvester
                             break;
                         }
                     }
+                    else
+                    {
+                        //если получено столько байт сколько в строке для сравнения
+                        if (iGotByte >= compVals.Count)
+                        {
+                            //compVals.Contains()
+                            //получаем строчку проверочного шаблона
+                            char [] arrCompVals = Encoding.ASCII.GetChars(compVals.ToArray());
+                            string strPattern = string.Join("", arrCompVals);
+                            //получаем строчку полученого из порта
+                            char[] arrChar = Encoding.ASCII.GetChars(_receiveBuff.ToArray());
+                            string strRcvData = string.Join("", arrChar);
+                            if(strRcvData.Contains(strPattern) == true)
+                            {
+                                result = ResRcvNBytes.Succes;
+                                break;
+                            }
+
+                        }
+                    }
                 }
 
                 //мотаем свой счетчик и по нему выходим если он досчитался. iGotByte
@@ -244,13 +272,8 @@ namespace TestHarvester
                     iGotByte++;
                 if (iGotByte >= nByte)
                 {
-                    //for (int i = 0; i < 10000; i++)
-                    //{
-                        
-                    //}
                     Thread.Sleep(1000);
-
-                    result = ResRcvNBytes.Succes;
+                    result = ResRcvNBytes.NBytesRcvAchieved;
                     break;
                 }
                 if (_cntTickWaitReceive > timeout100ms)
@@ -263,6 +286,7 @@ namespace TestHarvester
             {
                 list.Add(_receiveBuff[i]);
             }
+            RxClearFull();
             return result;
         }
 
@@ -270,7 +294,8 @@ namespace TestHarvester
         {
             Undef = 0,              //когда не смогли определить режимработы
             StrictEquality = 1,     //строгое соответствие. режим приема при котором успешный прием, это прием ровно такого количества и качества (содержимого) байт которое было обозначено в начале
-            OneByteEquIsSucces = 2  //прием считается успешным когда среди в принятой последовательности содержиться один байт bytesOfPattern и при этом просили тоже только один 
+            OneByteEquIsSucces = 2,  //прием считается успешным когда среди в принятой последовательности содержиться один байт bytesOfPattern и при этом просили тоже только один 
+            SequencEquIsSucces = 3
         }
 
 
@@ -291,8 +316,8 @@ namespace TestHarvester
                 modeReceive = ModeReceive.OneByteEquIsSucces;
             else if (bytesOfPattern.Count > 1 && nMaxBytesWait == 0)
                 modeReceive = ModeReceive.StrictEquality;
-            //else if (bytesOfPattern.Count > 1 && nMaxBytesWait > bytesOfPattern.Count)//навырост нечеткое соответствие последовательности
-            //    modeReceive = ;
+            else if (bytesOfPattern.Count > 1 && nMaxBytesWait > bytesOfPattern.Count)//навырост нечеткое соответствие последовательности
+                modeReceive = ModeReceive.SequencEquIsSucces;
 
 
             //если не указиваем число ожидаемых байт явно, это число берем из длины массива. тогда успешное завершение будет только в случае строго совпадения
@@ -309,8 +334,8 @@ namespace TestHarvester
 
             //подождем
             COM.ResRcvNBytes resultRcv = ResRcvNBytes.Undef;
-            if (modeReceive == ModeReceive.OneByteEquIsSucces)
-                resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, timeOut, bytesOfPattern, false, ConfigReсeiveNByte.DuringWorkEquSequence);
+            if (modeReceive == ModeReceive.OneByteEquIsSucces || modeReceive == ModeReceive.SequencEquIsSucces)
+                resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, timeOut, bytesOfPattern, true, ConfigReсeiveNByte.DuringWorkEquSequence);
             else if(modeReceive == ModeReceive.StrictEquality)
                 resultRcv = ReceiveNByte(ref bytesOfPort, nBytesWaitIn, timeOut, bytesOfPattern);
 
@@ -319,7 +344,9 @@ namespace TestHarvester
                 detailedResult = ResWaitBytes.Не_уложилась_в_заданное_время;
             else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
                 detailedResult = ResWaitBytes.Байтов_слишком_мало;
-                    
+            else if(resultRcv == COM.ResRcvNBytes.NBytesRcvAchieved)
+                detailedResult = ResWaitBytes.Байты_пришли_но_строгово_соответствия_нет;
+
             else if (resultRcv == COM.ResRcvNBytes.Succes)
             {
                     detailedResult = ResWaitBytes.Успешный;
