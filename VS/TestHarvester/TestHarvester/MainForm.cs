@@ -144,27 +144,32 @@ namespace TestHarvester
             btnRunLogResult.Enabled = false;
 
             //ObjAtComm.Отправить_SMS("First sms from scripter");
-            _uiContext = SynchronizationContext.Current;
+            _syncroContext1 = SynchronizationContext.Current;
             _th1 = new Thread(ThrdWrk1);
-            _th1.Start(_uiContext);
+            _th1.Start(_syncroContext1);
+
+            _syncroContext2 = SynchronizationContext.Current;
+            //_th2 = new Thread(ThrdWrk2);
+            //_th2.Start(_syncroContext1);
         }
 
 
+
+        //ПОТОКИ---
         static Thread _th1;
-        SynchronizationContext _uiContext;
+        static Thread _th2;
+        SynchronizationContext _syncroContext1;
+        SynchronizationContext _syncroContext2;
         private void ThrdWrk1(object state)
         {
             // вытащим контекст синхронизации из state'а
             SynchronizationContext uiContext = state as SynchronizationContext;
             // говорим что в UI потоке нужно выполнить метод UpdateUI 
             // и передать ему в качестве аргумента строку
-            
-
-
-            
+            //uiContext.Post(UpdateUI, "stub");
             while (true)
             {
-                uiContext.Post(UpdateUI, "Hello world!");
+                uiContext.Post(UpdateUI, "stub");
                 Thread.Sleep(1000);
             }
 
@@ -177,9 +182,13 @@ namespace TestHarvester
         private void UpdateUI(object state)
         {
             _str4DSLog = _com1.GetLastDataStreemLog();
-            if (_str4DSLog != "" || _str4DSLog != null)
-                tbxLogsWin.Text += _str4DSLog;
+            if (_str4DSLog != "" && _str4DSLog != null)
+                tbxLogsWin.Text = tbxLogsWin.Text + _str4DSLog;//_str4DSLog;
+            //tbxLogsWin.Invalidate();
+            this.Refresh();
         }
+
+        //---ПОТОКИ
 
 
         public void AddErrorsAndWarinigs(string nextErrMessage)

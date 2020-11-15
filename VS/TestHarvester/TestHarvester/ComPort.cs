@@ -37,7 +37,7 @@ namespace TestHarvester
             
         }
 
-        bool _hexOrASCIIViewDataStreem = false;
+        bool _hexOrASCIIViewDataStreem = true;
         //забрать послерюю порцию данных прошедших через порт
         public string GetLastDataStreemLog()
         {
@@ -46,8 +46,24 @@ namespace TestHarvester
             {
                 if (_hexOrASCIIViewDataStreem)
                 {
-                    char[] arrCompVals = Encoding.ASCII.GetChars(_rcvBuff4LogWindow.ToArray());//символы
-                    result = string.Join(" ", arrCompVals);
+                    //char[] arrCompVals = Encoding.ASCII.GetString(_rcvBuff4LogWindow.ToArray());//символы
+                    //result = string.Join(" ", arrCompVals);
+                    result = Encoding.ASCII.GetString(_rcvBuff4LogWindow.ToArray());
+                    //string t = Encoding.ASCII.GetString(_rcvBuff4LogWindow.ToArray());
+
+                    //char t = Convert.ToChar(_rcvBuff4LogWindow[0]);
+                    //char t2 = Convert.ToChar(_rcvBuff4LogWindow[1]);
+
+                    //char[] arrCompVals = Encoding.ASCII.GetChars(_rcvBuff4LogWindow.ToArray());
+                    //string tmp;
+                    //int i = 0;
+                    //foreach (char item in arrCompVals)
+                    //{
+                    //    tmp = arrCompVals[i].ToString();
+                    //    i++;
+                    //}
+                    //string tmp = _rcvBuff4LogWindow[0].ToString();
+                    //result = string.Join(,("", arrCompVals);
                 }
                 else
                 {
