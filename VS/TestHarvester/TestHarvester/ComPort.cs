@@ -20,7 +20,7 @@ namespace TestHarvester
         const int SIZE_ARR_RCV = 256;
         //НИЖНИЙ СЛОЙ
         private byte[] _receiveBuff;
-        private byte[] _receiveBuff4Monitoring;
+        private List<byte> _rcvBuff4LogWindow;
         int _iReceiveByte;
         int _iReceiveBuff4Monitoring;
         private SerialPort _serialPort;
@@ -28,11 +28,37 @@ namespace TestHarvester
         //private log logfile;
         ///public string COM = "";
         public string errtxt = "";
+        
 
         MainForm _mainForm;
         public void COMInit(ref MainForm mainForm)
         {
             _mainForm = mainForm;
+            
+        }
+
+        bool _hexOrASCIIViewDataStreem = false;
+        //забрать послерюю порцию данных прошедших через порт
+        public string GetLastDataStreemLog()
+        {
+            string result = "";
+            if (_rcvBuff4LogWindow.Count > 0)
+            {
+                if (_hexOrASCIIViewDataStreem)
+                {
+                    char[] arrCompVals = Encoding.ASCII.GetChars(_rcvBuff4LogWindow.ToArray());//символы
+                    result = string.Join(" ", arrCompVals);
+                }
+                else
+                {
+                    byte[] arrCompVals = _rcvBuff4LogWindow.ToArray();//HEX числа
+                    result = string.Join(" ", arrCompVals);
+                }
+                    
+                
+                _rcvBuff4LogWindow.Clear();
+            }
+            return result;
         }
 
         // очистить приемный буфер
@@ -48,20 +74,19 @@ namespace TestHarvester
             Array.Clear(_receiveBuff, 0, SIZE_ARR_RCV);
         }
 
-        private void RxBufMonitorReset()
-        {
-            _iReceiveBuff4Monitoring = 0;
-            _receiveBuff4Monitoring[0] = 0;
-        }
 
+        const UInt16 SIZE_LOG_WIDOW = 1000;
         //Конструктор
         public COM()
         {
             _serialPort = new SerialPort();
             //logfile = new log(this.GetType().ToString());
             _receiveBuff = new byte[SIZE_ARR_RCV];
-            _receiveBuff4Monitoring = new byte[1000];
+            _rcvBuff4LogWindow = new List<byte>();
+
+
         }
+
 
 
         //обработчик события приема байт в порт
@@ -79,9 +104,10 @@ namespace TestHarvester
                     {
                         bRcv = (byte)sp.ReadByte();//прочитать один байт из приемного буфера
                         _receiveBuff[_iReceiveByte] = bRcv;
-                        _receiveBuff4Monitoring[_iReceiveBuff4Monitoring] = bRcv;
+                        _rcvBuff4LogWindow.Add(bRcv);
+
                         _iReceiveByte++;
-                        _iReceiveBuff4Monitoring++;
+
                         //_rxdata[_rxidx] = 0xE4;//в последнем всегда будет ноль
                     }
                     else
@@ -131,6 +157,8 @@ namespace TestHarvester
             }
         }
 
+
+
         public string GetCurrComPortName()
         {
             return _serialPort.PortName;
@@ -160,6 +188,8 @@ namespace TestHarvester
             _serialPort.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
             _serialPort.WriteTimeout = 50;
         }
+
+
 
         private void Close()
         {

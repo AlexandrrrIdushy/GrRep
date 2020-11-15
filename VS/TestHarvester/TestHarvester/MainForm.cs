@@ -144,6 +144,24 @@ namespace TestHarvester
             btnRunLogResult.Enabled = false;
 
             //ObjAtComm.Отправить_SMS("First sms from scripter");
+
+            _th1 = new Thread(ThrdWrk1);
+            _th1.Start();
+        }
+
+
+        static Thread _th1;
+        private void ThrdWrk1(object sender)
+        {
+            string str = "";
+            while (true)
+            {
+                str = _com1.GetLastDataStreemLog();
+                if(str != "" || str != null)
+                    tbxLogsWin.Text += str;
+                Thread.Sleep(1000);
+            }
+
         }
 
 
