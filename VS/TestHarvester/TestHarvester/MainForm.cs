@@ -144,24 +144,41 @@ namespace TestHarvester
             btnRunLogResult.Enabled = false;
 
             //ObjAtComm.Отправить_SMS("First sms from scripter");
-
+            _uiContext = SynchronizationContext.Current;
             _th1 = new Thread(ThrdWrk1);
-            _th1.Start();
+            _th1.Start(_uiContext);
         }
 
 
         static Thread _th1;
-        private void ThrdWrk1(object sender)
+        SynchronizationContext _uiContext;
+        private void ThrdWrk1(object state)
         {
-            string str = "";
-            while (true)
-            {
-                str = _com1.GetLastDataStreemLog();
-                if(str != "" || str != null)
-                    tbxLogsWin.Text += str;
-                Thread.Sleep(1000);
-            }
+            // вытащим контекст синхронизации из state'а
+            SynchronizationContext uiContext = state as SynchronizationContext;
+            // говорим что в UI потоке нужно выполнить метод UpdateUI 
+            // и передать ему в качестве аргумента строку
+            uiContext.Post(UpdateUI, "Hello world!");
 
+
+            //string str = "";
+            //while (true)
+            //{
+            //    str = _com1.GetLastDataStreemLog();
+            //    if(str != "" || str != null)
+            //        tbxLogsWin.Text += str;
+            //    Thread.Sleep(1000);
+            //}
+
+        }
+
+        /// <summary>
+        /// Этот метод исполняется в основном UI потоке
+        /// </summary>
+        private void UpdateUI(object state)
+        {
+            //sampleListBox.Items.Add((string)state);
+            tbxLogsWin.Text = "fsdf";
         }
 
 
