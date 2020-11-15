@@ -158,27 +158,27 @@ namespace TestHarvester
             SynchronizationContext uiContext = state as SynchronizationContext;
             // говорим что в UI потоке нужно выполнить метод UpdateUI 
             // и передать ему в качестве аргумента строку
-            uiContext.Post(UpdateUI, "Hello world!");
+            
 
 
-            //string str = "";
-            //while (true)
-            //{
-            //    str = _com1.GetLastDataStreemLog();
-            //    if(str != "" || str != null)
-            //        tbxLogsWin.Text += str;
-            //    Thread.Sleep(1000);
-            //}
+            
+            while (true)
+            {
+                uiContext.Post(UpdateUI, "Hello world!");
+                Thread.Sleep(1000);
+            }
 
         }
 
         /// <summary>
         /// Этот метод исполняется в основном UI потоке
         /// </summary>
+        string _str4DSLog = "";
         private void UpdateUI(object state)
         {
-            //sampleListBox.Items.Add((string)state);
-            tbxLogsWin.Text = "fsdf";
+            _str4DSLog = _com1.GetLastDataStreemLog();
+            if (_str4DSLog != "" || _str4DSLog != null)
+                tbxLogsWin.Text += _str4DSLog;
         }
 
 
