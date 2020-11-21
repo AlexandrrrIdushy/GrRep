@@ -185,7 +185,7 @@ namespace TestHarvester
             if (_str4DSLog != "" && _str4DSLog != null)
                 tbxLogsWin.Text = tbxLogsWin.Text + _str4DSLog;//_str4DSLog;
             //tbxLogsWin.Invalidate();
-            this.Refresh();
+            //this.Refresh();
         }
 
         //---ПОТОКИ

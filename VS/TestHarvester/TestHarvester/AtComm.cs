@@ -81,11 +81,14 @@ namespace TestHarvester
             _oMainForm.WriteLogMessage("Ожидать_SMS(" + textSendSMS + ")");
 
 
+            //ждем приглашение на ввод текста SMS
+            string waitSimb = "+CMTI";
             List<byte> waitByte = new List<byte>();
-            _com.GetASCIBytesFromString(textSendSMS, ref waitByte);
-
-            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref waitByte, second, 30);
+            _com.GetASCIBytesFromString(waitSimb, ref waitByte);
+            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref waitByte, 10, 30);
             _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
+
+
 
 
         }
