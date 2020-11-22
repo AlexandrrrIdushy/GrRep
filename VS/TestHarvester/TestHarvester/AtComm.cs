@@ -84,18 +84,27 @@ namespace TestHarvester
             result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30);
 
             //После прихода такого уведомления, можно программно инициировать процедуру чтения полученного сообщения 
-            //командой AT+CMGR =< index >,< mode >
-            string comandSendSMSStart = "AT+CMGR=1,0";
+            string comandSendSMSStart = "AT+CMGR=1,0\r\n";
             _bytes4Write.Clear();
             _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
             _com.Write(ref _bytes4Write);
 
-            //после прихода SMS, SIM800L генерирует незапрашиваемое уведомление вида +CMTI: "SM",4
+            //ждем требуемый текст
             waitSimb = textSendSMS;// "+CMGR:";
             _waitByte.Clear();
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
             result = _com.WaitReceiveThisBytes(ref _waitByte, 10, Convert.ToByte(textSendSMS.Length + 60 + 10));
 
+            //после получения и обработки пришедшего сообщения, все сообщения удаляются
+            comandSendSMSStart = "AT+CMGD=1,4\r\n";
+            _bytes4Write.Clear();
+            _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
+            _com.Write(ref _bytes4Write);
+
+            if (result.Detailed.ToString() == "Успешный")
+                _oMainForm.WriteLogMessage("     Ok");
+            else
+                _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
 
         }
     }
