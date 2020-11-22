@@ -274,9 +274,9 @@ namespace TestHarvester
             ResRcvNBytes result = ResRcvNBytes.Undef;
 
             //в норме если по какой то причине не было очищен приемный буфер нужно почистить в начале запуска приема
-            if (clearOrNoBuf == true && _rxBufCleaned == false)
+            //if (clearOrNoBuf == true && _rxBufCleaned == false)
                 RxClearFull();
-            _rxBufCleaned = false;
+            //_rxBufCleaned = false;
 
             while (true)
             {
@@ -293,7 +293,7 @@ namespace TestHarvester
                     }
                     else
                     {
-                        //если получено столько байт сколько в строке для сравнения
+                        //если получено столько байт сколько в строке для сравнения или больше
                         if (iGotByte >= compVals.Count)
                         {
                             //compVals.Contains()
@@ -341,7 +341,7 @@ namespace TestHarvester
             Undef = 0,              //когда не смогли определить режимработы
             StrictEquality = 1,     //строгое соответствие. режим приема при котором успешный прием, это прием ровно такого количества и качества (содержимого) байт которое было обозначено в начале
             OneByteEquIsSucces = 2,  //прием считается успешным когда среди в принятой последовательности содержиться один байт bytesOfPattern и при этом просили тоже только один 
-            SequencEquIsSucces = 3
+            SequencEquIsSucces = 3      //нестрогое соответствие. в принятой последовательности должен быть заданный кусок
         }
 
 
@@ -391,7 +391,7 @@ namespace TestHarvester
             else if (resultRcv == COM.ResRcvNBytes.NBytesIsSmall)
                 detailedResult = ResWaitBytes.Байтов_слишком_мало;
             else if(resultRcv == COM.ResRcvNBytes.NBytesRcvAchieved)
-                detailedResult = ResWaitBytes.Байты_пришли_но_строгово_соответствия_нет;
+                detailedResult = ResWaitBytes.Заданное_число_байт_принято;
 
             else if (resultRcv == COM.ResRcvNBytes.Succes)
             {

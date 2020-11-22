@@ -81,30 +81,37 @@ namespace TestHarvester
             string waitSimb = "+CMTI: \"SM\"";
             _waitByte.Clear();
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
-            result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30);
+            result = _com.WaitReceiveThisBytes(ref _waitByte, 20, 30);
 
-            //После прихода такого уведомления, можно программно инициировать процедуру чтения полученного сообщения 
-            string comandSendSMSStart = "AT+CMGR=1,0\r\n";
-            _bytes4Write.Clear();
-            _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
-            _com.Write(ref _bytes4Write);
+            if (result.Simple == SimplResult.OK)
+            {
+                //После прихода такого уведомления, можно программно инициировать процедуру чтения полученного сообщения 
+                string comandSendSMSStart = "AT+CMGR=1,0\r\n";
+                _bytes4Write.Clear();
+                _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
+                _com.Write(ref _bytes4Write);
 
-            //ждем требуемый текст
-            waitSimb = textSendSMS;// "+CMGR:";
-            _waitByte.Clear();
-            _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
-            result = _com.WaitReceiveThisBytes(ref _waitByte, 10, Convert.ToByte(textSendSMS.Length + 60 + 10));
+                //ждем требуемый текст
+                waitSimb = textSendSMS;// "+CMGR:";
+                _waitByte.Clear();
+                _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
+                result = _com.WaitReceiveThisBytes(ref _waitByte, 20, Convert.ToByte(textSendSMS.Length + 60 + 20));
 
-            //после получения и обработки пришедшего сообщения, все сообщения удаляются
-            comandSendSMSStart = "AT+CMGD=1,4\r\n";
-            _bytes4Write.Clear();
-            _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
-            _com.Write(ref _bytes4Write);
+                //после получения и обработки пришедшего сообщения, все сообщения удаляются
+                comandSendSMSStart = "AT+CMGD=1,4\r\n";
+                _bytes4Write.Clear();
+                _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
+                _com.Write(ref _bytes4Write);
 
-            if (result.Detailed.ToString() == "Успешный")
-                _oMainForm.WriteLogMessage("     Ok");
+                if (result.Detailed.ToString() == "Успешный")
+                    _oMainForm.WriteLogMessage("     Ok");
+                else
+                    _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
+            }
             else
-                _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
+                _oMainForm.WriteLogMessage("GSM сеть молчит (сообщения CMTI нет)");
+
+
 
         }
     }
