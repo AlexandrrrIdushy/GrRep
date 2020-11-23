@@ -33,7 +33,7 @@ namespace TestHarvester
             //ждем приглашение на ввод текста SMS
             string waitSimb = "OK";
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
-            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30);
+            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref _waitByte, 10, Convert.ToByte(waitSimb.Length + 5));
             _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
 
             return true;
@@ -51,8 +51,7 @@ namespace TestHarvester
             //ждем приглашение на ввод текста SMS
             string waitSimb = ">";
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
-            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30);
-            _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
+            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref _waitByte, 10, Convert.ToByte(waitSimb.Length + 20));
 
             if (result.Detailed == ResWaitBytes.Успешный)
             {
@@ -64,7 +63,15 @@ namespace TestHarvester
                 _com.Write(ref _bytes4Write);
             }
 
-            //
+
+            waitSimb = "OK";
+            _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
+            result = _com.WaitReceiveThisBytes(ref _waitByte, 10, Convert.ToByte(waitSimb.Length + 5));
+
+            if (result.Detailed.ToString() == "Успешный")
+                _oMainForm.WriteLogMessage("     Ok");
+            else
+                _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
         }
 
 
