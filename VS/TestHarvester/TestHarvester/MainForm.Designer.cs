@@ -224,7 +224,7 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 361F));
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 362F));
             this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 0, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 1, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStopScript, 2, 0);
@@ -263,7 +263,7 @@
             // 
             // btnStopScript
             // 
-            this.btnStopScript.Location = new System.Drawing.Point(528, 3);
+            this.btnStopScript.Location = new System.Drawing.Point(527, 3);
             this.btnStopScript.Name = "btnStopScript";
             this.btnStopScript.Size = new System.Drawing.Size(220, 29);
             this.btnStopScript.TabIndex = 19;
@@ -343,6 +343,7 @@
             this.tbxLogsWin.Location = new System.Drawing.Point(3, 36);
             this.tbxLogsWin.Multiline = true;
             this.tbxLogsWin.Name = "tbxLogsWin";
+            this.tbxLogsWin.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbxLogsWin.Size = new System.Drawing.Size(1799, 295);
             this.tbxLogsWin.TabIndex = 0;
             // 

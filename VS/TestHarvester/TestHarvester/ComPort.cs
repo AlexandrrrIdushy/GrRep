@@ -434,6 +434,7 @@ namespace TestHarvester
             {
                 string[] splitedBytesOfStr = stringBytes.Split(' ');
                 List<string> bytesStr = splitedBytesOfStr.ToList();
+                resultBytes.Clear();
                 foreach (string item in bytesStr)
                 {
                     resultBytes.Add(Convert.ToByte(item, 16));
@@ -462,6 +463,7 @@ namespace TestHarvester
             {
                 char[] splitedBytesOfStr = stringBytes.ToCharArray();
                 byte[] bytes = Encoding.ASCII.GetBytes(splitedBytesOfStr);
+                lResult.Clear();
                 lResult = bytes.ToList();
                 result = true;
             }

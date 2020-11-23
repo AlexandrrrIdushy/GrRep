@@ -26,14 +26,12 @@ namespace TestHarvester
         {
             _oMainForm.WriteLogMessage("Подготовить_модуль_SIM5300E_к_работе_c_SMS()");
             string comandSendSMSStart = "AT+CMGF=1\r\n";
-            _bytes4Write.Clear();
             _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
             _com.Write(ref _bytes4Write);
 
 
             //ждем приглашение на ввод текста SMS
             string waitSimb = "OK";
-            _waitByte.Clear();
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
             ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30);
             _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
@@ -47,13 +45,11 @@ namespace TestHarvester
 
             //просим у GSM сети соизволения отправить SMS
             string comandSendSMSStart = "AT+CMGS=\"+79053222209\"\r\n";
-            _bytes4Write.Clear();
             _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
             _com.Write(ref _bytes4Write);
 
             //ждем приглашение на ввод текста SMS
             string waitSimb = ">";
-            _waitByte.Clear();
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
             ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30);
             _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
@@ -79,7 +75,6 @@ namespace TestHarvester
 
             //после прихода SMS, SIM800L генерирует незапрашиваемое уведомление вида +CMTI: "SM",4
             string waitSimb = "+CMTI: \"SM\"";
-            _waitByte.Clear();
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
             result = _com.WaitReceiveThisBytes(ref _waitByte, 20, 30);
 
@@ -87,19 +82,16 @@ namespace TestHarvester
             {
                 //После прихода такого уведомления, можно программно инициировать процедуру чтения полученного сообщения 
                 string comandSendSMSStart = "AT+CMGR=1,0\r\n";
-                _bytes4Write.Clear();
                 _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
                 _com.Write(ref _bytes4Write);
 
                 //ждем требуемый текст
                 waitSimb = textSendSMS;// "+CMGR:";
-                _waitByte.Clear();
                 _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
                 result = _com.WaitReceiveThisBytes(ref _waitByte, 20, Convert.ToByte(textSendSMS.Length + 60 + 20));
 
                 //после получения и обработки пришедшего сообщения, все сообщения удаляются
                 comandSendSMSStart = "AT+CMGD=1,4\r\n";
-                _bytes4Write.Clear();
                 _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
                 _com.Write(ref _bytes4Write);
 
