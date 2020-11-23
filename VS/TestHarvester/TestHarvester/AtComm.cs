@@ -66,7 +66,7 @@ namespace TestHarvester
 
             waitSimb = "OK";
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
-            result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30);
+            result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 60);
 
             if (result.Detailed.ToString() == "Успешный")
                 _oMainForm.WriteLogMessage("     Ok");
