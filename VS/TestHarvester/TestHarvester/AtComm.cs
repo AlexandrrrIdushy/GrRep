@@ -48,6 +48,7 @@ namespace TestHarvester
             //просим у GSM сети соизволения отправить SMS
             string comandSendSMSStart = "AT+CMGS=\"+79053222209\"\r\n";
             _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
+            resBool = false;
             resBool = _com.Write(ref _bytes4Write);
             ResWaitBytesFoo result = new ResWaitBytesFoo();
             result.Detailed = ResWaitBytes.Непонятен_неизвестен;
@@ -67,6 +68,7 @@ namespace TestHarvester
                     textSendSMS += simbEndSMSText;
                     char[] resultChars2 = new char[textSendSMS.Length];
                     _com.GetASCIBytesFromString(textSendSMS, ref _bytes4Write);
+                    resBool = false;
                     resBool = _com.Write(ref _bytes4Write);
                     if (resBool)
                     { 
@@ -92,40 +94,65 @@ namespace TestHarvester
         public void Ожидать_SMS(string textSendSMS, float second)
         {
             _oMainForm.WriteLogMessage("Ожидать_SMS(" + textSendSMS + ")");
-            ResWaitBytesFoo result;
+            ResWaitBytesFoo result = new ResWaitBytesFoo();
+            bool resBool = false;
+            result.Detailed = ResWaitBytes.Непонятен_неизвестен;
+            result.Simple = SimplResult.Wrong;
+            string phasesWork = "ничего не выполнено";//успешно пройденные фазы отправки
+            string comandSendSMSStart;
 
             //после прихода SMS, SIM800L генерирует незапрашиваемое уведомление вида +CMTI: "SM",4
             string waitSimb = "+CMTI: \"SM\"";
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
             result = _com.WaitReceiveThisBytes(ref _waitByte, 20, 30);
-            string comandSendSMSStart;
+            
             if (result.Simple == SimplResult.OK)
             {
+                phasesWork = "#1:пришло уведамление о приходе SMS (+CMTI:\"SM\")";
                 //После прихода такого уведомления, можно программно инициировать процедуру чтения полученного сообщения 
+                resBool = false;
                 comandSendSMSStart = "AT+CMGR=1,0\r\n";
                 _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
-                _com.Write(ref _bytes4Write);
+                resBool = _com.Write(ref _bytes4Write);
 
-                //ждем требуемый текст
-                waitSimb = textSendSMS;// "+CMGR:";
-                _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
-                result = _com.WaitReceiveThisBytes(ref _waitByte, 20, Convert.ToByte(textSendSMS.Length + 60 + 20));
+                if (resBool)
+                {
+                    phasesWork = " ,#2:отправили запрос на чтение текста SMS (AT+CMGR)";
+                    //ждем требуемый текст
+                    waitSimb = textSendSMS;// "+CMGR:";
+                    _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
+                    result = _com.WaitReceiveThisBytes(ref _waitByte, 20, Convert.ToByte(textSendSMS.Length + 60 + 20));
+                    if (result.Simple == SimplResult.OK)
+                        phasesWork = "#3:пришел текст и он совпадает с шаблоном";
+
+                }
 
 
-
-                if (result.Detailed == ResWaitBytes.Успешный)
-                    _oMainForm.WriteLogMessage("     Ok");
-                else
-                    _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
             }
-            else
-                _oMainForm.WriteLogMessage("GSM сеть молчит (сообщения CMTI нет)");
 
             //независимо от результатов предыдущих операция требуется выполнить очистку, все сообщения удаляются. 
             //при переполнении SIM начинает глючить - перестают приходить сообщения типа +CMTI: "SM",N
+            resBool = false;
             comandSendSMSStart = "AT+CMGD=1,4\r\n";
             _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
-            _com.Write(ref _bytes4Write);
+            resBool = _com.Write(ref _bytes4Write);
+            if (resBool)
+            {
+                phasesWork += ", #4:чистим память от SMS (AT+CMGD)";
+                //осталось дождаться завершающего окея                           
+                waitSimb = "OK";
+                _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
+                result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 60);
+                if (result.Detailed == ResWaitBytes.Успешный)
+                    phasesWork += ", #5:получение \"OK\"> - Ok";
+            }
+
+
+
+            if (result.Detailed == ResWaitBytes.Успешный)
+                _oMainForm.WriteLogMessage("     Ok");
+            else
+                _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
 
         }
     }
