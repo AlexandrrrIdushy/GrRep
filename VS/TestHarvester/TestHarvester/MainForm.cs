@@ -40,7 +40,7 @@ namespace TestHarvester
         byte _version;
         private void Form1_Load(object sender, EventArgs e)
         {
-            _version = 1;
+            _version = 2;
             _pMainForm = this;//ссылка на эту форму. для всевозможных обращений
             this.Text = "Test Harvester. Ver: " + _version.ToString();
             _pathOfScriptFiles = "";
