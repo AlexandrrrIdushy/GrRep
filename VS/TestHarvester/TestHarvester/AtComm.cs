@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace TestHarvester
 {
@@ -83,7 +84,7 @@ namespace TestHarvester
                 }
             }
 
-
+            Thread.Sleep(5000);
             if (result.Detailed == ResWaitBytes.Успешный)
                 _oMainForm.WriteLogMessage("     Ok");
             else
@@ -148,7 +149,7 @@ namespace TestHarvester
             }
 
 
-
+            Thread.Sleep(5000);
             if (result.Detailed == ResWaitBytes.Успешный)
                 _oMainForm.WriteLogMessage("     Ok");
             else
