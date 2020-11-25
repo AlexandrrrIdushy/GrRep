@@ -84,11 +84,11 @@ namespace TestHarvester
             string waitSimb = "+CMTI: \"SM\"";
             _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
             result = _com.WaitReceiveThisBytes(ref _waitByte, 20, 30);
-
+            string comandSendSMSStart;
             if (result.Simple == SimplResult.OK)
             {
                 //После прихода такого уведомления, можно программно инициировать процедуру чтения полученного сообщения 
-                string comandSendSMSStart = "AT+CMGR=1,0\r\n";
+                comandSendSMSStart = "AT+CMGR=1,0\r\n";
                 _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
                 _com.Write(ref _bytes4Write);
 
@@ -97,10 +97,7 @@ namespace TestHarvester
                 _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
                 result = _com.WaitReceiveThisBytes(ref _waitByte, 20, Convert.ToByte(textSendSMS.Length + 60 + 20));
 
-                //после получения и обработки пришедшего сообщения, все сообщения удаляются
-                comandSendSMSStart = "AT+CMGD=1,4\r\n";
-                _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
-                _com.Write(ref _bytes4Write);
+
 
                 if (result.Detailed.ToString() == "Успешный")
                     _oMainForm.WriteLogMessage("     Ok");
@@ -110,7 +107,11 @@ namespace TestHarvester
             else
                 _oMainForm.WriteLogMessage("GSM сеть молчит (сообщения CMTI нет)");
 
-
+            //независимо от результатов предыдущих операция требуется выполнить очистку, все сообщения удаляются. 
+            //при переполнении SIM начинает глючить - перестают приходить сообщения типа +CMTI: "SM",N
+            comandSendSMSStart = "AT+CMGD=1,4\r\n";
+            _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
+            _com.Write(ref _bytes4Write);
 
         }
     }
