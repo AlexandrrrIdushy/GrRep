@@ -41,37 +41,53 @@ namespace TestHarvester
 
         public void Отправить_SMS(string textSendSMS)
         {
+            bool resBool = false;
+            string phasesWork = "ничего не выполнено";//успешно пройденные фазы отправки
             _oMainForm.WriteLogMessage("Отправить_SMS(" + textSendSMS + ")");
 
             //просим у GSM сети соизволения отправить SMS
             string comandSendSMSStart = "AT+CMGS=\"+79053222209\"\r\n";
             _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
-            _com.Write(ref _bytes4Write);
-
-            //ждем приглашение на ввод текста SMS
-            string waitSimb = ">";
-            _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
-            ResWaitBytesFoo result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30/*Convert.ToByte(waitSimb.Length + 20)*/);
-
-            if (result.Detailed == ResWaitBytes.Успешный)
+            resBool = _com.Write(ref _bytes4Write);
+            ResWaitBytesFoo result = new ResWaitBytesFoo();
+            result.Detailed = ResWaitBytes.Непонятен_неизвестен;
+            if (resBool)
             {
-                string simbEndSMSText = Convert.ToChar(26).ToString();
-                textSendSMS += simbEndSMSText;
-                char[] resultChars2 = new char[textSendSMS.Length];
-                _com.GetASCIBytesFromString(textSendSMS, ref _bytes4Write);
-                
-                _com.Write(ref _bytes4Write);
+                phasesWork = "#1:AT+CMGS - Ok";
+                //ждем приглашение на ввод текста SMS
+                string waitSimb = ">";
+                _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
+                result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 30/*Convert.ToByte(waitSimb.Length + 20)*/);
+                if (result.Detailed == ResWaitBytes.Успешный)
+                {
+                    phasesWork += ", #2:получение > - Ok";
+                    //если дождались приглашения, то вводим текст SMS
+                    if (result.Detailed == ResWaitBytes.Успешный)
+                    {
+                        string simbEndSMSText = Convert.ToChar(26).ToString();
+                        textSendSMS += simbEndSMSText;
+                        char[] resultChars2 = new char[textSendSMS.Length];
+                        _com.GetASCIBytesFromString(textSendSMS, ref _bytes4Write);
+                        resBool = _com.Write(ref _bytes4Write);
+                        if (resBool)
+                        { 
+                            phasesWork += ", #3:Ввод текста SMS - Ok";
+                            //осталось дождаться завершающего окея                           
+                            waitSimb = "OK";
+                            _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
+                            result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 60);
+                            if (result.Detailed == ResWaitBytes.Успешный)
+                                phasesWork += ", #4:получение \"OK\"> - Ok";
+                        }
+                    }
+                }
             }
 
 
-            waitSimb = "OK";
-            _com.GetASCIBytesFromString(waitSimb, ref _waitByte);
-            result = _com.WaitReceiveThisBytes(ref _waitByte, 10, 60);
-
-            if (result.Detailed.ToString() == "Успешный")
+            if (result.Detailed == ResWaitBytes.Успешный)
                 _oMainForm.WriteLogMessage("     Ok");
             else
-                _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
+                _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString() + "/r/nТрассы: " + phasesWork);
         }
 
 
@@ -99,7 +115,7 @@ namespace TestHarvester
 
 
 
-                if (result.Detailed.ToString() == "Успешный")
+                if (result.Detailed == ResWaitBytes.Успешный)
                     _oMainForm.WriteLogMessage("     Ok");
                 else
                     _oMainForm.WriteLogMessage("результат " + result.Detailed.ToString());
