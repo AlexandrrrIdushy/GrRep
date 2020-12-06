@@ -128,6 +128,21 @@ namespace TestHarvester
                 iItemSpeed++;
             }
 
+            //список телефонных номеров для отправки
+            StreamReader sr = new StreamReader(_pathOfScriptFiles + "phones.txt");
+            string line;
+            while (!sr.EndOfStream)
+            {
+                //line = sr.ReadLine();
+                lbxPhones.Items.Add(sr.ReadLine());
+                //бла-бла-бла
+            }
+            sr.Close();
+            //string filePhones = Directory.GetFile(_pathOfScriptFiles + "phones.txt");
+            //foreach (string file in files)
+            //{
+            //    lbxPhones.Items.Add(Path.GetFileName(file));
+            //}
 
             FillListFilesScript();//наполняем окно со списком файлов скриптов
 

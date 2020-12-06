@@ -51,9 +51,11 @@
             this.tbxLogsWin = new System.Windows.Forms.TextBox();
             this.tbpgSettings = new System.Windows.Forms.TabPage();
             this.tlpSettingsMain = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpSettings1ScriptPath = new System.Windows.Forms.TableLayoutPanel();
             this.lblPath = new System.Windows.Forms.Label();
             this.btnSenPath2Script = new System.Windows.Forms.Button();
+            this.gbxPortSettings = new System.Windows.Forms.GroupBox();
             this.tlpSettings2ComPort = new System.Windows.Forms.TableLayoutPanel();
             this.cbxComPortNumber = new System.Windows.Forms.ComboBox();
             this.cbxComPortSpeed = new System.Windows.Forms.ComboBox();
@@ -61,6 +63,9 @@
             this.lblComPortSpeed = new System.Windows.Forms.Label();
             this.cbxComPortParity = new System.Windows.Forms.ComboBox();
             this.lblComPortParity = new System.Windows.Forms.Label();
+            this.gpxATComm = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.lbxPhones = new System.Windows.Forms.ListBox();
             this.tabControl1.SuspendLayout();
             this.tbpgMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -71,8 +76,12 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.tbpgSettings.SuspendLayout();
             this.tlpSettingsMain.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tlpSettings1ScriptPath.SuspendLayout();
+            this.gbxPortSettings.SuspendLayout();
             this.tlpSettings2ComPort.SuspendLayout();
+            this.gpxATComm.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -224,7 +233,7 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 362F));
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 364F));
             this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 0, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 1, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStopScript, 2, 0);
@@ -252,7 +261,7 @@
             // btnStartScript
             // 
             this.btnStartScript.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnStartScript.Location = new System.Drawing.Point(249, 2);
+            this.btnStartScript.Location = new System.Drawing.Point(248, 2);
             this.btnStartScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnStartScript.Name = "btnStartScript";
             this.btnStartScript.Size = new System.Drawing.Size(197, 28);
@@ -263,7 +272,7 @@
             // 
             // btnStopScript
             // 
-            this.btnStopScript.Location = new System.Drawing.Point(527, 3);
+            this.btnStopScript.Location = new System.Drawing.Point(525, 3);
             this.btnStopScript.Name = "btnStopScript";
             this.btnStopScript.Size = new System.Drawing.Size(220, 29);
             this.btnStopScript.TabIndex = 19;
@@ -364,20 +373,32 @@
             this.tlpSettingsMain.ColumnCount = 1;
             this.tlpSettingsMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.69925F));
             this.tlpSettingsMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.30075F));
-            this.tlpSettingsMain.Controls.Add(this.tlpSettings1ScriptPath, 0, 0);
-            this.tlpSettingsMain.Controls.Add(this.tlpSettings2ComPort, 0, 1);
+            this.tlpSettingsMain.Controls.Add(this.groupBox1, 0, 0);
+            this.tlpSettingsMain.Controls.Add(this.gbxPortSettings, 0, 1);
+            this.tlpSettingsMain.Controls.Add(this.gpxATComm, 0, 2);
             this.tlpSettingsMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettingsMain.Location = new System.Drawing.Point(3, 2);
             this.tlpSettingsMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tlpSettingsMain.Name = "tlpSettingsMain";
-            this.tlpSettingsMain.RowCount = 5;
+            this.tlpSettingsMain.RowCount = 4;
             this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 102F));
-            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 112F));
-            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 114F));
+            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 297F));
+            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
+            this.tlpSettingsMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 94F));
             this.tlpSettingsMain.Size = new System.Drawing.Size(1799, 665);
             this.tlpSettingsMain.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tlpSettings1ScriptPath);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1793, 136);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Настройки скриптов";
             // 
             // tlpSettings1ScriptPath
             // 
@@ -387,14 +408,14 @@
             this.tlpSettings1ScriptPath.Controls.Add(this.lblPath, 0, 0);
             this.tlpSettings1ScriptPath.Controls.Add(this.btnSenPath2Script, 1, 0);
             this.tlpSettings1ScriptPath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpSettings1ScriptPath.Location = new System.Drawing.Point(4, 4);
+            this.tlpSettings1ScriptPath.Location = new System.Drawing.Point(3, 18);
             this.tlpSettings1ScriptPath.Margin = new System.Windows.Forms.Padding(4);
             this.tlpSettings1ScriptPath.Name = "tlpSettings1ScriptPath";
             this.tlpSettings1ScriptPath.RowCount = 1;
             this.tlpSettings1ScriptPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpSettings1ScriptPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpSettings1ScriptPath.Size = new System.Drawing.Size(1791, 160);
-            this.tlpSettings1ScriptPath.TabIndex = 2;
+            this.tlpSettings1ScriptPath.Size = new System.Drawing.Size(1787, 115);
+            this.tlpSettings1ScriptPath.TabIndex = 3;
             // 
             // lblPath
             // 
@@ -407,14 +428,24 @@
             // 
             // btnSenPath2Script
             // 
-            this.btnSenPath2Script.Location = new System.Drawing.Point(898, 2);
+            this.btnSenPath2Script.Location = new System.Drawing.Point(896, 2);
             this.btnSenPath2Script.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSenPath2Script.Name = "btnSenPath2Script";
             this.btnSenPath2Script.Size = new System.Drawing.Size(275, 39);
             this.btnSenPath2Script.TabIndex = 1;
             this.btnSenPath2Script.Text = "ЗАДАТЬ ПУТЬ К СКРИПТАМ";
             this.btnSenPath2Script.UseVisualStyleBackColor = true;
-            this.btnSenPath2Script.Click += new System.EventHandler(this.btnSenPath2Script_Click);
+            // 
+            // gbxPortSettings
+            // 
+            this.gbxPortSettings.Controls.Add(this.tlpSettings2ComPort);
+            this.gbxPortSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbxPortSettings.Location = new System.Drawing.Point(3, 145);
+            this.gbxPortSettings.Name = "gbxPortSettings";
+            this.gbxPortSettings.Size = new System.Drawing.Size(1793, 136);
+            this.gbxPortSettings.TabIndex = 5;
+            this.gbxPortSettings.TabStop = false;
+            this.gbxPortSettings.Text = "Настройки порта";
             // 
             // tlpSettings2ComPort
             // 
@@ -429,33 +460,31 @@
             this.tlpSettings2ComPort.Controls.Add(this.cbxComPortParity, 2, 1);
             this.tlpSettings2ComPort.Controls.Add(this.lblComPortParity, 2, 0);
             this.tlpSettings2ComPort.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpSettings2ComPort.Location = new System.Drawing.Point(4, 172);
+            this.tlpSettings2ComPort.Location = new System.Drawing.Point(3, 18);
             this.tlpSettings2ComPort.Margin = new System.Windows.Forms.Padding(4);
             this.tlpSettings2ComPort.Name = "tlpSettings2ComPort";
             this.tlpSettings2ComPort.RowCount = 2;
-            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
-            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
-            this.tlpSettings2ComPort.Size = new System.Drawing.Size(1791, 160);
-            this.tlpSettings2ComPort.TabIndex = 3;
+            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.tlpSettings2ComPort.Size = new System.Drawing.Size(1787, 115);
+            this.tlpSettings2ComPort.TabIndex = 4;
             // 
             // cbxComPortNumber
             // 
             this.cbxComPortNumber.FormattingEnabled = true;
-            this.cbxComPortNumber.Location = new System.Drawing.Point(4, 80);
+            this.cbxComPortNumber.Location = new System.Drawing.Point(4, 32);
             this.cbxComPortNumber.Margin = new System.Windows.Forms.Padding(4);
             this.cbxComPortNumber.Name = "cbxComPortNumber";
             this.cbxComPortNumber.Size = new System.Drawing.Size(160, 24);
             this.cbxComPortNumber.TabIndex = 0;
-            this.cbxComPortNumber.SelectedIndexChanged += new System.EventHandler(this.cbxComPort1_SelectedIndexChanged);
             // 
             // cbxComPortSpeed
             // 
             this.cbxComPortSpeed.FormattingEnabled = true;
-            this.cbxComPortSpeed.Location = new System.Drawing.Point(600, 79);
+            this.cbxComPortSpeed.Location = new System.Drawing.Point(598, 31);
             this.cbxComPortSpeed.Name = "cbxComPortSpeed";
             this.cbxComPortSpeed.Size = new System.Drawing.Size(165, 24);
             this.cbxComPortSpeed.TabIndex = 1;
-            this.cbxComPortSpeed.SelectedIndexChanged += new System.EventHandler(this.cbxComPortSpeed_SelectedIndexChanged);
             // 
             // lblComPortNumber
             // 
@@ -469,7 +498,7 @@
             // lblComPortSpeed
             // 
             this.lblComPortSpeed.AutoSize = true;
-            this.lblComPortSpeed.Location = new System.Drawing.Point(600, 0);
+            this.lblComPortSpeed.Location = new System.Drawing.Point(598, 0);
             this.lblComPortSpeed.Name = "lblComPortSpeed";
             this.lblComPortSpeed.Size = new System.Drawing.Size(69, 17);
             this.lblComPortSpeed.TabIndex = 3;
@@ -478,20 +507,54 @@
             // cbxComPortParity
             // 
             this.cbxComPortParity.FormattingEnabled = true;
-            this.cbxComPortParity.Location = new System.Drawing.Point(1197, 79);
+            this.cbxComPortParity.Location = new System.Drawing.Point(1193, 31);
             this.cbxComPortParity.Name = "cbxComPortParity";
             this.cbxComPortParity.Size = new System.Drawing.Size(153, 24);
             this.cbxComPortParity.TabIndex = 4;
-            this.cbxComPortParity.SelectedIndexChanged += new System.EventHandler(this.cbxComPortParity_SelectedIndexChanged);
             // 
             // lblComPortParity
             // 
             this.lblComPortParity.AutoSize = true;
-            this.lblComPortParity.Location = new System.Drawing.Point(1197, 0);
+            this.lblComPortParity.Location = new System.Drawing.Point(1193, 0);
             this.lblComPortParity.Name = "lblComPortParity";
             this.lblComPortParity.Size = new System.Drawing.Size(70, 17);
             this.lblComPortParity.TabIndex = 5;
             this.lblComPortParity.Text = "Четность";
+            // 
+            // gpxATComm
+            // 
+            this.gpxATComm.Controls.Add(this.tableLayoutPanel3);
+            this.gpxATComm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpxATComm.Location = new System.Drawing.Point(3, 287);
+            this.gpxATComm.Name = "gpxATComm";
+            this.gpxATComm.Size = new System.Drawing.Size(1793, 291);
+            this.gpxATComm.TabIndex = 6;
+            this.gpxATComm.TabStop = false;
+            this.gpxATComm.Text = "Настройки AT команд";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.lbxPhones, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1787, 270);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // lbxPhones
+            // 
+            this.lbxPhones.FormattingEnabled = true;
+            this.lbxPhones.ItemHeight = 16;
+            this.lbxPhones.Location = new System.Drawing.Point(3, 3);
+            this.lbxPhones.Name = "lbxPhones";
+            this.lbxPhones.Size = new System.Drawing.Size(321, 228);
+            this.lbxPhones.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -517,10 +580,14 @@
             this.tableLayoutPanel2.PerformLayout();
             this.tbpgSettings.ResumeLayout(false);
             this.tlpSettingsMain.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.tlpSettings1ScriptPath.ResumeLayout(false);
             this.tlpSettings1ScriptPath.PerformLayout();
+            this.gbxPortSettings.ResumeLayout(false);
             this.tlpSettings2ComPort.ResumeLayout(false);
             this.tlpSettings2ComPort.PerformLayout();
+            this.gpxATComm.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -530,8 +597,6 @@
         private System.Windows.Forms.TabPage tbpgMain;
         private System.Windows.Forms.TabPage tbpgSettings;
         private System.Windows.Forms.TableLayoutPanel tlpSettingsMain;
-        private System.Windows.Forms.Label lblPath;
-        private System.Windows.Forms.Button btnSenPath2Script;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ListBox lbxFilesWhisScripts;
         private System.Windows.Forms.Label lblTitleListFilesScripts;
@@ -547,7 +612,15 @@
         private System.Windows.Forms.TableLayoutPanel tlpRunLogMain;
         private System.Windows.Forms.TextBox tbxRunLog;
         private System.Windows.Forms.Button btnRunLogResult;
+        private System.Windows.Forms.Button btnStopScript;
+        private System.Windows.Forms.TabPage tbpgComm;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TextBox tbxLogsWin;
+        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tlpSettings1ScriptPath;
+        private System.Windows.Forms.Label lblPath;
+        private System.Windows.Forms.Button btnSenPath2Script;
+        private System.Windows.Forms.GroupBox gbxPortSettings;
         private System.Windows.Forms.TableLayoutPanel tlpSettings2ComPort;
         private System.Windows.Forms.ComboBox cbxComPortNumber;
         private System.Windows.Forms.ComboBox cbxComPortSpeed;
@@ -555,10 +628,9 @@
         private System.Windows.Forms.Label lblComPortSpeed;
         private System.Windows.Forms.ComboBox cbxComPortParity;
         private System.Windows.Forms.Label lblComPortParity;
-        private System.Windows.Forms.Button btnStopScript;
-        private System.Windows.Forms.TabPage tbpgComm;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TextBox tbxLogsWin;
+        private System.Windows.Forms.GroupBox gpxATComm;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.ListBox lbxPhones;
     }
 }
 
