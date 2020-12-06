@@ -145,7 +145,7 @@ namespace TestHarvester
             }
             catch (Exception)
             {
-                _mainForm.AddErrorsAndWarinigs("ошибка при выборе Com порта");
+                _mainForm.AddMsgCommon("\tERR: ошибка при выборе Com порта");
             }
         }
         
@@ -157,7 +157,7 @@ namespace TestHarvester
             }
             catch (Exception)
             {
-                _mainForm.AddErrorsAndWarinigs("ошибка при выборе Com порта");
+                _mainForm.AddMsgCommon("\tERR: ошибка при выборе Com порта");
             }
         }
 
@@ -169,7 +169,7 @@ namespace TestHarvester
             }
             catch (Exception)
             {
-                _mainForm.AddErrorsAndWarinigs("ошибка при выборе Com порта");
+                _mainForm.AddMsgCommon("\tERR: ошибка при выборе Com порта");
             }
         }
 
@@ -186,10 +186,11 @@ namespace TestHarvester
             try
             {
                 _serialPort.Open();
+                _mainForm.AddMsgCommon("Com порт открыт");
             }
             catch (Exception)
             {
-                _mainForm.AddErrorsAndWarinigs("не получилось открыть Com порт");
+                _mainForm.AddMsgCommon("\tERR: не получилось открыть Com порт");
             }
         }
 

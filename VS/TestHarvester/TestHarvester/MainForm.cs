@@ -28,7 +28,7 @@ namespace TestHarvester
         Scripting _scripting;//
         Logging _logging;
         MainForm _pMainForm;
-        List<string> _errorsAndWarinigs;
+        List<string> _messagesCommon;//трех видов информационные , предупрежения ("ALARM: .."), ошибки ("ERR: ..")
         string _pathOfScriptFiles;
         string _selectedComPortName;
         string _selectedComPortSpeed;
@@ -42,8 +42,17 @@ namespace TestHarvester
         {
             _version = 2;
             _pMainForm = this;//ссылка на эту форму. для всевозможных обращений
-            this.Text = "Test Harvester. Ver: " + _version.ToString();
+            this.Text = "Test Harvester. Ver:" + _version.ToString();
             _pathOfScriptFiles = "";
+            _messagesCommon = new List<string>();
+            _messagesCommon.Add("Запуск TestHarvester Ver: " + _version);
+
+            //четность
+            foreach (string item in Enum.GetNames(typeof(Parity)))
+            {
+                this.cbxComPortParity.Items.Add(item.ToString());
+            }
+            this.cbxComPortParity.SelectedIndex = _selectedParityIndex;
 
             //работа с сохранением восстановлением настроек приложения
             PathExeFile = new System.IO.DirectoryInfo(".");//получаем полный путь в папку с екзешником программы
@@ -52,7 +61,7 @@ namespace TestHarvester
             LoadSettings();
 
 
-            _errorsAndWarinigs = new List<string>();
+            
             
             Init();
 
@@ -63,7 +72,9 @@ namespace TestHarvester
             _com1.SetComPort(_selectedComPortName);
             _com1.InitCOMStartVals();
             _com1.OpenPort();
+           
             
+
 
             //выпадающие списки запоняем
             //ком порты
@@ -93,14 +104,9 @@ namespace TestHarvester
                 _selectedComPortName = "";
 
 
-            //четность
-            foreach (string item in Enum.GetNames(typeof( Parity)))
-            {
-                this.cbxComPortParity.Items.Add(item.ToString());
-            }
-            this.cbxComPortParity.SelectedIndex = _selectedParityIndex;
 
-            //скорость
+
+            //скорость порта иниц. комбо бокса
             this.cbxComPortSpeed.Items.Add("1200");
             this.cbxComPortSpeed.Items.Add("2400");
             this.cbxComPortSpeed.Items.Add("4800");
@@ -191,9 +197,9 @@ namespace TestHarvester
         //---ПОТОКИ
 
 
-        public void AddErrorsAndWarinigs(string nextErrMessage)
+        public void AddMsgCommon(string nextErrMessage)
         {
-            _errorsAndWarinigs.Add(nextErrMessage);
+            _messagesCommon.Add(nextErrMessage);
         }
 
         void FillListFilesScript()
@@ -201,14 +207,14 @@ namespace TestHarvester
             lbxFilesWhisScripts.Items.Clear();
             //что с путем к файлам скриптов?
             if (_pathOfScriptFiles == null || _pathOfScriptFiles == "")
-                _errorsAndWarinigs.Add("нет пути к папке со скриптами");
+                _messagesCommon.Add("\tERR: нет пути к папке со скриптами");
             else
             {
                 try
                 {
                     string[] allPath = Directory.GetFiles(_pathOfScriptFiles, "*.ths");//test harvester script
                     if(allPath.Length == 0)
-                        _errorsAndWarinigs.Add("не нашли ниодного скрипта в указанной папке");
+                        _messagesCommon.Add("\tERR: не нашли ниодного скрипта в указанной папке");
                     else
                     {
                         foreach (string item in allPath)
@@ -222,7 +228,7 @@ namespace TestHarvester
                 }
                 catch (Exception)
                 {
-                    _errorsAndWarinigs.Add("проблеммы при поиске файлов скриптов в указанной папке");
+                    _messagesCommon.Add("\tERR: проблеммы при поиске файлов скриптов в указанной папке");
                 }
             }
             lblPath.Text = "Путь к скриптам: " + _pathOfScriptFiles;
@@ -230,7 +236,7 @@ namespace TestHarvester
 
         void UpdateErrTbx()
         {
-            foreach (var item in _errorsAndWarinigs)
+            foreach (var item in _messagesCommon)
             {
                 tbxErrorInfo.Text += item;
                 tbxErrorInfo.Text += Environment.NewLine;
@@ -318,15 +324,16 @@ namespace TestHarvester
             _selectedComPortName = AdbSett.ReadOneValueSetting("cbxComPort1NameSETT");
             _selectedComPortSpeed = AdbSett.ReadOneValueSetting("cbxComPortSpeedSETT");
             _selectedParityIndex = Convert.ToByte(AdbSett.ReadOneValueSetting("cbxComPortParitySETT"));
-            
-            
+            _messagesCommon.Add("Загружаются следущие настройки:");
+            _messagesCommon.Add("Путь к скриптам: \"" + _pathOfScriptFiles.ToString() + "\"");
+            _messagesCommon.Add("Порт: " + _selectedComPortName);
+            _messagesCommon.Add("Скорость: " + _selectedComPortSpeed);
+            _messagesCommon.Add("Четность: " + cbxComPortParity.Text.ToString());
             //..еще настройки
         }
 
         private void btnSenPath2Script_Click(object sender, EventArgs e)
         {
-
-
             try
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -344,7 +351,7 @@ namespace TestHarvester
             }
             catch (Exception)
             {
-                _errorsAndWarinigs.Add("проблемы при попытке указать путь к файлам скриптов");
+                _messagesCommon.Add("\tERR: проблемы при попытке указать путь к файлам скриптов");
             }
 
             FillListFilesScript();
