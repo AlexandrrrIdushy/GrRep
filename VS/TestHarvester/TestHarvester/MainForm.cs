@@ -40,11 +40,32 @@ namespace TestHarvester
         byte _version;
         private void Form1_Load(object sender, EventArgs e)
         {
-            _version = 2;
+            //выделяем место объектам
             _pMainForm = this;//ссылка на эту форму. для всевозможных обращений
+            ObjSimpleComm = new SimpleComm();
+            ObjAtComm = new AtComm();
+            _scripting = new Scripting();
+            _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
+            _messagesCommon = new List<string>();
+            _com1 = new COM();
+
+            //com порт
+
+
+
+
+            //передаем их ссылки в дочерние классы
+            ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
+            ObjAtComm.AtCommInit(ref _com1, ref _pMainForm, ref ObjSimpleComm);
+
+
+
+
+            _version = 2;
+            
             this.Text = "Test Harvester. Ver:" + _version.ToString();
             _pathOfScriptFiles = "";
-            _messagesCommon = new List<string>();
+            
             _messagesCommon.Add("Запуск TestHarvester Ver: " + _version);
 
             //четность
@@ -54,10 +75,24 @@ namespace TestHarvester
             }
             this.cbxComPortParity.SelectedIndex = _selectedParityIndex;
 
+
+
             //работа с сохранением восстановлением настроек приложения
             PathExeFile = new System.IO.DirectoryInfo(".");//получаем полный путь в папку с екзешником программы
             AdbSett = new AccessDBSettings(PathExeFile.FullName);
             Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);//событие закрытия формы создаем вручную
+
+            //список телефонных номеров для отправки
+            StreamReader sr = new StreamReader(PathExeFile.FullName + "\\phones.txt");
+            while (!sr.EndOfStream)
+            {
+                //line = sr.ReadLine();
+                lbxPhones.Items.Add(sr.ReadLine());
+                //бла-бла-бла
+            }
+            sr.Close();
+
+            //загрузка настроек приложения
             LoadSettings();
 
 
@@ -65,13 +100,7 @@ namespace TestHarvester
             
             Init();
 
-            //com порт
-            
-            _com1 = new COM();
-            _com1.COMInit(ref _pMainForm);
-            _com1.SetComPort(_selectedComPortName);
-            _com1.InitCOMStartVals();
-            _com1.OpenPort();
+
            
             
 
@@ -128,34 +157,17 @@ namespace TestHarvester
                 iItemSpeed++;
             }
 
-            //список телефонных номеров для отправки
-            StreamReader sr = new StreamReader(_pathOfScriptFiles + "phones.txt");
-            string line;
-            while (!sr.EndOfStream)
-            {
-                //line = sr.ReadLine();
-                lbxPhones.Items.Add(sr.ReadLine());
-                //бла-бла-бла
-            }
-            sr.Close();
-            //string filePhones = Directory.GetFile(_pathOfScriptFiles + "phones.txt");
-            //foreach (string file in files)
-            //{
-            //    lbxPhones.Items.Add(Path.GetFileName(file));
-            //}
+            _com1.COMInit(ref _pMainForm);
+            _com1.SetComPort(_selectedComPortName);
+            _com1.InitCOMStartVals();
+            _com1.OpenPort();
+
 
             FillListFilesScript();//наполняем окно со списком файлов скриптов
 
 
-            //выделяем место основным объектам
-            ObjSimpleComm = new SimpleComm();
-            ObjAtComm = new AtComm();
 
-            _scripting = new Scripting();
-            _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
-            
-            ObjSimpleComm.SimpleCommInit(ref _com1, ref _pMainForm);
-            ObjAtComm.AtCommInit(ref _com1, ref _pMainForm, ref ObjSimpleComm);
+
 
             UpdateErrTbx();
 
@@ -319,9 +331,7 @@ namespace TestHarvester
             AdbSett.WriteOneValueSetting("cbxComPort1NameSETT", _selectedComPortName);
             AdbSett.WriteOneValueSetting("cbxComPortSpeedSETT", _selectedComPortSpeed);
             AdbSett.WriteOneValueSetting("cbxComPortParitySETT", _selectedParityIndex.ToString());
-            
-            
-
+            AdbSett.WriteOneValueSetting("lbxPhonesSETT", lbxPhones.SelectedIndex.ToString());
 
 
             //..еще настройки
@@ -339,6 +349,9 @@ namespace TestHarvester
             _selectedComPortName = AdbSett.ReadOneValueSetting("cbxComPort1NameSETT");
             _selectedComPortSpeed = AdbSett.ReadOneValueSetting("cbxComPortSpeedSETT");
             _selectedParityIndex = Convert.ToByte(AdbSett.ReadOneValueSetting("cbxComPortParitySETT"));
+            lbxPhones.SelectedIndex = Convert.ToInt16(AdbSett.ReadOneValueSetting("lbxPhonesSETT"));
+
+            //логируем
             _messagesCommon.Add("Загружаются следущие настройки:");
             _messagesCommon.Add("Путь к скриптам: \"" + _pathOfScriptFiles.ToString() + "\"");
             _messagesCommon.Add("Порт: " + _selectedComPortName);
@@ -419,6 +432,11 @@ namespace TestHarvester
         private void btnStopScript_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lbxPhones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ObjAtComm.SetPhoneNumber(lbxPhones.Text);
         }
     }
 

@@ -14,6 +14,12 @@ namespace TestHarvester
         SimpleComm _simpleComm;
         List<byte> _bytes4Write;
         List<byte> _waitByte;
+        string _phoneNumber;
+        public void SetPhoneNumber(string phoneNumber)
+        {
+            _oMainForm.AddMsgCommon("целевой телефон = " + phoneNumber);
+            _phoneNumber = phoneNumber;
+        }
         public void AtCommInit(ref COM com, ref MainForm oMainForm, ref SimpleComm simpleComm)
         {
             _com = com;
@@ -47,7 +53,7 @@ namespace TestHarvester
             _oMainForm.WriteLogMessage("Отправить_SMS(" + textSendSMS + ")");
 
             //просим у GSM сети соизволения отправить SMS
-            string comandSendSMSStart = "AT+CMGS=\"+79053222209\"\r\n";
+            string comandSendSMSStart = "AT+CMGS=\"+" + _phoneNumber + "\"\r\n";
             _com.GetASCIBytesFromString(comandSendSMSStart, ref _bytes4Write);
             resBool = false;
             resBool = _com.Write(ref _bytes4Write);
