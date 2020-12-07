@@ -233,7 +233,7 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 364F));
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 365F));
             this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 0, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 1, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStopScript, 2, 0);
@@ -272,7 +272,7 @@
             // 
             // btnStopScript
             // 
-            this.btnStopScript.Location = new System.Drawing.Point(525, 3);
+            this.btnStopScript.Location = new System.Drawing.Point(524, 3);
             this.btnStopScript.Name = "btnStopScript";
             this.btnStopScript.Size = new System.Drawing.Size(220, 29);
             this.btnStopScript.TabIndex = 19;
@@ -555,6 +555,7 @@
             this.lbxPhones.Name = "lbxPhones";
             this.lbxPhones.Size = new System.Drawing.Size(321, 228);
             this.lbxPhones.TabIndex = 0;
+            this.lbxPhones.SelectedIndexChanged += new System.EventHandler(this.lbxPhones_SelectedIndexChanged);
             // 
             // MainForm
             // 
