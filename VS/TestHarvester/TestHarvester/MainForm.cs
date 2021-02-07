@@ -430,13 +430,7 @@ namespace TestHarvester
 
         }
 
-        private void cbxComPort1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _selectedComPortName = cbxComPortNumber.SelectedItem.ToString();
-            _com1.SetComPort( _selectedComPortName);
-            _com1.OpenPort();
-            //lblCom1Info.Text = _com1.GetCurrComPortName();
-        }
+
 
         private void cbxComPortSpeed_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -458,6 +452,14 @@ namespace TestHarvester
         private void lbxPhones_SelectedIndexChanged(object sender, EventArgs e)
         {
             ObjAtComm.SetPhoneNumber(lbxPhones.Text);
+        }
+
+        private void cbxComPortNumber_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedComPortName = cbxComPortNumber.SelectedItem.ToString();
+            _com1.SetComPort(_selectedComPortName);
+            _com1.OpenPort();
+            //lblCom1Info.Text = _com1.GetCurrComPortName();
         }
     }
 
