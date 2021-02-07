@@ -182,8 +182,8 @@ namespace TestHarvester
             _th1.Start(_syncroContext1);
 
             _syncroContext2 = SynchronizationContext.Current;
-            //_th2 = new Thread(ThrdWrk2);
-            //_th2.Start(_syncroContext1);
+            _th2 = new Thread(ThrdWrk2);
+            _th2.Start(_syncroContext1);
         }
 
 
@@ -208,7 +208,27 @@ namespace TestHarvester
 
         }
 
-        /// <summary>
+        private void ThrdWrk2(object state)
+        {
+            // вытащим контекст синхронизации из state'а
+            SynchronizationContext uiContext = state as SynchronizationContext;
+            // говорим что в UI потоке нужно выполнить метод UpdateUI 
+            // и передать ему в качестве аргумента строку
+            //uiContext.Post(UpdateUI, "stub");
+            while (true)
+            {
+                string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
+                _scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
+                _scripting.DoCompile(true);//запускаем выполнения скрипта
+                //tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
+
+                uiContext.Post(UpdateUI, "stub");
+                Thread.Sleep(1000);
+            }
+
+        }
+
+        /// <summary>со
         /// Этот метод исполняется в основном UI потоке
         /// </summary>
         string _str4DSLog = "";
@@ -288,10 +308,11 @@ namespace TestHarvester
         //запустить скрипт на выполение
         private void btnStartScript_Click(object sender, EventArgs e)
         {
-            string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
-            _scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
-            _scripting.DoCompile(true);//запускаем выполнения скрипта
-            tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
+            _th2.Start(_syncroContext2);
+            //string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
+            //_scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
+            //_scripting.DoCompile(true);//запускаем выполнения скрипта
+            //tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
 
 
             //tbxTextOfCurrScript.Text = File.ReadAllText(pathSelectedScript, Encoding.Default);
