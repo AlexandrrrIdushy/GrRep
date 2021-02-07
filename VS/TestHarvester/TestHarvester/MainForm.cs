@@ -324,14 +324,7 @@ namespace TestHarvester
             
             _phaseWork = PhaseWork.StartScript;
             _th2.Resume();
-            //string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
-            //_scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
-            //_scripting.DoCompile(true);//запускаем выполнения скрипта
-            //tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
-
-
-            //tbxTextOfCurrScript.Text = File.ReadAllText(pathSelectedScript, Encoding.Default);
-        }
+         }
 
         // устанавливаем метод обратного вызова
         TimerCallback _tmr4RxClbck;
@@ -461,7 +454,8 @@ namespace TestHarvester
 
         private void btnStopScript_Click(object sender, EventArgs e)
         {
-
+            _phaseWork = PhaseWork.Idle;
+            _th2.Suspend();
         }
 
         private void lbxPhones_SelectedIndexChanged(object sender, EventArgs e)
