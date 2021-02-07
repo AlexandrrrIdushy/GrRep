@@ -458,8 +458,11 @@ namespace TestHarvester
         {
             _selectedComPortName = cbxComPortNumber.SelectedItem.ToString();
             _com1.SetComPort(_selectedComPortName);
+        }
+
+        private void btnOpenPort_Click(object sender, EventArgs e)
+        {
             _com1.OpenPort();
-            //lblCom1Info.Text = _com1.GetCurrComPortName();
         }
     }
 
