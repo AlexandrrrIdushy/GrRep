@@ -181,9 +181,10 @@ namespace TestHarvester
             _th1 = new Thread(ThrdWrk1);
             _th1.Start(_syncroContext1);
 
+            _phaseWork = PhaseWork.Idle;
             _syncroContext2 = SynchronizationContext.Current;
             _th2 = new Thread(ThrdWrk2);
-            _th2.Start(_syncroContext1);
+            _th2.Start(_syncroContext2);
         }
 
 
@@ -205,30 +206,20 @@ namespace TestHarvester
                 uiContext.Post(UpdateUI, "stub");
                 Thread.Sleep(1000);
             }
-
         }
 
         private void ThrdWrk2(object state)
         {
             // вытащим контекст синхронизации из state'а
             SynchronizationContext uiContext = state as SynchronizationContext;
-            // говорим что в UI потоке нужно выполнить метод UpdateUI 
-            // и передать ему в качестве аргумента строку
-            //uiContext.Post(UpdateUI, "stub");
             while (true)
             {
-                string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
-                _scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
-                _scripting.DoCompile(true);//запускаем выполнения скрипта
-                //tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
-
-                uiContext.Post(UpdateUI, "stub");
+                uiContext.Post(UpdateUI2, "stub2");
                 Thread.Sleep(1000);
             }
-
         }
 
-        /// <summary>со
+        /// <summary>
         /// Этот метод исполняется в основном UI потоке
         /// </summary>
         string _str4DSLog = "";
@@ -241,6 +232,28 @@ namespace TestHarvester
             //this.Refresh();
         }
 
+        enum PhaseWork
+        {
+            Idle,
+            StartScript
+        }
+        PhaseWork _phaseWork;
+        private void UpdateUI2(object state)
+        {
+            switch (_phaseWork)
+            {
+                case PhaseWork.Idle:   break;
+                case PhaseWork.StartScript:
+                    string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
+                    _scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
+                    _scripting.DoCompile(true);//запускаем выполнения скрипта
+                    _phaseWork = PhaseWork.Idle;
+                    break;
+                default:break;
+            }
+
+
+        }
         //---ПОТОКИ
 
 
@@ -308,7 +321,7 @@ namespace TestHarvester
         //запустить скрипт на выполение
         private void btnStartScript_Click(object sender, EventArgs e)
         {
-            _th2.Start(_syncroContext2);
+            _phaseWork = PhaseWork.StartScript;
             //string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
             //_scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
             //_scripting.DoCompile(true);//запускаем выполнения скрипта
