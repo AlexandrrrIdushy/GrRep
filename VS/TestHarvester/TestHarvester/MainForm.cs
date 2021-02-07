@@ -251,7 +251,7 @@ namespace TestHarvester
                     break;
                 default:break;
             }
-
+            _th2.Suspend();
 
         }
         //---ПОТОКИ
@@ -321,7 +321,9 @@ namespace TestHarvester
         //запустить скрипт на выполение
         private void btnStartScript_Click(object sender, EventArgs e)
         {
+            
             _phaseWork = PhaseWork.StartScript;
+            _th2.Resume();
             //string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
             //_scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
             //_scripting.DoCompile(true);//запускаем выполнения скрипта
