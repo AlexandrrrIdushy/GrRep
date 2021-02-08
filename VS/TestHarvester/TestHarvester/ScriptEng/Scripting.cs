@@ -56,9 +56,15 @@ namespace TestHarvester
             return _textError;
         }
 
+        public CodeDOMProcessor GetCodeDOMProcessorObj()
+        {
+            return _oDOM;
+        }
+
         String[] _codeLines;
         string _resultsText;
         string _textError;
+        CodeDOMProcessor _oDOM = new CodeDOMProcessor();
         //скомпилировать код
         public void DoCompile(Boolean pExecute)
         {
@@ -179,12 +185,12 @@ namespace TestHarvester
                     // with appropriate parameters.
                     if (DOMChecker.CompiledOK)
                     {
-                        CodeDOMProcessor oDOM = new CodeDOMProcessor();
+                        
                         //Object[] MethodParams = new Object[] { "Hello World!", "Script Results", new TestObject() };
                         Object[] MethodParams = new Object[] { "Hello World!" };
                         // Method and params are hard-coded for the Test.cs file.
                         //метод и праметры фиксированы для Text.cs файла
-                        List<String> RetVal = oDOM.CompileAndExecute(DOMChecker.Code2Use,
+                        List<String> RetVal = _oDOM.CompileAndExecute(DOMChecker.Code2Use,
                                                                      DOMChecker.RefAssemblies,
                                                                      DOMChecker.MainClassName,
                                                                      "Start",

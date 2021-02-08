@@ -27,8 +27,22 @@ namespace TestHarvester
 {
 	public class CodeDOMProcessor
 	{
+        Object[] _pMethodParameters;
+        Object _compiledObject;
+        string _pExecutionMethodName;
 
-		public const String COMPILER_VERSION_KEY = "CompilerVersion";
+        public void GetCOMProcessorResult(ref Object compiledObject, ref Object [] pMethodParameters, ref string pExecutionMethodName)
+        {
+            //pMethodParameters = _pMethodParameters;
+            //compiledObject = _compiledObject;
+            //pExecutionMethodName =_pExecutionMethodName;
+
+            _pMethodParameters = pMethodParameters;
+            _compiledObject = compiledObject;
+            _pExecutionMethodName = pExecutionMethodName;
+        }
+
+        public const String COMPILER_VERSION_KEY = "CompilerVersion";
 
 		// This could be a variable that is specified to target different frameworks.
         //тут могут быть переменные определяемые для целевых разных фреймворков
@@ -206,25 +220,25 @@ namespace TestHarvester
 			}  // END catch (Exception exUnhandled)
 			finally
 			{
-				if (DOMProviderOptions != null)
-				{
-					DOMProviderOptions.Clear();
+				//if (DOMProviderOptions != null)
+				//{
+				//	DOMProviderOptions.Clear();
 
-					DOMProviderOptions = null;
-				}
+				//	DOMProviderOptions = null;
+				//}
 
-				if (DOMProvider != null)
-				{
+				//if (DOMProvider != null)
+				//{
 
-					DOMProvider.Dispose();
+				//	DOMProvider.Dispose();
 
-					DOMProvider = null;
-				}
+				//	DOMProvider = null;
+				//}
 
-				if (DOMCompilerParams != null)
-				{
-					DOMCompilerParams = null;
-				}
+				//if (DOMCompilerParams != null)
+				//{
+				//	DOMCompilerParams = null;
+				//}
 			}  // END finally
 
 			return ReturnVal;

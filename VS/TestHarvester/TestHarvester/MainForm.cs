@@ -12,6 +12,18 @@ using System.IO;
 using GrLib;
 using System.IO.Ports;
 
+
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.IO;
+//using System.Diagnostics;
+using System.Reflection;
+//using System.Net;
+//using Microsoft.CSharp;
+using System.CodeDom.Compiler;
+
 namespace TestHarvester
 {
 
@@ -178,13 +190,17 @@ namespace TestHarvester
 
             //ObjAtComm.Отправить_SMS("First sms from scripter");
             _syncroContext1 = SynchronizationContext.Current;
-            _th1 = new Thread(ThrdWrk1);
+            _th1 = new Thread(ThrdWrk2);
+            _th1.IsBackground = true;
+            _th1.Priority = ThreadPriority.Lowest;
             _th1.Start(_syncroContext1);
 
-            _phaseWork = PhaseWork.Idle;
-            _syncroContext2 = SynchronizationContext.Current;
-            _th2 = new Thread(ThrdWrk2);
-            _th2.Start(_syncroContext2);
+            //_phaseWork = PhaseWork.Idle;
+            //_syncroContext2 = SynchronizationContext.Current;
+            //_th2 = new Thread(ThrdWrk2);
+            //_th2.IsBackground = true;
+            //_th2.Priority = ThreadPriority.Lowest;
+            //_th2.Start(_syncroContext2);
         }
 
 
@@ -246,12 +262,27 @@ namespace TestHarvester
                 case PhaseWork.StartScript:
                     string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
                     _scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
+
+                    object thisCompiledObject = new object();
+                    object[] thispMethodParameters = new object[2];
+                    string pExecutionMethodName = "";
+                    CodeDOMProcessor obj = _scripting.GetCodeDOMProcessorObj();
+                    obj.GetCOMProcessorResult(ref thisCompiledObject, ref thispMethodParameters, ref pExecutionMethodName);
+
                     _scripting.DoCompile(true);//запускаем выполнения скрипта
+
+
+
+
+                    MethodInfo CompiledMethod = thisCompiledObject.GetType().GetMethod(pExecutionMethodName);
+                    CompiledMethod.Invoke(thisCompiledObject, thispMethodParameters);
+
+
                     _phaseWork = PhaseWork.Idle;
                     break;
                 default:break;
             }
-            _th2.Suspend();
+            _th1.Suspend();
 
         }
         //---ПОТОКИ
@@ -323,7 +354,7 @@ namespace TestHarvester
         {
             
             _phaseWork = PhaseWork.StartScript;
-            _th2.Resume();
+            _th1.Resume();
          }
 
         // устанавливаем метод обратного вызова
