@@ -233,7 +233,7 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 365F));
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 366F));
             this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 0, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 1, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStopScript, 2, 0);
@@ -261,7 +261,7 @@
             // btnStartScript
             // 
             this.btnStartScript.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnStartScript.Location = new System.Drawing.Point(248, 2);
+            this.btnStartScript.Location = new System.Drawing.Point(247, 2);
             this.btnStartScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnStartScript.Name = "btnStartScript";
             this.btnStartScript.Size = new System.Drawing.Size(197, 28);
@@ -272,7 +272,7 @@
             // 
             // btnStopScript
             // 
-            this.btnStopScript.Location = new System.Drawing.Point(524, 3);
+            this.btnStopScript.Location = new System.Drawing.Point(523, 3);
             this.btnStopScript.Name = "btnStopScript";
             this.btnStopScript.Size = new System.Drawing.Size(220, 29);
             this.btnStopScript.TabIndex = 19;
@@ -477,6 +477,7 @@
             this.cbxComPortNumber.Name = "cbxComPortNumber";
             this.cbxComPortNumber.Size = new System.Drawing.Size(160, 24);
             this.cbxComPortNumber.TabIndex = 0;
+            this.cbxComPortNumber.SelectedIndexChanged += new System.EventHandler(this.cbxComPortNumber_SelectedIndexChanged);
             // 
             // cbxComPortSpeed
             // 
@@ -485,6 +486,7 @@
             this.cbxComPortSpeed.Name = "cbxComPortSpeed";
             this.cbxComPortSpeed.Size = new System.Drawing.Size(165, 24);
             this.cbxComPortSpeed.TabIndex = 1;
+            this.cbxComPortSpeed.SelectedIndexChanged += new System.EventHandler(this.cbxComPortSpeed_SelectedIndexChanged_1);
             // 
             // lblComPortNumber
             // 
@@ -511,6 +513,7 @@
             this.cbxComPortParity.Name = "cbxComPortParity";
             this.cbxComPortParity.Size = new System.Drawing.Size(153, 24);
             this.cbxComPortParity.TabIndex = 4;
+            this.cbxComPortParity.SelectedIndexChanged += new System.EventHandler(this.cbxComPortParity_SelectedIndexChanged_1);
             // 
             // lblComPortParity
             // 

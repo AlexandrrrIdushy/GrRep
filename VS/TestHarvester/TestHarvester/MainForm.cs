@@ -48,7 +48,7 @@ namespace TestHarvester
             _logging = new Logging();//должно выполнятся ранее SimpleCommInit()
             _messagesCommon = new List<string>();
             _com1 = new COM();
-
+            _com1.COMInit(ref _pMainForm);
             //com порт
 
 
@@ -157,7 +157,7 @@ namespace TestHarvester
                 iItemSpeed++;
             }
 
-            _com1.COMInit(ref _pMainForm);
+            
             _com1.SetComPort(_selectedComPortName);
             _com1.InitCOMStartVals();
             _com1.OpenPort();
@@ -409,25 +409,9 @@ namespace TestHarvester
 
         }
 
-        private void cbxComPort1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _selectedComPortName = cbxComPortNumber.SelectedItem.ToString();
-            _com1.SetComPort( _selectedComPortName);
-            _com1.OpenPort();
-            //lblCom1Info.Text = _com1.GetCurrComPortName();
-        }
 
-        private void cbxComPortSpeed_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _selectedComPortSpeed = cbxComPortSpeed.SelectedItem.ToString();
-            _com1.SetPortSpeed(_selectedComPortSpeed);
-        }
 
-        private void cbxComPortParity_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _selectedParityIndex = (byte)cbxComPortParity.SelectedIndex;
-            _com1.SetPortParity(_selectedParityIndex);
-        }
+      
 
         private void btnStopScript_Click(object sender, EventArgs e)
         {
@@ -437,6 +421,26 @@ namespace TestHarvester
         private void lbxPhones_SelectedIndexChanged(object sender, EventArgs e)
         {
             ObjAtComm.SetPhoneNumber(lbxPhones.Text);
+        }
+
+        private void cbxComPortNumber_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedComPortName = cbxComPortNumber.SelectedItem.ToString();
+            _com1.SetComPort(_selectedComPortName);
+            _com1.OpenPort();
+            //lblCom1Info.Text = _com1.GetCurrComPortName();
+        }
+
+        private void cbxComPortSpeed_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            _selectedComPortSpeed = cbxComPortSpeed.SelectedItem.ToString();
+            _com1.SetPortSpeed(_selectedComPortSpeed);
+        }
+
+        private void cbxComPortParity_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            _selectedParityIndex = (byte)cbxComPortParity.SelectedIndex;
+            _com1.SetPortParity(_selectedParityIndex);
         }
     }
 
