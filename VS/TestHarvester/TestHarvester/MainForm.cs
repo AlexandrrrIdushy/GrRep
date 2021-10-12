@@ -182,8 +182,8 @@ namespace TestHarvester
             _th1.Start(_syncroContext1);
 
             _syncroContext2 = SynchronizationContext.Current;
-            _th2 = new Thread(ThrdWrk2);
-            _th2.Start(_syncroContext1);
+            //_th2 = new Thread(ThrdWrk2);
+            //_th2.Start(_syncroContext1);
         }
 
 
@@ -208,27 +208,7 @@ namespace TestHarvester
 
         }
 
-        private void ThrdWrk2(object state)
-        {
-            // вытащим контекст синхронизации из state'а
-            SynchronizationContext uiContext = state as SynchronizationContext;
-            // говорим что в UI потоке нужно выполнить метод UpdateUI 
-            // и передать ему в качестве аргумента строку
-            //uiContext.Post(UpdateUI, "stub");
-            while (true)
-            {
-                string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
-                _scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
-                _scripting.DoCompile(true);//запускаем выполнения скрипта
-                //tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
-
-                uiContext.Post(UpdateUI, "stub");
-                Thread.Sleep(1000);
-            }
-
-        }
-
-        /// <summary>со
+        /// <summary>
         /// Этот метод исполняется в основном UI потоке
         /// </summary>
         string _str4DSLog = "";
@@ -308,11 +288,10 @@ namespace TestHarvester
         //запустить скрипт на выполение
         private void btnStartScript_Click(object sender, EventArgs e)
         {
-            _th2.Start(_syncroContext2);
-            //string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
-            //_scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
-            //_scripting.DoCompile(true);//запускаем выполнения скрипта
-            //tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
+            string[] tmp = tbxTextOfCurrScript.Lines;//забираем скрипт из текст бокса
+            _scripting.SetTextOfScript(ref tmp);//передаем его скриптовой машине
+            _scripting.DoCompile(true);//запускаем выполнения скрипта
+            tbxErrorInfo.Text = _scripting.GetResultCompile();//выводим в тексбокс сообщения об ошибках
 
 
             //tbxTextOfCurrScript.Text = File.ReadAllText(pathSelectedScript, Encoding.Default);
@@ -430,7 +409,13 @@ namespace TestHarvester
 
         }
 
-
+        private void cbxComPort1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedComPortName = cbxComPortNumber.SelectedItem.ToString();
+            _com1.SetComPort( _selectedComPortName);
+            _com1.OpenPort();
+            //lblCom1Info.Text = _com1.GetCurrComPortName();
+        }
 
         private void cbxComPortSpeed_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -452,17 +437,6 @@ namespace TestHarvester
         private void lbxPhones_SelectedIndexChanged(object sender, EventArgs e)
         {
             ObjAtComm.SetPhoneNumber(lbxPhones.Text);
-        }
-
-        private void cbxComPortNumber_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _selectedComPortName = cbxComPortNumber.SelectedItem.ToString();
-            _com1.SetComPort(_selectedComPortName);
-        }
-
-        private void btnOpenPort_Click(object sender, EventArgs e)
-        {
-            _com1.OpenPort();
         }
     }
 

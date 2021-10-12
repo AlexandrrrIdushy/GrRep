@@ -66,7 +66,6 @@
             this.gpxATComm = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.lbxPhones = new System.Windows.Forms.ListBox();
-            this.btnOpenPort = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tbpgMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -234,7 +233,7 @@
             this.tlpTextScriptButton.ColumnCount = 3;
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.93877F));
             this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
-            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 367F));
+            this.tlpTextScriptButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 365F));
             this.tlpTextScriptButton.Controls.Add(this.btnCompileScript, 0, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStartScript, 1, 0);
             this.tlpTextScriptButton.Controls.Add(this.btnStopScript, 2, 0);
@@ -262,7 +261,7 @@
             // btnStartScript
             // 
             this.btnStartScript.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnStartScript.Location = new System.Drawing.Point(247, 2);
+            this.btnStartScript.Location = new System.Drawing.Point(248, 2);
             this.btnStartScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnStartScript.Name = "btnStartScript";
             this.btnStartScript.Size = new System.Drawing.Size(197, 28);
@@ -273,7 +272,7 @@
             // 
             // btnStopScript
             // 
-            this.btnStopScript.Location = new System.Drawing.Point(522, 3);
+            this.btnStopScript.Location = new System.Drawing.Point(524, 3);
             this.btnStopScript.Name = "btnStopScript";
             this.btnStopScript.Size = new System.Drawing.Size(220, 29);
             this.btnStopScript.TabIndex = 19;
@@ -460,32 +459,29 @@
             this.tlpSettings2ComPort.Controls.Add(this.lblComPortSpeed, 1, 0);
             this.tlpSettings2ComPort.Controls.Add(this.cbxComPortParity, 2, 1);
             this.tlpSettings2ComPort.Controls.Add(this.lblComPortParity, 2, 0);
-            this.tlpSettings2ComPort.Controls.Add(this.btnOpenPort, 0, 2);
             this.tlpSettings2ComPort.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings2ComPort.Location = new System.Drawing.Point(3, 18);
             this.tlpSettings2ComPort.Margin = new System.Windows.Forms.Padding(4);
             this.tlpSettings2ComPort.Name = "tlpSettings2ComPort";
-            this.tlpSettings2ComPort.RowCount = 3;
-            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpSettings2ComPort.RowCount = 2;
+            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tlpSettings2ComPort.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             this.tlpSettings2ComPort.Size = new System.Drawing.Size(1787, 115);
             this.tlpSettings2ComPort.TabIndex = 4;
             // 
             // cbxComPortNumber
             // 
             this.cbxComPortNumber.FormattingEnabled = true;
-            this.cbxComPortNumber.Location = new System.Drawing.Point(4, 42);
+            this.cbxComPortNumber.Location = new System.Drawing.Point(4, 32);
             this.cbxComPortNumber.Margin = new System.Windows.Forms.Padding(4);
             this.cbxComPortNumber.Name = "cbxComPortNumber";
             this.cbxComPortNumber.Size = new System.Drawing.Size(160, 24);
             this.cbxComPortNumber.TabIndex = 0;
-            this.cbxComPortNumber.SelectedIndexChanged += new System.EventHandler(this.cbxComPortNumber_SelectedIndexChanged);
             // 
             // cbxComPortSpeed
             // 
             this.cbxComPortSpeed.FormattingEnabled = true;
-            this.cbxComPortSpeed.Location = new System.Drawing.Point(598, 41);
+            this.cbxComPortSpeed.Location = new System.Drawing.Point(598, 31);
             this.cbxComPortSpeed.Name = "cbxComPortSpeed";
             this.cbxComPortSpeed.Size = new System.Drawing.Size(165, 24);
             this.cbxComPortSpeed.TabIndex = 1;
@@ -511,7 +507,7 @@
             // cbxComPortParity
             // 
             this.cbxComPortParity.FormattingEnabled = true;
-            this.cbxComPortParity.Location = new System.Drawing.Point(1193, 41);
+            this.cbxComPortParity.Location = new System.Drawing.Point(1193, 31);
             this.cbxComPortParity.Name = "cbxComPortParity";
             this.cbxComPortParity.Size = new System.Drawing.Size(153, 24);
             this.cbxComPortParity.TabIndex = 4;
@@ -560,16 +556,6 @@
             this.lbxPhones.Size = new System.Drawing.Size(321, 228);
             this.lbxPhones.TabIndex = 0;
             this.lbxPhones.SelectedIndexChanged += new System.EventHandler(this.lbxPhones_SelectedIndexChanged);
-            // 
-            // btnOpenPort
-            // 
-            this.btnOpenPort.Location = new System.Drawing.Point(3, 79);
-            this.btnOpenPort.Name = "btnOpenPort";
-            this.btnOpenPort.Size = new System.Drawing.Size(135, 33);
-            this.btnOpenPort.TabIndex = 6;
-            this.btnOpenPort.Text = "ОТКРЫТЬ ПОРТ";
-            this.btnOpenPort.UseVisualStyleBackColor = true;
-            this.btnOpenPort.Click += new System.EventHandler(this.btnOpenPort_Click);
             // 
             // MainForm
             // 
@@ -646,7 +632,6 @@
         private System.Windows.Forms.GroupBox gpxATComm;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.ListBox lbxPhones;
-        private System.Windows.Forms.Button btnOpenPort;
     }
 }
 
